@@ -1,24 +1,38 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {FONT} from '../constants/contants';
+import {COLORS, FONT} from '../constants/contants';
 import Location from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/FontAwesome';
-const Home = () => {
+import Container from '../components/Container';
+import Back from 'react-native-vector-icons/MaterialCommunityIcons';
+import CustomHeader from './../components/CustomHeader';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Button, RoundedButton} from '../components/Buttons';
+const Home = props => {
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: '#f2f2f2',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-      <Location name="location" size={21} color={'red'} />
-      <FontAwesome name="bookmark" size={24} color="black" />
-      <Icon.Button name="facebook" backgroundColor="#3b5998" size={24} />
-      <Text style={{color: 'black', fontSize: 16}}>Home</Text>
-      <Text style={{...FONT.header}}>Tanisha the great</Text>
-    </View>
+    <Container>
+      <CustomHeader
+        style={{width: '100%'}}
+        title="Home"
+        LeftIcon={() => {
+          return (
+            <MaterialCommunityIcons name="menu-open" size={24} color="black" />
+          );
+        }}
+        onLeftIconPress={() => props.navigation.openDrawer()}
+      />
+      <View style={{paddingHorizontal: 25}}>
+        <Back name={'chevron-left'} size={30} color={COLORS.light_black} />
+        <Location name="location" size={21} color={'red'} />
+        <FontAwesome name="bookmark" size={24} color="black" />
+        <Text style={{color: 'black', fontSize: 16}}>Home</Text>
+        <Text style={{...FONT.header}}>Home</Text>
+        <Button title="CREATING CUSTOM BUTTONS" />
+        ``
+        <RoundedButton title="hello" />
+      </View>
+    </Container>
   );
 };
 

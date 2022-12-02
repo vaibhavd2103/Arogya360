@@ -1,7 +1,7 @@
 import {StyleSheet, View, StatusBar, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {Text} from 'native-base';
-import {ROUTES} from './../constants/contants';
+import {COLORS, ROUTES} from './../constants/contants';
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
@@ -17,10 +17,8 @@ const SplashScreen = ({navigation}) => {
     <View style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" />
       <Image
-        source={{
-          uri: 'https://www.pngkit.com/png/detail/113-1133314_logo-for-hospital-management-system-in-png.png',
-        }}
-        style={{height: 150, width: 200}}
+        source={require('../assets/logo.png')}
+        style={{height: 200, width: 200}}
       />
     </View>
   );
@@ -31,7 +29,7 @@ export default SplashScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#003162',
+    backgroundColor: COLORS.blue,
     alignItems: 'center',
     justifyContent: 'center',
   },
