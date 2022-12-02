@@ -1,7 +1,7 @@
-import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import {StyleSheet, View, StatusBar, Image, Text} from 'react-native';
+import React, {useEffect} from 'react';
 
-const Article = () => {
+const Article = ({navigation}) => {
   return (
     <View>
       <Text>Article</Text>
