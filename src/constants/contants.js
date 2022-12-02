@@ -13,19 +13,19 @@ export const FONT = {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#222',
-    // fontFamily:''
+    fontFamily: 'Poppins-Bold',
   },
   title: {
     fontSize: 14,
-    // fontWeight: 'bold',
+    fontWeight: 'bold',
     color: '#222',
-    // fontFamily:''
+    fontFamily: 'Poppins-Medium',
   },
   subTitle: {
     fontSize: 12,
     // fontWeight: 'bold',
     color: '#222',
-    // fontFamily:''
+    fontFamily: 'Poppins-Regular',
   },
 };
 

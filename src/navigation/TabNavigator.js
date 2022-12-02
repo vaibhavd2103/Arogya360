@@ -11,17 +11,6 @@ const Tab = createMaterialBottomTabNavigator();
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      // tabBar={props => <CustomTabBar {...props} />}
-      // screenOptions={props => {
-      //   return {
-      //     tabBarHideOnKeyboard: true,
-      //   };
-      // }}
-      // tabBarOptions={{
-      //   borderTopLeftRadius: 40,
-      //   borderTopRightRadius: 40,
-      //   marginTop: -40,
-      // }}
       barStyle={{
         backgroundColor: '#fff',
         width: DIMENSIONS.width - 60,
@@ -29,9 +18,7 @@ const TabNavigator = () => {
         bottom: 20,
         elevation: 20,
         shadowOffset: {height: 10},
-        // shadowColor: '#00f',
         borderRadius: 24,
-        // height: 70,
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         padding: 10,
