@@ -1,15 +1,16 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {FONT} from '../constants/contants';
+import {COLORS, FONT} from '../constants/contants';
 import Location from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Icon from 'react-native-vector-icons/FontAwesome';
+
 const Home = () => {
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: '#f2f2f2',
+        backgroundColor: COLORS.background,
         alignItems: 'center',
         justifyContent: 'center',
       }}>

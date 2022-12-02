@@ -8,6 +8,14 @@ export const DIMENSIONS = {
   width: width,
 };
 
+export const COLORS = {
+  blue: 'rgb(101,154,253)',
+  yellow: 'rgb(253,181,113)',
+  pink: 'rgb(249,107,183)',
+  background: '#f2f2f2',
+  light_black: '#212121',
+};
+
 export const FONT = {
   header: {
     fontSize: 16,
