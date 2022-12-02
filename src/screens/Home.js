@@ -17,7 +17,7 @@ const Home = () => {
       <FontAwesome name="bookmark" size={24} color="black" />
       <Icon.Button name="facebook" backgroundColor="#3b5998" size={24} />
       <Text style={{color: 'black', fontSize: 16}}>Home</Text>
-      <Text style={{...FONT.header}}>Home</Text>
+      <Text style={{...FONT.header}}>Tanisha the great</Text>
     </View>
   );
 };
