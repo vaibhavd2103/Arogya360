@@ -30,6 +30,7 @@ export const FONT = {
 };
 
 export const ROUTES = {
+  splashScreen: 'splashScreen',
   login: 'login',
   signup: 'signup',
   home: 'home',
