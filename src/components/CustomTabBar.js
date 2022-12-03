@@ -62,7 +62,7 @@ const CustomTabBar = ({state, descriptors, navigation}) => {
               <Text
                 style={{
                   //   color: isFocused ? COLORS.accentColor : COLORS.LIGHTGREY3,
-                  fontSize: 12,
+                  fontSize: 16,
                   textAlign: 'center',
                 }}>
                 {label}
