@@ -48,4 +48,7 @@ export const ROUTES = {
   appointment: 'appointment',
   profile: 'profile',
   settings: 'settings',
+  finddoctor: 'finddoctor',
+  medicinetracker: 'medicinetracker',
+  phonedirectory: 'phonedirectory',
 };
