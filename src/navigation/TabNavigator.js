@@ -7,13 +7,17 @@ import Article from '../screens/Article';
 import CustomTabBar from '../components/CustomTabBar';
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Tab = createMaterialBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
+      activeColor={COLORS?.blue}
+      shifting={true}
       keyboardHidesNavigationBar
+      // labeled={false}
       barStyle={{
         backgroundColor: '#fff',
         width: DIMENSIONS.width - 60,
@@ -22,15 +26,18 @@ const TabNavigator = () => {
         elevation: 20,
         shadowOffset: {height: 10},
         borderRadius: 24,
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
+        borderTopRightRadius: 0,
+        borderBottomLeftRadius: 0,
         padding: 10,
       }}>
       <Tab.Screen
         name={ROUTES.home}
         component={Home}
         options={{
-          title: 'Home',
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
+            <MaterialCommunityIcons name="home" color={color} size={26} />
+          ),
         }}
       />
       <Tab.Screen
