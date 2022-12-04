@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {COLORS} from '../constants/contants';
+import {COLORS, FONT} from '../constants/contants';
 
 const Button = props => {
   const {onPress, style, title} = props;
@@ -36,7 +36,7 @@ const RoundedButton = props => {
           height: 52,
         }}
         onPress={onPress}>
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={{...FONT.header, color: '#fff'}}>{title}</Text>
       </TouchableOpacity>
     </View>
   );
