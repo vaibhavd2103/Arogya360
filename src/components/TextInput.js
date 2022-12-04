@@ -16,6 +16,7 @@ const Input = ({placeholder, onChangeText, value, height, width, err}) => {
           padding: 10,
           fontSize: 12,
           border: err ? 2 : 0,
+          color: 'black',
         }}
         placeholderTextColor={'grey'}
         onChangeText={onChangeText}
