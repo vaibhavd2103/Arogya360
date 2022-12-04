@@ -10,7 +10,7 @@ const Button = props => {
       activeOpacity={0.8}
       style={{...styles.Button, ...style}}
       onPress={onPress}>
-      <Text style={styles.buttonText}>{title}</Text>
+      <Text style={{...FONT?.header, color: '#fff'}}>{title}</Text>
     </TouchableOpacity>
     // </View>
   );

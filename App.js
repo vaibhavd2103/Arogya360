@@ -5,6 +5,7 @@ import StackNavigator from './src/navigation/StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import SplashScreen from './src/screens/SplashScreen';
+import AuthNavigator from './src/navigation/AuthNavigator';
 
 const App = () => {
   const [showSplashScreen, setShowSplashScreen] = useState(true);
@@ -24,8 +25,8 @@ const App = () => {
     <SafeAreaView style={{flex: 1}}>
       <StatusBar />
       <NavigationContainer>
-        {/* <StackNavigator /> */}
-        <DrawerNavigator />
+        {/* <DrawerNavigator /> */}
+        <AuthNavigator />
       </NavigationContainer>
     </SafeAreaView>
   );
