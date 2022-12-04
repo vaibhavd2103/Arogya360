@@ -5,40 +5,28 @@ import {COLORS, FONT} from '../constants/contants';
 const Button = props => {
   const {onPress, style, title} = props;
   return (
-    <View style={{...styles.Button, ...style}}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: 52,
-        }}
-        onPress={onPress}>
-        <Text style={styles.buttonText}>{title}</Text>
-      </TouchableOpacity>
-    </View>
+    // <View style={{...styles.Button, ...style}}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={{...styles.Button, ...style}}
+      onPress={onPress}>
+      <Text style={styles.buttonText}>{title}</Text>
+    </TouchableOpacity>
+    // </View>
   );
 };
 
 const RoundedButton = props => {
   const {onPress, style, title} = props;
   return (
-    <View style={{...styles.roundButton, ...style}}>
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          width: '100%',
-          height: 52,
-        }}
-        onPress={onPress}>
-        <Text style={{...FONT.header, color: '#fff'}}>{title}</Text>
-      </TouchableOpacity>
-    </View>
+    // <View style={{...styles.roundButton, ...style}}>
+    <TouchableOpacity
+      style={{...styles.roundButton, ...style}}
+      activeOpacity={0.8}
+      onPress={onPress}>
+      <Text style={{...FONT.header, color: '#fff'}}>{title}</Text>
+    </TouchableOpacity>
+    // </View>
   );
 };
 
@@ -52,6 +40,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.blue,
+    marginVertical: 10,
   },
   roundButton: {
     width: '100%',
@@ -64,5 +53,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.blue,
+    marginVertical: 10,
   },
 });
