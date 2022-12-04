@@ -1,4 +1,5 @@
 import {
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,34 +14,49 @@ import Input from '../components/TextInput';
 import {Button} from '../components/Buttons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+
 const Login = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [err, setErr] = useState('');
+  const [err, setErr] = useState({
+    email: '',
+    password: '',
+  });
   const [user, setUser] = useState('patient');
 
-  const error = () => {
+  const login = () => {
     if (email === '') {
-      setErr('Email cannot be empty');
+      setErr({...err, email: 'Email cannot be empty'});
       console.log(err);
     } else if (password === '') {
-      setErr('Password cannot be empty');
+      setErr({...err, password: 'Password cannot be empty'});
     } else {
-      setErr('');
+      setErr({...err, email: '', password: ''});
     }
   };
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{width: '100%', height: '100%'}}
+      contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
       <Container style={{...styles.Container}}>
-        <Text style={{...FONT.header, marginBottom: 20}}>Sign In</Text>
+        <Text
+          style={{
+            ...FONT.header,
+            marginBottom: 20,
+            marginTop: DIMENSIONS.height / 8,
+            fontSize: 20,
+          }}>
+          Sign In
+        </Text>
+        {/* <Image
+          source={require('../assets/login.png')}
+          style={{width: '100%', height: DIMENSIONS.width - 60}}
+        /> */}
         <Text
           style={{
             ...FONT.subTitle,
-            justifyContent: 'flex-start',
-            width: '90%',
-            // marginBottom: 5,
-            padding: 5,
+            marginBottom: 10,
           }}>
           Sign in as :{' '}
         </Text>
@@ -52,8 +68,16 @@ const Login = ({navigation}) => {
             style={{
               ...styles.userbutton,
               backgroundColor: user === 'patient' ? COLORS.blue : '#fff',
+              elevation: user === 'patient' ? 20 : 0,
+              shadowColor: COLORS.blue,
             }}>
-            <Text>Patient</Text>
+            <Text
+              style={{
+                ...FONT?.title,
+                color: user === 'patient' ? '#fff' : COLORS.light_black,
+              }}>
+              Patient
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
@@ -62,131 +86,95 @@ const Login = ({navigation}) => {
             style={{
               ...styles.userbutton,
               backgroundColor: user === 'doctor' ? COLORS.blue : '#fff',
+              elevation: user === 'doctor' ? 20 : 0,
+              shadowColor: COLORS.blue,
             }}>
-            <Text>Doctor</Text>
+            <Text
+              style={{
+                ...FONT?.title,
+                color: user === 'doctor' ? '#fff' : COLORS.light_black,
+              }}>
+              Doctor
+            </Text>
           </TouchableOpacity>
         </View>
-
-        {user === 'patient' ? (
-          <>
-            <Text style={{...FONT.subTitle, width: '85%', padding: 5}}>
-              Email <Text style={{color: 'red'}}>*</Text>
+        <>
+          <Text
+            style={{
+              ...FONT.subTitle,
+              width: '100%',
+              marginBottom: 5,
+            }}>
+            Email <Text style={{color: COLORS.error}}>*</Text>
+          </Text>
+          <Input
+            placeholder={'Enter email'}
+            onChangeText={text => {
+              setEmail(text);
+              setErr({...err, email: ''});
+            }}
+            value={email}
+            err={err?.email}
+          />
+          {err?.email && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.email}
             </Text>
-            <Input
-              placeholder={'Enter email'}
-              onChangeText={text => {
-                setEmail(text);
-                console.log(text);
-              }}
-              value={email}
-              err={err}
-            />
-            <Text style={{...FONT.subTitle, width: '85%', padding: 5}}>
-              Password <Text style={{color: 'red'}}>*</Text>
+          )}
+          <Text
+            style={{
+              ...FONT.subTitle,
+              width: '100%',
+              marginBottom: 5,
+              marginTop: 20,
+            }}>
+            Password <Text style={{color: COLORS.error}}>*</Text>
+          </Text>
+          <Input
+            placeholder={'Password'}
+            onChangeText={text => {
+              setPassword(text);
+              setErr({...err, password: ''});
+            }}
+            value={password}
+            err={err?.password}
+          />
+          {err?.password && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+                marginBottom: 10,
+              }}>
+              {err?.password}
             </Text>
-            <Input
-              placeholder={'Password'}
-              onChangeText={text => {
-                setPassword(text);
-                console.log(text);
-              }}
-              value={password}
-            />
-            {err && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: 'red',
-                  fontSize: 12,
-                  paddingTop: 10,
-                  marginBottom: 10,
-                }}>
-                {err}
-              </Text>
-            )}
-
-            <View style={styles.signUpView}>
-              <Text style={{...FONT.subTitle}}>Don't have an account? </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(ROUTES.signup);
-                }}>
-                <Text style={{...FONT.subTitle, fontWeight: '800'}}>
-                  SignUp
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <Button
-              title="Signin"
-              style={{width: DIMENSIONS.width - 50, marginTop: 10}}
+          )}
+          <Button
+            title="Signin"
+            style={{width: DIMENSIONS.width - 50, marginTop: 50}}
+            onPress={() => {
+              login();
+            }}
+          />
+          <View style={styles.signUpView}>
+            <Text style={{...FONT.subTitle}}>Don't have an account? </Text>
+            <TouchableOpacity
               onPress={() => {
-                error();
-              }}
-            />
-          </>
-        ) : (
-          <>
-            <Text style={{...FONT.subTitle, width: '85%', padding: 5}}>
-              Email <Text style={{color: 'red'}}>*</Text>
-            </Text>
-            <Input
-              placeholder={'Enter email'}
-              onChangeText={text => {
-                setEmail(text);
-                console.log(text);
-              }}
-              value={email}
-              err={err}
-            />
-            <Text style={{...FONT.subTitle, width: '85%', padding: 5}}>
-              Password <Text style={{color: 'red'}}>*</Text>
-            </Text>
-            <Input
-              placeholder={'Password'}
-              onChangeText={text => {
-                setPassword(text);
-                console.log(text);
-              }}
-              value={password}
-            />
-            {err && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: 'red',
-                  fontSize: 12,
-                  paddingTop: 10,
-                  marginBottom: 10,
-                }}>
-                {err}
-              </Text>
-            )}
-
-            <View style={styles.signUpView}>
-              <Text style={{...FONT.subTitle}}>Don't have an account? </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(ROUTES.signup);
-                }}>
-                <Text style={{...FONT.subTitle, fontWeight: '800'}}>
-                  SignUp
-                </Text>
-              </TouchableOpacity>
-            </View>
-
-            <Button
-              title="Signin"
-              style={{width: DIMENSIONS.width - 50, marginTop: 10}}
-              onPress={() => {
-                error();
-              }}
-            />
-          </>
-        )}
-
+                navigation.navigate(ROUTES.signup);
+              }}>
+              <Text style={{...FONT.subTitle, fontWeight: '800'}}>SignUp</Text>
+            </TouchableOpacity>
+          </View>
+        </>
         <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
-
         <TouchableOpacity style={styles.googleView}>
           <AntDesign name="google" size={24} color="black" />
           <Text style={styles.googleText}>Signin with Google</Text>
@@ -202,24 +190,27 @@ const styles = StyleSheet.create({
   Container: {
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 30,
   },
   signUpView: {
     flexDirection: 'row',
+    marginTop: 10,
   },
   googleView: {
     backgroundColor: 'lightgrey',
     flexDirection: 'row',
-    padding: 5,
     alignItems: 'center',
     borderRadius: 10,
     width: DIMENSIONS.width - 50,
-    marginTop: 10,
-    justifyContent: 'space-around',
+    marginTop: 30,
+    justifyContent: 'center',
+    height: 52,
   },
   googleText: {
     ...FONT.subTitle,
-    marginRight: 30,
+    // marginRight: 30,
     color: COLORS.light_black,
+    marginLeft: 10,
   },
   toptabuser: {
     flexDirection: 'row',
@@ -227,11 +218,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 70,
+    marginBottom: 30,
   },
   userbutton: {
     padding: 10,
-    width: '45%',
+    width: '50%',
     borderRadius: 10,
+    alignItems: 'center',
   },
 });

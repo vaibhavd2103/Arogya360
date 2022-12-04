@@ -16,7 +16,7 @@ const Button = props => {
           height: 52,
         }}
         onPress={onPress}>
-        <Text style={styles.buttonText}>{title}</Text>
+        <Text style={{...FONT.header, color: '#fff'}}>{title}</Text>
       </TouchableOpacity>
     </View>
   );
