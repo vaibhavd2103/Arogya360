@@ -24,8 +24,8 @@ const App = () => {
     <SafeAreaView style={{flex: 1}}>
       <StatusBar />
       <NavigationContainer>
-        {/* <DrawerNavigator /> */}
         <StackNavigator />
+        {/* <DrawerNavigator /> */}
       </NavigationContainer>
     </SafeAreaView>
   );

@@ -27,6 +27,7 @@ const Login = ({navigation}) => {
       setErr('Password cannot be empty');
     } else {
       setErr('');
+      navigation.navigate(ROUTES.tabNav);
     }
   };
 
