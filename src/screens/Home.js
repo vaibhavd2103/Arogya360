@@ -29,8 +29,7 @@ const Home = props => {
         <Text style={{color: 'black', fontSize: 16}}>Home</Text>
         <Text style={{...FONT.header}}>Home</Text>
         <Button title="CREATING CUSTOM BUTTONS" />
-
-        <RoundedButton title="hello" />
+        <RoundedButton title="Login" />
       </View>
     </Container>
   );
