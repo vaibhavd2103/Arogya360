@@ -10,7 +10,11 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen name={ROUTES.login} component={Login} />
-      <Stack.Screen name={ROUTES.signup} component={Signup} />
+      <Stack.Screen
+        name={ROUTES.signup}
+        component={Signup}
+        options={{headerShown: false}}
+      />
     </Stack.Navigator>
   );
 };
