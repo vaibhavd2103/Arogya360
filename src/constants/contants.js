@@ -9,31 +9,30 @@ export const DIMENSIONS = {
 };
 
 export const COLORS = {
-  blue: 'rgb(101,154,253)',
+  blue: '#5894FF',
   yellow: 'rgb(253,181,113)',
   pink: 'rgb(249,107,183)',
   background: '#f2f2f2',
   light_black: '#212121',
+  error: '#ff3322',
 };
 
 export const FONT = {
   header: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#222',
+    color: '#212121',
     fontFamily: 'Poppins-Bold',
   },
   title: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#222',
+    color: '#212121',
     fontFamily: 'Poppins-Medium',
   },
   subTitle: {
     fontSize: 12,
-    // fontWeight: 'bold',
-    color: '#222',
-    fontFamily: 'Poppins-Regular',
+    color: '#212121',
+    fontFamily: 'Poppins-Light',
   },
 };
 
