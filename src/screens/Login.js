@@ -32,6 +32,7 @@ const Login = ({navigation}) => {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
       setErr({...err, email: '', password: ''});
+      navigation.navigate(ROUTES.tabNav);
     }
   };
 
@@ -158,7 +159,7 @@ const Login = ({navigation}) => {
             </Text>
           )}
           <Button
-            title="Signin"
+            title="Sign In"
             style={{width: DIMENSIONS.width - 50, marginTop: 50}}
             onPress={() => {
               login();
