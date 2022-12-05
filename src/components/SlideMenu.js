@@ -1,14 +1,15 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {COLORS, FONT, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/contants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 
 const SlideMenu = ({navigation}) => {
   const options = [
     {
       id: '1',
       name: 'Appointment',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: <AntDesign name="calendar" size={24} color="black" />,
       navigation: ROUTES.appointment,
     },
     {
@@ -25,7 +26,7 @@ const SlideMenu = ({navigation}) => {
     },
     {
       id: '4',
-      name: 'Fine a Doctor',
+      name: 'Find a Doctor',
       icon: <FontAwesome name="bookmark" size={24} color="black" />,
       navigation: ROUTES.finddoctor,
     },
@@ -41,10 +42,8 @@ const SlideMenu = ({navigation}) => {
     <View style={{flex: 1}}>
       <TouchableOpacity
         style={{
-          // flex: 0.3,
-          height: '25%',
-          backgroundColor: '#404258',
-          justifyContent: 'center',
+          height: DIMENSIONS?.height / 4,
+          backgroundColor: `${COLORS?.blue}`,
           alignItems: 'center',
         }}
         activeOpacity={0.7}
@@ -53,25 +52,29 @@ const SlideMenu = ({navigation}) => {
           source={{
             uri: 'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
           }}
-          style={{height: 120, width: 120, borderRadius: 800}}
+          style={{
+            height: '80%',
+            width: '100%',
+            position: 'absolute',
+          }}
         />
-
         <Text
           style={{
+            ...FONT?.header,
             fontSize: 18,
-            fontWeight: 'bold',
-            color: '#222',
-            fontFamily: 'Poppins-Bold',
-            marginTop: 12,
-            color: 'white',
+            color: '#fff',
+            marginTop: 10,
+            position: 'absolute',
+            bottom: 10,
           }}>
           Tanisha Thakur
         </Text>
       </TouchableOpacity>
-      <View style={{height: '65%', alignItems: 'center'}}>
+      <View style={{alignItems: 'center'}}>
         {options.map(item => {
           return (
             <TouchableOpacity
+              key={item.id}
               onPress={() => {
                 navigation.navigate(item.navigation);
               }}
@@ -79,8 +82,6 @@ const SlideMenu = ({navigation}) => {
                 flexDirection: 'row',
                 marginVertical: 10,
                 alignItems: 'center',
-                // backgroundColor: COLORS.,
-                // opacity: 0.5,
                 height: 50,
                 borderRadius: 20,
                 width: '95%',
@@ -95,7 +96,7 @@ const SlideMenu = ({navigation}) => {
               </View>
               <Text
                 style={{
-                  ...FONT.header,
+                  ...FONT?.title,
                   marginLeft: 20,
                   color: COLORS.light_black,
                 }}>
@@ -106,12 +107,12 @@ const SlideMenu = ({navigation}) => {
         })}
       </View>
 
-      <View style={{height: '10%'}}>
+      <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
         <View
           style={{
             padding: 10,
             borderTopWidth: 1,
-            borderTopColor: '#ccc',
+            borderTopColor: COLORS?.blue,
           }}>
           <TouchableOpacity
             onPress={() => {}}
@@ -121,7 +122,7 @@ const SlideMenu = ({navigation}) => {
               borderRadius: 20,
               justifyContent: 'center',
               height: 45,
-              borderColor: '#404258',
+              borderColor: COLORS?.blue,
               borderWidth: 1,
               marginLeft: 10,
               marginRight: 10,
@@ -129,7 +130,7 @@ const SlideMenu = ({navigation}) => {
             <Text
               style={{
                 ...FONT.header,
-                color: COLORS.light_black,
+                color: COLORS.blue,
               }}>
               Sign Out
             </Text>
@@ -142,68 +143,19 @@ const SlideMenu = ({navigation}) => {
 
 export default SlideMenu;
 
-// const styles = StyleSheet.create({});
-
-// import React from 'react';
-// import {
-//   View,
-//   Text,
-//   ImageBackground,
-//   Image,
-//   TouchableOpacity,
-// } from 'react-native';
-// import {
-//   DrawerContentScrollView,
-//   DrawerItemList,
-// } from '@react-navigation/drawer';
-
-// import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-// const SlideMenu = props => {
-//   return (
-//     <View style={{flex: 1}}>
-//       <DrawerContentScrollView
-//         {...props}
-//         contentContainerStyle={{backgroundColor: '#8200d6'}}>
-//         <Image
-//           source={{
-//             uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png',
-//           }}
-//           style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
-//         />
-//         <Text
-//           style={{
-//             color: '#fff',
-//             fontSize: 18,
-//             // fontFamily: 'Roboto-Medium',
-//             marginBottom: 5,
-//           }}>
-//           John Doe
-//         </Text>
-
-//         <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
-//           <DrawerItemList {...props} />
-//         </View>
-//       </DrawerContentScrollView>
-//       <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
-//         <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
-//           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-//             {/* <Ionicons name="exit-outline" size={22} /> */}
-//             <FontAwesome name="bookmark" size={24} color="black" />
-
-//             <Text
-//               style={{
-//                 fontSize: 15,
-//                 fontFamily: 'Roboto-Medium',
-//                 marginLeft: 5,
-//               }}>
-//               Sign Out
-//             </Text>
-//           </View>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default SlideMenu;
+const styles = StyleSheet.create({
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+  },
+});

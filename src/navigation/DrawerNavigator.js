@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import TabNavigator from './TabNavigator';
-import {FONT, ROUTES} from '../constants/contants';
+import {COLORS, FONT, ROUTES} from '../constants/contants';
 import Appointment from '../screens/Appointment';
 import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
@@ -25,16 +25,17 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={props => <SlideMenu {...props} />}
-      screenOptions={{
-        headerShown: false,
-        drawerActiveBackgroundColor: '#aa18ea',
-        drawerActiveTintColor: '#fff',
-        drawerInactiveTintColor: '#333',
-        drawerLabelStyle: {
-          marginLeft: -25,
-          fontSize: 15,
-        },
-      }}>
+      // screenOptions={{
+      //   headerShown: false,
+      //   drawerActiveBackgroundColor: COLORS?.blue,
+      //   drawerActiveTintColor: '#fff',
+      //   drawerInactiveTintColor: '#333',
+      //   drawerLabelStyle: {
+      //     marginLeft: 25,
+      //     fontSize: 15,
+      //   },
+      // }}
+    >
       <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} />
 
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
