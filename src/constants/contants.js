@@ -50,4 +50,7 @@ export const ROUTES = {
   profile: 'profile',
   editProfile: 'editProfile',
   settings: 'settings',
+  finddoctor: 'finddoctor',
+  medicinetracker: 'medicinetracker',
+  phonedirectory: 'phonedirectory',
 };

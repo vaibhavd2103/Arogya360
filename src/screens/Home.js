@@ -26,7 +26,6 @@ const Home = props => {
         <Back name={'chevron-left'} size={30} color={COLORS.light_black} />
         <Location name="location" size={21} color={'red'} />
         <FontAwesome name="bookmark" size={24} color="black" />
-
         <Text style={{color: 'black', fontSize: 16}}>Home</Text>
         <Text style={{...FONT.header}}>Home</Text>
         <Button title="CREATING CUSTOM BUTTONS" />
