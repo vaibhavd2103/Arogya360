@@ -47,7 +47,8 @@ const SlideMenu = ({navigation}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        activeOpacity={0.7}>
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate(ROUTES.profile)}>
         <Image
           source={{
             uri: 'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',

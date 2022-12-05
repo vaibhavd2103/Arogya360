@@ -36,9 +36,7 @@ const DrawerNavigator = () => {
         },
       }}>
       <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} />
-      <Drawer.Screen name={ROUTES.appointment} component={Appointment} />
-      <Drawer.Screen name={ROUTES.profile} component={Profile} />
-      <Drawer.Screen name={ROUTES.settings} component={Settings} />
+
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
       <Drawer.Screen
         name={ROUTES.appointment}
