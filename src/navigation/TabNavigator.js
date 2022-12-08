@@ -8,6 +8,8 @@ import CustomTabBar from '../components/CustomTabBar';
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View} from 'react-native';
 
 const Tab = createMaterialBottomTabNavigator();
@@ -38,7 +40,7 @@ const TabNavigator = () => {
         component={Home}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({color, focused}) => (
             <View
               style={{
                 backgroundColor: color,
@@ -50,7 +52,39 @@ const TabNavigator = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <Ionicons
+                name="ios-home"
+                color={focused ? '#fff' : '#555'}
+                size={30}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name={ROUTES.article}
+        component={Article}
+        options={{
+          title: 'Article',
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                backgroundColor: color,
+                borderRadius: 20,
+                height: 50,
+                width: 50,
+                position: 'absolute',
+                top: -13,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialIcons
+                name="article"
+                color={focused ? '#fff' : '#555'}
+                size={32}
+              />
             </View>
           ),
         }}
@@ -61,7 +95,7 @@ const TabNavigator = () => {
         options={{
           title: 'Chat',
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
+          tabBarIcon: ({color, focused}) => (
             <View
               style={{
                 backgroundColor: color,
@@ -73,30 +107,11 @@ const TabNavigator = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <MaterialCommunityIcons name="home" color={color} size={26} />
-            </View>
-          ),
-        }}
-      />
-      <Tab.Screen
-        name={ROUTES.article}
-        component={Article}
-        options={{
-          title: 'Article',
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
-            <View
-              style={{
-                backgroundColor: color,
-                borderRadius: 20,
-                height: 50,
-                width: 50,
-                position: 'absolute',
-                top: -13,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <Ionicons
+                name="chatbox"
+                color={focused ? '#fff' : '#555'}
+                size={32}
+              />
             </View>
           ),
         }}
