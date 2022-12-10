@@ -14,8 +14,13 @@ import Input from '../components/TextInput';
 import {Button} from '../components/Buttons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {useDispatch} from 'react-redux';
+import {setAuthenticated} from '../redux/actions';
 
 const Login = ({navigation}) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState({
@@ -27,12 +32,12 @@ const Login = ({navigation}) => {
   const login = () => {
     if (email === '') {
       setErr({...err, email: 'Email cannot be empty'});
-      console.log(err);
+      // console.log(err);
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
       setErr({...err, email: '', password: ''});
-      navigation.navigate(ROUTES.tabNav);
+      dispatch(setAuthenticated(true));
     }
   };
 
@@ -59,7 +64,7 @@ const Login = ({navigation}) => {
             ...FONT.subTitle,
             marginBottom: 10,
           }}>
-          Sign in as :{' '}
+          Sign in as :
         </Text>
         <View style={styles.toptabuser}>
           <TouchableOpacity
@@ -177,7 +182,9 @@ const Login = ({navigation}) => {
         </>
         <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
         <TouchableOpacity style={styles.googleView}>
-          <AntDesign name="google" size={24} color="black" />
+          {/* <AntDesign name="google" size={24} color="black" /> */}
+          <Icon name="ios-person" size={30} color="#4F8EF7" />
+          <MaterialCommunityIcons name="menu-open" size={24} color="black" />
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </Container>
