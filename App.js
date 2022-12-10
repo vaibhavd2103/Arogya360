@@ -5,8 +5,12 @@ import StackNavigator from './src/navigation/StackNavigator';
 import {NavigationContainer} from '@react-navigation/native';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import SplashScreen from './src/screens/SplashScreen';
+import AuthNavigator from './src/navigation/AuthNavigator';
+import {Provider, useSelector} from 'react-redux';
+import store from './src/redux/store';
 
 const App = () => {
+  const isAuthenticated = useSelector(state => state.isAuthenticated);
   const [showSplashScreen, setShowSplashScreen] = useState(true);
   useEffect(() => {
     let splashscreenTimeout = setTimeout(
@@ -18,16 +22,25 @@ const App = () => {
     };
   }, []);
 
+  // const loginChecker = async() => {
+
+  // }
+
+  useEffect(() => {
+    console.log(isAuthenticated);
+  }, [isAuthenticated]);
+
   return showSplashScreen ? (
     <SplashScreen />
   ) : (
+    // <Provider store={store}>
     <SafeAreaView style={{flex: 1}}>
       <StatusBar />
       <NavigationContainer>
-        {/* <DrawerNavigator /> */}
-        <StackNavigator />
+        {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </SafeAreaView>
+    // </Provider>
   );
 };
 

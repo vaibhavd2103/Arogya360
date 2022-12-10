@@ -9,11 +9,25 @@ const Stack = createStackNavigator();
 const StackNavigator = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name={ROUTES.login} component={Login} />
+      <Stack.Screen
+        name={ROUTES.login}
+        component={Login}
+        options={{
+          headerShown: false,
+          // header: stackHeaderProps => (
+          //   <CustomHeader {...stackHeaderProps} title="Profile" />
+          // ),
+        }}
+      />
       <Stack.Screen
         name={ROUTES.signup}
         component={Signup}
-        options={{headerShown: false}}
+        options={{
+          headerShown: false,
+          // header: stackHeaderProps => (
+          //   <CustomHeader {...stackHeaderProps} title="Profile" />
+          // ),
+        }}
       />
     </Stack.Navigator>
   );

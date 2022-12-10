@@ -1,14 +1,14 @@
-import authTypes, {types} from '../redux/types';
+import types from '../redux/types';
 
 export const setAuthenticated = data => ({
-  type: authTypes.IS_AUTHENTICATED,
+  type: types.IS_AUTHENTICATED,
   payload: data,
 });
 export const setToken = data => ({
-  type: authTypes.TOKEN,
+  type: types.TOKEN,
   payload: data,
 });
 export const setUserId = data => ({
-  type: authTypes.USER_ID,
+  type: types.USER_ID,
   payload: data,
 });

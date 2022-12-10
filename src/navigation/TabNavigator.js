@@ -8,6 +8,7 @@ import CustomTabBar from '../components/CustomTabBar';
 import CustomHeader from '../components/CustomHeader';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {View} from 'react-native';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -17,18 +18,20 @@ const TabNavigator = () => {
       activeColor={COLORS?.blue}
       shifting={true}
       keyboardHidesNavigationBar
-      // labeled={false}
+      labeled={false}
+      inactiveColor={'#fff'}
       barStyle={{
         backgroundColor: '#fff',
-        width: DIMENSIONS.width - 60,
+        width: DIMENSIONS.width - 30,
         alignSelf: 'center',
         bottom: 20,
         elevation: 20,
         shadowOffset: {height: 10},
         borderRadius: 24,
-        borderTopRightRadius: 0,
-        borderBottomLeftRadius: 0,
+        // borderTopRightRadius: 0,
+        // borderBottomLeftRadius: 0,
         padding: 10,
+        // height: 80,
       }}>
       <Tab.Screen
         name={ROUTES.home}
@@ -36,7 +39,19 @@ const TabNavigator = () => {
         options={{
           tabBarLabel: 'Home',
           tabBarIcon: ({color}) => (
-            <MaterialCommunityIcons name="home" color={color} size={26} />
+            <View
+              style={{
+                backgroundColor: color,
+                borderRadius: 20,
+                height: 50,
+                width: 50,
+                position: 'absolute',
+                top: -13,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="home" color={color} size={26} />
+            </View>
           ),
         }}
       />
@@ -45,6 +60,22 @@ const TabNavigator = () => {
         component={Chat}
         options={{
           title: 'Chat',
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
+            <View
+              style={{
+                backgroundColor: color,
+                borderRadius: 20,
+                height: 50,
+                width: 50,
+                position: 'absolute',
+                top: -13,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="home" color={color} size={26} />
+            </View>
+          ),
         }}
       />
       <Tab.Screen
@@ -52,6 +83,22 @@ const TabNavigator = () => {
         component={Article}
         options={{
           title: 'Article',
+          tabBarLabel: 'Home',
+          tabBarIcon: ({color}) => (
+            <View
+              style={{
+                backgroundColor: color,
+                borderRadius: 20,
+                height: 50,
+                width: 50,
+                position: 'absolute',
+                top: -13,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <MaterialCommunityIcons name="home" color={color} size={26} />
+            </View>
+          ),
         }}
       />
     </Tab.Navigator>

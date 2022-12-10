@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
-import {COLORS, DIMENSIONS} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
 
 const Input = ({placeholder, onChangeText, value, height, width, err}) => {
   return (
@@ -9,13 +9,17 @@ const Input = ({placeholder, onChangeText, value, height, width, err}) => {
         placeholder={placeholder}
         style={{
           height: height ? height : 50,
-          width: width ? width : DIMENSIONS.width - 50,
+          width: width ? width : DIMENSIONS.width - 60,
           backgroundColor: '#fff',
-          marginBottom: 10,
           borderRadius: 10,
           padding: 10,
           fontSize: 12,
-          border: err ? 2 : 0,
+          borderWidth: err ? 1 : 0,
+          borderColor: COLORS.error,
+          ...FONT.title,
+          elevation: 20,
+          shadowColor: err ? `${COLORS.error}aa` : `${COLORS.blue}cc`,
+          // shadowOpacity: 0.2,
         }}
         placeholderTextColor={'grey'}
         onChangeText={onChangeText}
