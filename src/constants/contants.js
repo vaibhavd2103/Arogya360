@@ -15,6 +15,8 @@ export const COLORS = {
   background: '#f2f2f2',
   light_black: '#212121',
   error: '#ff3322',
+  lead: '#3d3d3d',
+  white: '#ffffff',
 };
 
 export const FONT = {
@@ -46,5 +48,9 @@ export const ROUTES = {
   tabNav: 'tabNav',
   appointment: 'appointment',
   profile: 'profile',
+  editProfile: 'editProfile',
   settings: 'settings',
+  finddoctor: 'finddoctor',
+  medicinetracker: 'medicinetracker',
+  phonedirectory: 'phonedirectory',
 };

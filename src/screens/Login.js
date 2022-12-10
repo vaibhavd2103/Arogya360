@@ -32,7 +32,7 @@ const Login = ({navigation}) => {
   const login = () => {
     if (email === '') {
       setErr({...err, email: 'Email cannot be empty'});
-      console.log(err);
+      // console.log(err);
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {

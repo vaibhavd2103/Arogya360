@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {COLORS, FONT} from '../constants/contants';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Button = props => {
   const {onPress, style, title} = props;
@@ -30,7 +31,24 @@ const RoundedButton = props => {
   );
 };
 
-export {Button, RoundedButton};
+const IconTitle = ({icon, value}) => {
+  return (
+    <View
+      style={{
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginVertical: 10,
+        // justifyContent: 'center',
+      }}>
+      {icon}
+      <Text style={{...FONT.title, color: 'gray', paddingLeft: 10}}>
+        {value}
+      </Text>
+    </View>
+  );
+};
+
+export {Button, RoundedButton, IconTitle};
 
 const styles = StyleSheet.create({
   Button: {

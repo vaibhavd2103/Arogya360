@@ -27,7 +27,7 @@ const App = () => {
   // }
 
   useEffect(() => {
-    console.log(isAuthenticated);
+    // console.log(isAuthenticated);
   }, [isAuthenticated]);
 
   return showSplashScreen ? (
