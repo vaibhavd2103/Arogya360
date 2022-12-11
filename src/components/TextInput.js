@@ -2,7 +2,17 @@ import {StyleSheet, Text, TextInput, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
 
-const Input = ({placeholder, onChangeText, value, height, width, err}) => {
+const Input = ({
+  placeholder,
+  onChangeText,
+  value,
+  height,
+  width,
+  err,
+  secureTextEntry,
+  keyboardType,
+  editable,
+}) => {
   return (
     <View>
       <TextInput
@@ -24,6 +34,9 @@ const Input = ({placeholder, onChangeText, value, height, width, err}) => {
         placeholderTextColor={'grey'}
         onChangeText={onChangeText}
         value={value}
+        secureTextEntry={secureTextEntry}
+        keyboardType={keyboardType}
+        editable={editable}
       />
     </View>
   );
