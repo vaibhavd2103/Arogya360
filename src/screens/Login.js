@@ -28,6 +28,7 @@ const Login = ({navigation}) => {
     password: '',
   });
   const [user, setUser] = useState('patient');
+  const [secure, setSecure] = useState(true);
 
   const login = () => {
     if (email === '') {
@@ -133,7 +134,7 @@ const Login = ({navigation}) => {
               {err?.email}
             </Text>
           )}
-          <Text
+          {/* <Text
             style={{
               ...FONT.subTitle,
               width: '100%',
@@ -162,7 +163,47 @@ const Login = ({navigation}) => {
               }}>
               {err?.password}
             </Text>
-          )}
+          )} */}
+          <Text
+            style={{
+              ...FONT.subTitle,
+              width: '100%',
+              marginBottom: 5,
+              marginTop: 20,
+            }}>
+            Password <Text style={{color: COLORS.error}}>*</Text>
+          </Text>
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Input
+              // value={fields.password}
+              secureTextEntry={secure}
+              onChangeText={text => {
+                setPassword(text);
+                setErr({...err, password: ''});
+              }}
+              value={password}
+              err={err?.password}
+              placeholder="Password"
+              placeholderTextColor="#9098AC"
+              style={{
+                // fontFamily: 'Poppins-Regular',
+                color: '#000',
+                width: '70%',
+              }}
+            />
+            <Entypo
+              name={secure ? 'eye-with-line' : 'eye'}
+              size={20}
+              color="black"
+              onPress={() => setSecure(!secure)}
+              style={{right: 10, position: 'absolute'}}
+            />
+          </View>
           <Button
             title="Sign In"
             style={{width: DIMENSIONS.width - 50, marginTop: 50}}
@@ -182,9 +223,8 @@ const Login = ({navigation}) => {
         </>
         <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
         <TouchableOpacity style={styles.googleView}>
-          {/* <AntDesign name="google" size={24} color="black" /> */}
-          <Icon name="ios-person" size={30} color="#4F8EF7" />
-          <MaterialCommunityIcons name="menu-open" size={24} color="black" />
+          <AntDesign name="google" size={24} color={COLORS.blue} />
+          {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </Container>

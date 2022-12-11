@@ -5,27 +5,39 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
+//-------------------------------- import packages--------------------------------------
+import DateTimePicker from 'react-native-modal-datetime-picker';
+
+//------------------import components and constants-----------------------------------------
 import Container from '../components/Container';
 import Input from '../components/TextInput';
 import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
 import {Button} from '../components/Buttons';
-
+//---------------------import icons---------------------------------------------------
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useState} from 'react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Signup = () => {
+  //-----------------------------------------useState---------------------------------
   const [user, setUser] = useState('patient');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [dob, setDob] = useState('');
-  const [gender, setGender] = useState('');
-
+  const [radiogender, setRadiogender] = useState('');
   const [err, setErr] = useState({
     messege: '',
   });
+  const [daterror, setDateError] = useState('');
+  const [ocasion, setOcasion] = useState([]);
+  const [datemodal, setDateModal] = useState(false);
+  const [dateValue, setDateValue] = useState('');
+  const [date, setDate] = useState('');
+
+  //--------------------------------------functions-------------------------------------
+
   const signup = () => {
     if (email === '' || password === '' || fullName === '') {
       setErr({...err, messege: 'Fill all mandatory fields'});
@@ -35,6 +47,46 @@ const Signup = () => {
       //  navigation.navigate(ROUTES.tabNav);
     }
   };
+  //-----------------------------datetime picker-----------------------------------------
+  const FormatDate = data => {
+    let dateTimeString =
+      data.getFullYear() +
+      '/' +
+      ('0' + (data.getMonth() + 1)).slice(-2) +
+      '/' +
+      ('0' + data.getDate()).slice(-2);
+
+    return dateTimeString;
+  };
+
+  const saveDetails = (val, index) => {
+    let saveAnswer = ocasion;
+    saveAnswer.map((mapItem, mapIndex) => {
+      console.log('mapIndex ::', mapIndex);
+      if (mapIndex === index) {
+        saveAnswer[mapIndex] = {...mapItem, dateInEpoch: val};
+      }
+    });
+    setOcasion([...saveAnswer]);
+  };
+
+  const showDatePicker = () => {
+    setDateModal(true);
+    console.log('modal');
+  };
+  const handleConfirm = data => {
+    setDate(FormatDate(data));
+    saveDetails(FormatDate(data), dateIndex);
+    // console.log(FormatDate(data));
+    setDateValue(FormatDate(data));
+    setDateModal(false);
+  };
+
+  const hideDatePicker = () => {
+    setDateModal(false);
+  };
+  //--------------------------------------------------------------------------------------
+
   return (
     <Container style={{...styles.signupContainer}}>
       <Text
@@ -106,7 +158,6 @@ const Signup = () => {
           }}
           value={fullName}
         />
-
         <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
           Email <Text style={{color: COLORS.error}}>*</Text>
         </Text>
@@ -118,7 +169,6 @@ const Signup = () => {
           }}
           value={email}
         />
-
         <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
           Mobile Number <Text style={{color: COLORS.error}}>*</Text>
         </Text>
@@ -129,8 +179,8 @@ const Signup = () => {
             setErr({...err, messege: ''});
           }}
           value={mobileNumber}
+          keyboardType="numeric"
         />
-
         <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
           Password <Text style={{color: COLORS.error}}>*</Text>
         </Text>
@@ -142,35 +192,49 @@ const Signup = () => {
           }}
           value={password}
         />
-
-        {/* <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          Confirm Password <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-        <Input
-          placeholder={'Confirm Password'}
-         onChangeText = {(text)=>{
-          setFullName(text)
-          
-         }}
-         value= {fullName}
-
-        /> */}
-
         <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
           Date of Birth <Text style={{color: COLORS.error}}>*</Text>
         </Text>
-        <Input
-          placeholder={'Date of Birth'}
-          onChangeText={text => {
-            setDob(text);
-            setErr({...err, messege: ''});
+        {/* <TouchableOpacity
+          onPress={value => {
+            showDatePicker();
+            setDate(value);
+            // setDateIndex(index);
+            setDateError('');
+          }}>
+          <Input
+            placeholder={'Date of Birth'}
+            onChangeText={text => {
+              setDob(text);
+              setErr({...err, messege: ''});
+            }}
+            value={dob}
+          />
+        </TouchableOpacity> */}
+        <TouchableOpacity
+          activeOpacity={0.7}
+          onPress={() => {
+            showDatePicker();
+            setDateModal(true);
+            console.log('open modal');
           }}
-          value={dob}
-        />
+          // style={{backgroundColor: 'red', width: '100%'}}
+        >
+          <Input
+            placeholder={'Date of Birth'}
+            onChangeText={text => {
+              setDob(text);
+              setErr({...err, messege: ''});
+              setDateValue(text);
+            }}
+            value={dateValue}
+            editable={false}
+          />
+        </TouchableOpacity>
         <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          `` Gender <Text style={{color: COLORS.error}}>*</Text>
+          Gender <Text style={{color: COLORS.error}}>*</Text>
         </Text>
-        <Input
+        {/* <Input
           placeholder={'Gender'}
           onChangeText={text => {
             setGender(text);
@@ -190,7 +254,31 @@ const Signup = () => {
             {err?.messege}
           </Text>
         )}
-
+        <Text>Gender</Text> */}
+        <View style={styles.wrapperButton}>
+          {['Male', 'Female'].map(gender => {
+            return (
+              <View
+                key={gender}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginLeft: 20,
+                }}>
+                <Text style={{...styles.radioText, ...FONT.title}}>
+                  {gender}
+                </Text>
+                <TouchableOpacity
+                  style={styles.outerButton}
+                  onPress={() => {
+                    setRadiogender(gender);
+                  }}>
+                  {radiogender == gender && <View style={styles.innerButton} />}
+                </TouchableOpacity>
+              </View>
+            );
+          })}
+        </View>
         <Button
           title="Register"
           style={{width: DIMENSIONS.width - 50, marginTop: 50}}
@@ -208,9 +296,7 @@ const Signup = () => {
             <Text style={{...FONT.subTitle, fontWeight: '800'}}>Login</Text>
           </TouchableOpacity>
         </View>
-
         <Text style={{color: 'grey', marginTop: 20}}>Or</Text>
-
         <TouchableOpacity style={styles.googleView}>
           <AntDesign name="google" size={24} color="black" />
           {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
@@ -218,6 +304,25 @@ const Signup = () => {
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </ScrollView>
+      {/* <DateTimePickerModal
+        isVisible={datemodal}
+        mode="date"
+        maximumDate={new Date()}
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+        style={{
+          backgroundColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      /> */}
+      <DateTimePicker
+        isVisible={datemodal}
+        mode="date"
+        maximumDate={new Date()}
+        onConfirm={handleConfirm}
+        onCancel={hideDatePicker}
+      />
     </Container>
   );
 };
@@ -284,5 +389,27 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
     marginLeft: 60,
+  },
+  outerButton: {
+    width: 15,
+    height: 15,
+    borderWidth: 1,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  innerButton: {
+    width: 10,
+    height: 10,
+    borderRadius: 10,
+    backgroundColor: COLORS.blue,
+  },
+  wrapperButton: {
+    flexDirection: 'row',
+    width: DIMENSIONS.width - 40,
+  },
+  radioText: {
+    marginRight: 5,
+    top: 2,
   },
 });
