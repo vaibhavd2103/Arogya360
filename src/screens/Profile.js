@@ -32,8 +32,10 @@ const Profile = ({navigation}) => {
           }}
           style={styles.profilePic}
         />
-        <Text style={{...FONT.header, paddingVertical: 10}}>Profile Name</Text>
-        <Text style={{...FONT.title, color: 'gray'}}>29 Years old</Text>
+        <Text style={{...FONT.header, paddingVertical: 10}}>
+          Tanisha Thakur
+        </Text>
+        <Text style={{...FONT.title, color: 'gray'}}>129 Years old</Text>
 
         <View
           style={{
