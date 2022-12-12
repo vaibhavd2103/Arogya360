@@ -17,6 +17,7 @@ export const COLORS = {
   error: '#ff3322',
   lead: '#3d3d3d',
   white: '#ffffff',
+  grey: '#555555',
 };
 
 export const FONT = {
