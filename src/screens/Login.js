@@ -222,7 +222,9 @@ const Login = ({navigation}) => {
           </View>
         </>
         <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
-        <TouchableOpacity style={styles.googleView}>
+        <TouchableOpacity
+          style={styles.googleView}
+          onPress={() => dispatch(setAuthenticated(true))}>
           <AntDesign name="google" size={24} color={COLORS.blue} />
           {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
           <Text style={styles.googleText}>Signin with Google</Text>
