@@ -33,7 +33,7 @@ const About = () => {
       />
       <IconTitle
         icon={<FontAwesome name="transgender" size={24} color="black" />}
-        value="male"
+        value="Male"
       />
       <IconTitle
         icon={<Entypo name="drop" size={20} color="red" />}

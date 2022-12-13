@@ -78,7 +78,6 @@ const SlideMenu = ({navigation}) => {
               onPress={() => {
                 navigation.navigate(item.navigation);
               }}
-              key={item.id}
               style={{
                 flexDirection: 'row',
                 marginVertical: 10,
