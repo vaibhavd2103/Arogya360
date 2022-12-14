@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from '../screens/Login';
-import {ROUTES} from '../constants/contants';
+import {ROUTES} from '../constants/constants';
 import {createStackNavigator} from '@react-navigation/stack';
 import Signup from '../screens/Signup';
 

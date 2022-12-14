@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 
@@ -9,31 +9,39 @@ const SlideMenu = ({navigation}) => {
     {
       id: '1',
       name: 'Appointment',
-      icon: <AntDesign name="calendar" size={24} color="black" />,
+      icon: <AntDesign name="calendar" size={24} color={COLORS?.light_black} />,
       navigation: ROUTES.appointment,
     },
     {
       id: '2',
       name: 'Medicine Tracker',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: (
+        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
+      ),
       navigation: ROUTES.medicinetracker,
     },
     {
       id: '3',
       name: 'Phone Directory',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: (
+        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
+      ),
       navigation: ROUTES.phonedirectory,
     },
     {
       id: '4',
       name: 'Find a Doctor',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: (
+        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
+      ),
       navigation: ROUTES.finddoctor,
     },
     {
       id: '5',
       name: 'Settings',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: (
+        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
+      ),
       navigation: ROUTES.settings,
     },
   ];

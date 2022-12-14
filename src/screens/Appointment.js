@@ -9,7 +9,7 @@ import {
 import React, {useState, useEffect} from 'react';
 //---------------------constants--------------------
 import Container from './../components/Container';
-import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 //---------------------icons--------------------
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';

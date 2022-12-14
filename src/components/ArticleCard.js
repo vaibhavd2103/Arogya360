@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
-import {COLORS, FONT} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Verticledots from 'react-native-vector-icons/Entypo';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import Comment from 'react-native-vector-icons/FontAwesome';
@@ -9,7 +9,8 @@ import Notlike from 'react-native-vector-icons/AntDesign';
 import Share from 'react-native-vector-icons/Feather';
 import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
-const ArticleCard = ({item}) => {
+
+const ArticleCard = ({item, index, length}) => {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
   return (
@@ -18,6 +19,10 @@ const ArticleCard = ({item}) => {
         backgroundColor: COLORS.white,
         marginVertical: 15,
         padding: 15,
+        width: DIMENSIONS?.width - 40,
+        marginHorizontal: 20,
+        borderRadius: 10,
+        elevation: 5,
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <View style={{flexDirection: 'row'}}>
@@ -92,7 +97,12 @@ const ArticleCard = ({item}) => {
                 color={COLORS.blue}
               />
             ) : (
-              <Like name="like2" size={21} style={{marginHorizontal: 10}} />
+              <Like
+                name="like2"
+                size={21}
+                style={{marginHorizontal: 10}}
+                color={COLORS.light_black}
+              />
             )}
           </TouchableOpacity>
 
@@ -101,11 +111,17 @@ const ArticleCard = ({item}) => {
               name="comment-o"
               size={19}
               style={{marginHorizontal: 10}}
+              color={COLORS.light_black}
             />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}}>
-            <Share name="share-2" size={19} style={{marginHorizontal: 10}} />
+            <Share
+              name="share-2"
+              size={19}
+              style={{marginHorizontal: 10}}
+              color={COLORS.light_black}
+            />
           </TouchableOpacity>
         </View>
         <View style={{width: '10%'}}>
@@ -114,9 +130,13 @@ const ArticleCard = ({item}) => {
               setBookmark(!bookmark);
             }}>
             {bookmark ? (
-              <Bookmark name="bookmark" size={21} />
+              <Bookmark name="bookmark" size={21} color={COLORS.light_black} />
             ) : (
-              <NotBookmark name="bookmark-o" size={21} />
+              <NotBookmark
+                name="bookmark-o"
+                size={21}
+                color={COLORS.light_black}
+              />
             )}
           </TouchableOpacity>
         </View>

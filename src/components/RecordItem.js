@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 const RecordItem = ({item, index}) => {
   return (
     <View style={styles.container}>
