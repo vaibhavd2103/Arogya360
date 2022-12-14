@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS} from '../constants/contants';
+import {COLORS} from '../constants/constants';
 
 const Container = props => {
   return (

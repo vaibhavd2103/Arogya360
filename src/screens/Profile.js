@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import Container from './../components/Container';
-import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import About from './About';

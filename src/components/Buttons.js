@@ -1,6 +1,6 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {COLORS, FONT} from '../constants/contants';
+import {COLORS, FONT} from '../constants/constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Button = props => {

@@ -1,8 +1,9 @@
 import React from 'react';
 import {TouchableOpacity, StyleSheet, Text, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {COLORS, FONT, ROUTES, DIMENSIONS} from '../constants/contants';
+import {COLORS, FONT, ROUTES, DIMENSIONS} from '../constants/constants';
 import Back from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const CustomHeader = props => {
   const {
     LeftIcon,
@@ -15,6 +16,7 @@ const CustomHeader = props => {
     bgColor,
   } = props;
   const navigation = useNavigation();
+
   return (
     <View
       style={{
@@ -59,7 +61,11 @@ const CustomHeader = props => {
             <Back name={'chevron-left'} size={30} color={COLORS.light_black} />
           </TouchableOpacity>
         )}
-        {title && <Text style={{...FONT.header}}>{title}</Text>}
+        {title && (
+          <Text style={{...FONT.header, marginLeft: 10, fontSize: 18}}>
+            {title}
+          </Text>
+        )}
       </View>
       <View style={{flexDirection: 'row', alignItems: 'center'}}>
         {RightIcon2 && (

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Container from '../components/Container';
-import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import Input from '../components/TextInput';
 import {Button} from '../components/Buttons';
 import AntDesign from 'react-native-vector-icons/AntDesign';

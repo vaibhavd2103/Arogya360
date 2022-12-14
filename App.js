@@ -6,6 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import DrawerNavigator from './src/navigation/DrawerNavigator';
 import SplashScreen from './src/screens/SplashScreen';
 import AuthNavigator from './src/navigation/AuthNavigator';
+import {COLORS} from './src/constants/constants';
 
 const App = () => {
   const [showSplashScreen, setShowSplashScreen] = useState(true);
@@ -23,7 +24,11 @@ const App = () => {
     <SplashScreen />
   ) : (
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar />
+      <StatusBar
+        backgroundColor={COLORS?.background}
+        barStyle={'dark-content'}
+        // backgroundColor={COLORS?.blue}
+      />
       <NavigationContainer>
         <DrawerNavigator />
         {/* <AuthNavigator /> */}
