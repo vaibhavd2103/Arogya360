@@ -4,8 +4,9 @@ import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import HomeAppointmentCard from './HomeAppointmentCard';
 import {useNavigation} from '@react-navigation/native';
 import HomeRecentArticlesCard from './HomeRecentArticlesCard';
+import ArticleCard from './ArticleCard';
 
-const HomeRecentArticles = () => {
+const HomeRecentArticles = ({data}) => {
   const [appointments, setAppointments] = useState([
     {
       id: '1',
@@ -76,7 +77,7 @@ const HomeRecentArticles = () => {
         </TouchableOpacity>
       </View>
       <FlatList
-        data={appointments}
+        data={data}
         horizontal={true}
         snapToInterval={DIMENSIONS?.width - 30}
         bounces={false}
@@ -86,11 +87,7 @@ const HomeRecentArticles = () => {
         renderItem={({item, index}) => {
           return (
             <>
-              <HomeRecentArticlesCard
-                item={item}
-                index={index}
-                length={appointments?.length}
-              />
+              <ArticleCard item={item} index={index} length={data?.length} />
             </>
           );
         }}
