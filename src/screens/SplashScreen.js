@@ -1,7 +1,7 @@
 import {StyleSheet, View, StatusBar, Image} from 'react-native';
 import React, {useEffect} from 'react';
 import {Text} from 'native-base';
-import {COLORS, ROUTES} from './../constants/contants';
+import {COLORS, DIMENSIONS, ROUTES} from './../constants/constants';
 
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
@@ -18,7 +18,11 @@ const SplashScreen = ({navigation}) => {
       <StatusBar translucent backgroundColor="transparent" />
       <Image
         source={require('../assets/logo.png')}
-        style={{height: 200, width: 200}}
+        style={{
+          height: DIMENSIONS?.width - 150,
+          width: DIMENSIONS?.width - 150,
+          borderRadius: 20,
+        }}
       />
     </View>
   );

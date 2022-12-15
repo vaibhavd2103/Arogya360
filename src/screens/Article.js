@@ -2,7 +2,7 @@ import {StyleSheet, View, StatusBar, Image, Text, FlatList} from 'react-native';
 import React, {useEffect} from 'react';
 
 import CustomHeader from '../components/CustomHeader';
-import {FONT} from '../constants/contants';
+import {FONT} from '../constants/constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Container from './../components/Container';
 import ArticleCard from '../components/ArticleCard';

@@ -8,6 +8,7 @@ import SplashScreen from './src/screens/SplashScreen';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import {Provider, useSelector} from 'react-redux';
 import store from './src/redux/store';
+import { COLORS } from './src/constants/constants';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.isAuthenticated);
@@ -35,7 +36,11 @@ const App = () => {
   ) : (
     // <Provider store={store}>
     <SafeAreaView style={{flex: 1}}>
-      <StatusBar />
+      <StatusBar
+        backgroundColor={COLORS?.background}
+        barStyle={'dark-content'}
+        // backgroundColor={COLORS?.blue}
+      />
       <NavigationContainer>
         {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
       </NavigationContainer>
