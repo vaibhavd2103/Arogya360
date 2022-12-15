@@ -12,8 +12,9 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 //------------------import components and constants-----------------------------------------
 import Container from '../components/Container';
 import Input from '../components/TextInput';
-import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/contants';
 import {Button} from '../components/Buttons';
+
 //---------------------import icons---------------------------------------------------
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -26,12 +27,12 @@ const Signup = () => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [dob, setDob] = useState('');
-  const [radiogender, setRadiogender] = useState('');
+  const [radioGender, setRadioGender] = useState('');
   const [err, setErr] = useState({
     messege: '',
   });
   const [daterror, setDateError] = useState('');
-  const [ocasion, setOcasion] = useState([]);
+  const [occasion, setOccasion] = useState([]);
   const [datemodal, setDateModal] = useState(false);
   const [dateValue, setDateValue] = useState('');
   const [date, setDate] = useState('');
@@ -60,14 +61,14 @@ const Signup = () => {
   };
 
   const saveDetails = (val, index) => {
-    let saveAnswer = ocasion;
+    let saveAnswer = occasion;
     saveAnswer.map((mapItem, mapIndex) => {
       console.log('mapIndex ::', mapIndex);
       if (mapIndex === index) {
         saveAnswer[mapIndex] = {...mapItem, dateInEpoch: val};
       }
     });
-    setOcasion([...saveAnswer]);
+    setOccasion([...saveAnswer]);
   };
 
   const showDatePicker = () => {
@@ -100,7 +101,7 @@ const Signup = () => {
       </Text>
       <View
         style={{
-          ...styles.signuptoptab,
+          ...styles.signUpTopTab,
           // marginBottom: 10,
           // backgroundColor: 'green',
         }}>
@@ -109,7 +110,7 @@ const Signup = () => {
             setUser('patient');
           }}
           style={{
-            ...styles.userbutton,
+            ...styles.userButton,
             backgroundColor: user === 'patient' ? COLORS.blue : '#fff',
             elevation: user === 'patient' ? 20 : 0,
             shadowColor: COLORS.blue,
@@ -127,7 +128,7 @@ const Signup = () => {
             setUser('doctor');
           }}
           style={{
-            ...styles.userbutton,
+            ...styles.userButton,
             backgroundColor: user === 'doctor' ? COLORS.blue : '#fff',
             elevation: user === 'patient' ? 20 : 0,
             shadowColor: COLORS.blue,
@@ -231,30 +232,55 @@ const Signup = () => {
             editable={false}
           />
         </TouchableOpacity>
-        <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+
+        <View style={styles.heightWeight}>
+          <View style={{marginRight: 10}}>
+            <Text
+              style={{
+                ...FONT.subTitle,
+                alignSelf: 'flex-start',
+                marginTop: 20,
+                marginBottom: 5,
+                width: '100%',
+                marginLeft: 5,
+              }}>
+              Height <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              width={DIMENSIONS.width / 2 - 40}
+              keyboardType={'numeric'}
+              placeholder={'Enter height'}
+            />
+          </View>
+          <View style={{marginLeft: 10}}>
+            <Text
+              style={{
+                ...FONT.subTitle,
+                alignSelf: 'flex-start',
+                marginTop: 20,
+                marginBottom: 5,
+                width: '100%',
+                marginLeft: 5,
+              }}>
+              Weight <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              width={DIMENSIONS.width / 2 - 40}
+              keyboardType={'numeric'}
+              placeholder={'Enter weight'}
+            />
+          </View>
+        </View>
+
+        <Text
+          style={{
+            ...FONT.subTitle,
+            ...styles.placeholderText,
+            marginLeft: 60,
+          }}>
           Gender <Text style={{color: COLORS.error}}>*</Text>
         </Text>
-        {/* <Input
-          placeholder={'Gender'}
-          onChangeText={text => {
-            setGender(text);
-            setErr({...err, messege: ''});
-          }}
-          value={gender}
-        />
-        {err?.messege && (
-          <Text
-            style={{
-              ...FONT.subTitle,
-              color: COLORS.error,
-              fontSize: 12,
-              paddingTop: 10,
-              marginBottom: 10,
-            }}>
-            {err?.messege}
-          </Text>
-        )}
-        <Text>Gender</Text> */}
+
         <View style={styles.wrapperButton}>
           {['Male', 'Female'].map(gender => {
             return (
@@ -265,15 +291,19 @@ const Signup = () => {
                   alignItems: 'center',
                   marginLeft: 20,
                 }}>
-                <Text style={{...styles.radioText, ...FONT.title}}>
+                <Text
+                  style={{
+                    ...styles.radioText,
+                    ...FONT.title,
+                  }}>
                   {gender}
                 </Text>
                 <TouchableOpacity
                   style={styles.outerButton}
                   onPress={() => {
-                    setRadiogender(gender);
+                    setRadioGender(gender);
                   }}>
-                  {radiogender == gender && <View style={styles.innerButton} />}
+                  {radioGender == gender && <View style={styles.innerButton} />}
                 </TouchableOpacity>
               </View>
             );
@@ -299,8 +329,6 @@ const Signup = () => {
         <Text style={{color: 'grey', marginTop: 20}}>Or</Text>
         <TouchableOpacity style={styles.googleView}>
           <AntDesign name="google" size={24} color="black" />
-          {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
-          {/* <MaterialCommunityIcons name="menu-open" size={24} color="black" /> */}
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -362,7 +390,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     color: COLORS.light_black,
   },
-  signuptoptab: {
+  signUpTopTab: {
     // width: DIMENSIONS.width - 60,
     // flexDirection: 'row',
     // justifyContent: 'space-around',
@@ -375,7 +403,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     width: DIMENSIONS.width - 60,
   },
-  userbutton: {
+  userButton: {
     // height: '100%',
     // width: '50%',
     // padding: 10,
@@ -397,6 +425,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     justifyContent: 'center',
     alignItems: 'center',
+    borderColor: 'grey',
   },
   innerButton: {
     width: 10,
@@ -411,5 +440,11 @@ const styles = StyleSheet.create({
   radioText: {
     marginRight: 5,
     top: 2,
+    color: 'grey',
+  },
+  heightWeight: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
   },
 });
