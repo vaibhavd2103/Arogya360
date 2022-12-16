@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import Container from '../components/Container';
-import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import Input from '../components/TextInput';
 import {Button} from '../components/Buttons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -222,7 +222,9 @@ const Login = ({navigation}) => {
           </View>
         </>
         <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
-        <TouchableOpacity style={styles.googleView}>
+        <TouchableOpacity
+          style={styles.googleView}
+          onPress={() => dispatch(setAuthenticated(true))}>
           <AntDesign name="google" size={24} color={COLORS.blue} />
           {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
           <Text style={styles.googleText}>Signin with Google</Text>

@@ -13,27 +13,27 @@ export const COLORS = {
   yellow: 'rgb(253,181,113)',
   pink: 'rgb(249,107,183)',
   background: '#f2f2f2',
-  light_black: '#212121',
+  light_black: '#222233',
   error: '#ff3322',
   lead: '#3d3d3d',
   white: '#ffffff',
+  grey: '#555555',
 };
 
 export const FONT = {
   header: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#212121',
+    color: COLORS?.light_black,
     fontFamily: 'Poppins-Bold',
   },
   title: {
     fontSize: 14,
-    color: '#212121',
+    color: COLORS?.light_black,
     fontFamily: 'Poppins-Medium',
   },
   subTitle: {
     fontSize: 12,
-    color: '#212121',
+    color: COLORS?.light_black,
     fontFamily: 'Poppins-Light',
   },
 };
@@ -46,6 +46,7 @@ export const ROUTES = {
   article: 'article',
   chat: 'chat',
   tabNav: 'tabNav',
+  stackNav: 'stackNav',
   appointment: 'appointment',
   profile: 'profile',
   editProfile: 'editProfile',
@@ -53,4 +54,5 @@ export const ROUTES = {
   finddoctor: 'finddoctor',
   medicinetracker: 'medicinetracker',
   phonedirectory: 'phonedirectory',
+  message: 'message',
 };

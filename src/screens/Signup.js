@@ -12,7 +12,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 //------------------import components and constants-----------------------------------------
 import Container from '../components/Container';
 import Input from '../components/TextInput';
-import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import {Button} from '../components/Buttons';
 
 //---------------------import icons---------------------------------------------------

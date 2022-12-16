@@ -1,23 +1,20 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {COLORS, DIMENSIONS, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, ROUTES} from '../constants/constants';
 import Home from '../screens/Home';
 import Chat from '../screens/Chat';
 import Article from '../screens/Article';
-import CustomTabBar from '../components/CustomTabBar';
-import CustomHeader from '../components/CustomHeader';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View} from 'react-native';
+import Message from '../screens/Message';
 
 const Tab = createMaterialBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      activeColor={COLORS?.blue}
+      activeColor={`${COLORS?.blue}`}
       shifting={true}
       keyboardHidesNavigationBar
       labeled={false}
@@ -30,9 +27,8 @@ const TabNavigator = () => {
         elevation: 20,
         shadowOffset: {height: 10},
         borderRadius: 24,
-        // borderTopRightRadius: 0,
-        // borderBottomLeftRadius: 0,
         padding: 10,
+        shadowColor: `${COLORS?.blue}aa`,
         // height: 80,
       }}>
       <Tab.Screen
@@ -43,7 +39,7 @@ const TabNavigator = () => {
           tabBarIcon: ({color, focused}) => (
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: `${color}`,
                 borderRadius: 20,
                 height: 50,
                 width: 50,
@@ -51,11 +47,13 @@ const TabNavigator = () => {
                 top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
+                // elevation: 20,
+                // shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
-                name="ios-home"
-                color={focused ? '#fff' : '#555'}
-                size={30}
+                name={focused ? 'md-home' : 'md-home-outline'}
+                color={focused ? '#fff' : `#555`}
+                size={focused ? 30 : 26}
               />
             </View>
           ),
@@ -79,19 +77,21 @@ const TabNavigator = () => {
                 top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
+                // elevation: 20,
+                // shadowColor: `${COLORS?.blue}`,
               }}>
-              <MaterialIcons
-                name="article"
-                color={focused ? '#fff' : '#555'}
-                size={32}
+              <Ionicons
+                name={focused ? 'newspaper' : 'newspaper-outline'}
+                color={focused ? '#fff' : `#555`}
+                size={focused ? 30 : 26}
               />
             </View>
           ),
         }}
       />
       <Tab.Screen
-        name={ROUTES.chat}
-        component={Chat}
+        name={ROUTES.message}
+        component={Message}
         options={{
           title: 'Chat',
           tabBarLabel: 'Home',
@@ -106,11 +106,13 @@ const TabNavigator = () => {
                 top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
+                // elevation: 20,
+                // shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
-                name="chatbox"
-                color={focused ? '#fff' : '#555'}
-                size={32}
+                name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
+                color={focused ? '#fff' : `#555`}
+                size={focused ? 30 : 26}
               />
             </View>
           ),

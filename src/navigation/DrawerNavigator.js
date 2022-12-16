@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import TabNavigator from './TabNavigator';
-import {COLORS, FONT, ROUTES} from '../constants/contants';
+import {COLORS, FONT, ROUTES} from '../constants/constants';
 import Appointment from '../screens/Appointment';
 import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
@@ -15,6 +15,7 @@ import PhoneDirectory from '../screens/PhoneDirectory';
 import MedicineTracker from '../screens/MedicineTracker';
 import SlideMenu from '../components/SlideMenu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import StackNavigator from './StackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -25,19 +26,9 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator
       drawerContent={props => <SlideMenu {...props} />}
-      // screenOptions={{
-      //   headerShown: false,
-      //   drawerActiveBackgroundColor: COLORS?.blue,
-      //   drawerActiveTintColor: '#fff',
-      //   drawerInactiveTintColor: '#333',
-      //   drawerLabelStyle: {
-      //     marginLeft: 25,
-      //     fontSize: 15,
-      //   },
-      // }}
-    >
-      <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} />
-
+      statusBarAnimation="fade">
+      {/* <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} /> */}
+      <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
       <Drawer.Screen
         name={ROUTES.appointment}

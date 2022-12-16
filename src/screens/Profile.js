@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import React from 'react';
 import Container from './../components/Container';
-import {COLORS, DIMENSIONS, FONT} from '../constants/contants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import About from './About';
@@ -32,8 +32,10 @@ const Profile = ({navigation}) => {
           }}
           style={styles.profilePic}
         />
-        <Text style={{...FONT.header, paddingVertical: 10}}>Profile Name</Text>
-        <Text style={{...FONT.title, color: 'gray'}}>29 Years old</Text>
+        <Text style={{...FONT.header, paddingVertical: 10}}>
+          Tanisha Thakur
+        </Text>
+        <Text style={{...FONT.title, color: 'gray'}}>129 Years old</Text>
 
         <View
           style={{

@@ -1,7 +1,7 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import Container from '../components/Container';
-import {FONT} from '../constants/contants';
+import {FONT} from '../constants/constants';
 import CustomHeader from '../components/CustomHeader';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -16,7 +16,7 @@ const Chat = props => {
             <MaterialCommunityIcons name="menu-open" size={24} color="black" />
           );
         }}
-        onLeftIconPress={() => props.navigation.openDrawer()}
+        onLeftIconPress={() => props.navigation.goBack()}
       />
       <Text style={{...FONT.header}}>Chat</Text>
     </Container>
