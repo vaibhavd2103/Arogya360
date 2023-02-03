@@ -1,11 +1,10 @@
-import {StyleSheet, Text, TextInput, View} from 'react-native';
+import {StyleSheet, Text, TextInput, View, FlatList} from 'react-native';
 import React from 'react';
 import Container from '../components/Container';
+import Input from '../components/TextInput';
 import CustomHeader from '../components/CustomHeader';
 import Search from 'react-native-vector-icons/Feather';
-import Input from '../components/TextInput';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
-import {FlatList} from 'react-native-gesture-handler';
 import MessageComponent from '../components/MessageComponent';
 
 data = [
@@ -58,12 +57,10 @@ const Message = () => {
       <View style={{marginTop: 10}}>
         <FlatList
           data={data}
-          keyExtractor={item => {
-            item.id;
-          }}
+          keyExtractor={item => item?.id}
           renderItem={({item, index}) => {
             return (
-              <View key={item.id}>
+              <View>
                 <MessageComponent item={item} />
               </View>
             );

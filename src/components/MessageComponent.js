@@ -7,6 +7,7 @@ const MessageComponent = ({item}) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
+      key={item.id}
       style={styles.MessageComponentCard}
       onPress={() => {
         navigation.navigate(ROUTES.chat);
