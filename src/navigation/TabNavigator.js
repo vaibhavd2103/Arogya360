@@ -21,15 +21,15 @@ const TabNavigator = () => {
       inactiveColor={'#fff'}
       barStyle={{
         backgroundColor: '#fff',
-        width: DIMENSIONS.width - 30,
+        width: DIMENSIONS.width - 0,
         alignSelf: 'center',
-        bottom: 20,
+        // bottom: 20,
         elevation: 20,
         shadowOffset: {height: 10},
-        borderRadius: 24,
+        // borderRadius: 24,
         padding: 10,
-        shadowColor: `${COLORS?.blue}aa`,
-        // height: 80,
+        shadowColor: `${COLORS?.blue}`,
+        height: 80,
       }}>
       <Tab.Screen
         name={ROUTES.home}

@@ -10,7 +10,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
         marginHorizontal: 10,
         padding: 10,
         borderRadius: 10,
-        backgroundColor: COLORS?.pink,
+        backgroundColor: COLORS?.green,
         width: DIMENSIONS?.width - 40,
         marginLeft: index == 0 ? 20 : 10,
         flexDirection: 'row',
@@ -18,7 +18,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
         marginRight: index == length - 1 ? 20 : 0,
         marginBottom: 20,
         elevation: 10,
-        shadowColor: COLORS?.pink,
+        shadowColor: COLORS?.green,
         marginTop: 10,
       }}>
       <View>

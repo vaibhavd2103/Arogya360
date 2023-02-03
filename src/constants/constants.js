@@ -9,10 +9,12 @@ export const DIMENSIONS = {
 };
 
 export const COLORS = {
-  blue: '#5894FF',
+  blue: '#003467',
+  green: '#00DDA7',
+  lightBlue: '#5DCFDE',
   yellow: 'rgb(253,181,113)',
   pink: 'rgb(249,107,183)',
-  background: '#f2f2f2',
+  background: '#fff',
   light_black: '#222233',
   error: '#ff3322',
   lead: '#3d3d3d',

@@ -57,7 +57,7 @@ const HomeAppointments = () => {
         <Text
           style={{
             ...FONT?.header,
-            color: COLORS?.pink,
+            color: COLORS?.green,
           }}>
           My Appointments
         </Text>

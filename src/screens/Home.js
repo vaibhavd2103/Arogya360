@@ -19,7 +19,7 @@ const Home = props => {
     await axios
       .get(`https://newsapi.org/v2/everything?q=health&apiKey=${NEWS_API_KEY}`)
       .then(res => {
-        console.log(res?.data);
+        // console.log(res?.data);
         setNews(res?.data?.articles);
         setLoading(false);
       })
