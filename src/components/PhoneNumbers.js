@@ -1,6 +1,6 @@
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {COLORS, FONT} from '../constants/contants';
+import {COLORS, FONT} from '../constants/constants';
 
 const PhoneNumbers = ({item}) => {
   return (

@@ -15,6 +15,7 @@ import PhoneDirectory from '../screens/PhoneDirectory';
 import MedicineTracker from '../screens/MedicineTracker';
 import SlideMenu from '../components/SlideMenu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import StackNavigator from './StackNavigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +27,8 @@ const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerContent={props => <SlideMenu {...props} />}
       statusBarAnimation="fade">
-      <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} />
+      {/* <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} /> */}
+      <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
       <Drawer.Screen
         name={ROUTES.appointment}

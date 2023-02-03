@@ -3,7 +3,7 @@ import React from 'react';
 import Container from '../components/Container';
 import CustomHeader from '../components/CustomHeader';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {FONT} from '../constants/contants';
+import {FONT} from '../constants/constants';
 import PhoneNumbers from '../components/PhoneNumbers';
 import {not} from 'react-native-reanimated';
 

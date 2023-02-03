@@ -1,8 +1,10 @@
 import React from 'react';
 import Login from '../screens/Login';
+import Chat from '../screens/Chat';
 import {ROUTES} from '../constants/constants';
 import {createStackNavigator} from '@react-navigation/stack';
 import Signup from '../screens/Signup';
+import TabNavigator from './TabNavigator';
 
 const Stack = createStackNavigator();
 
@@ -10,8 +12,8 @@ const StackNavigator = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name={ROUTES.login}
-        component={Login}
+        name={ROUTES.tabNav}
+        component={TabNavigator}
         options={{
           headerShown: false,
           // header: stackHeaderProps => (
@@ -20,8 +22,8 @@ const StackNavigator = () => {
         }}
       />
       <Stack.Screen
-        name={ROUTES.signup}
-        component={Signup}
+        name={ROUTES.chat}
+        component={Chat}
         options={{
           headerShown: false,
           // header: stackHeaderProps => (

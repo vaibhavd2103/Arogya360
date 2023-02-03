@@ -48,6 +48,7 @@ export const ROUTES = {
   article: 'article',
   chat: 'chat',
   tabNav: 'tabNav',
+  stackNav: 'stackNav',
   appointment: 'appointment',
   profile: 'profile',
   editProfile: 'editProfile',
@@ -55,4 +56,5 @@ export const ROUTES = {
   finddoctor: 'finddoctor',
   medicinetracker: 'medicinetracker',
   phonedirectory: 'phonedirectory',
+  message: 'message',
 };

@@ -7,6 +7,7 @@ import Article from '../screens/Article';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View} from 'react-native';
+import Message from '../screens/Message';
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -89,8 +90,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name={ROUTES.chat}
-        component={Chat}
+        name={ROUTES.message}
+        component={Message}
         options={{
           title: 'Chat',
           tabBarLabel: 'Home',
