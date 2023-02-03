@@ -79,9 +79,7 @@ const HomeRecentArticles = ({data}) => {
       <FlatList
         data={data}
         horizontal={true}
-        snapToInterval={DIMENSIONS?.width - 30}
         bounces={false}
-        decelerationRate={500}
         pagingEnabled
         keyExtractor={item => item?.id}
         renderItem={({item, index}) => {
