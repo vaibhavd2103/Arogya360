@@ -7,12 +7,14 @@ const SplashScreen = ({navigation}) => {
   useEffect(() => {
     goToLogin();
   }, []);
+
   function goToLogin() {
     setTimeout(() => {
       // navigation?.navigate(ROUTES.welcome);
       navigation?.navigate(ROUTES.home);
     }, 3000);
   }
+
   return (
     <View style={styles.container}>
       <StatusBar translucent backgroundColor="transparent" />

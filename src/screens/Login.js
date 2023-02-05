@@ -75,8 +75,8 @@ const Login = ({navigation}) => {
             style={{
               ...styles.userbutton,
               backgroundColor: user === 'patient' ? COLORS.blue : '#fff',
-              elevation: user === 'patient' ? 20 : 0,
-              shadowColor: COLORS.blue,
+              // elevation: user === 'patient' ? 20 : 0,
+              // shadowColor: COLORS.blue,
             }}>
             <Text
               style={{
@@ -93,8 +93,8 @@ const Login = ({navigation}) => {
             style={{
               ...styles.userbutton,
               backgroundColor: user === 'doctor' ? COLORS.blue : '#fff',
-              elevation: user === 'doctor' ? 20 : 0,
-              shadowColor: COLORS.blue,
+              // elevation: user === 'doctor' ? 20 : 0,
+              // shadowColor: COLORS.blue,
             }}>
             <Text
               style={{
@@ -269,6 +269,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 30,
+    elevation: 20,
+    shadowColor: COLORS?.blue,
   },
   userbutton: {
     padding: 10,
