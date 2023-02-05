@@ -1,11 +1,12 @@
 import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
+import Container from '../components/Container';
 
 const MedicineTracker = () => {
   return (
-    <View>
+    <Container>
       <Text>MedicineTracker</Text>
-    </View>
+    </Container>
   );
 };
 

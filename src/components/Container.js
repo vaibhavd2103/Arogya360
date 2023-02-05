@@ -14,8 +14,8 @@ export default Container;
 
 const styles = StyleSheet.create({
   container: {
-    width: DIMENSIONS?.width,
-    height: DIMENSIONS?.height,
+    width: '100%',
+    height: '100%',
     backgroundColor: COLORS.background,
   },
 });

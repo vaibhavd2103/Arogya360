@@ -1,4 +1,10 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Container from '../components/Container';
 import CustomHeader from './../components/CustomHeader';
@@ -10,6 +16,7 @@ import axios from 'axios';
 import {NEWS_API_KEY} from '../../config';
 import Loader from '../components/Loader';
 import HomeNews from '../components/HomeNews';
+import {COLORS, DIMENSIONS} from '../constants/constants';
 
 const Home = props => {
   const [news, setNews] = useState([]);
@@ -72,38 +79,53 @@ const Home = props => {
   ];
 
   return (
-    <ScrollView>
-      <Container>
-        <Loader loading={loading} />
-        <CustomHeader
-          style={{width: '100%'}}
-          title="Home"
-          LeftIcon={() => {
-            return (
-              <MaterialCommunityIcons name="menu" size={24} color="black" />
-            );
-          }}
-          onLeftIconPress={() => props.navigation.openDrawer()}
-        />
-        <View style={{flex: 1, paddingHorizontal: 0}}>
-          <View style={{marginVertical: 20}}>
-            <PrecautionCard
-              precaution={`Avoid physical contact like handshakes, hand holding or hugs. Avoid touching surfaces such as table tops, chairs, door handles etc. b) Practice good hygiene Wash your hands frequently using soap and water`}
-            />
-          </View>
-          <View style={{marginBottom: 0, marginTop: 10}}>
-            <HomeAppointments />
-          </View>
-          <View style={{marginBottom: 0, marginTop: 10}}>
-            <HomeRecentArticles data={articleData} />
-          </View>
-          <View style={{marginBottom: 0, marginTop: 10}}>
-            <HomeNews data={news} navigation={props?.navigation} />
-          </View>
-          <View style={{height: 30}}></View>
+    <Container>
+      <Loader loading={loading} />
+      <CustomHeader
+        style={{width: '100%'}}
+        title="Home"
+        LeftIcon={() => {
+          return (
+            <TouchableOpacity
+              style={{
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 40,
+                backgroundColor: COLORS?.blue,
+                marginHorizontal: 10,
+              }}
+              activeOpacity={0.8}
+              onPress={() => props?.navigation.openDrawer()}>
+              <MaterialCommunityIcons
+                name="menu"
+                size={24}
+                color={COLORS?.white}
+              />
+            </TouchableOpacity>
+          );
+        }}
+        onLeftIconPress={() => props.navigation.openDrawer()}
+      />
+      <ScrollView>
+        <View style={{marginVertical: 20}}>
+          <PrecautionCard
+            precaution={`Avoid physical contact like handshakes, hand holding or hugs. Avoid touching surfaces such as table tops, chairs, door handles etc. b) Practice good hygiene Wash your hands frequently using soap and water`}
+          />
         </View>
-      </Container>
-    </ScrollView>
+        <View style={{marginBottom: 0, marginTop: 10}}>
+          <HomeAppointments />
+        </View>
+        <View style={{marginBottom: 0, marginTop: 10}}>
+          <HomeRecentArticles data={articleData} />
+        </View>
+        <View style={{marginBottom: 0, marginTop: 10}}>
+          <HomeNews data={news} navigation={props?.navigation} />
+        </View>
+        <View style={{height: 30}}></View>
+      </ScrollView>
+    </Container>
   );
 };
 
