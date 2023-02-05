@@ -1,6 +1,6 @@
 import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
-import {COLORS} from '../constants/constants';
+import {COLORS, DIMENSIONS} from '../constants/constants';
 
 const Container = props => {
   return (
@@ -14,8 +14,8 @@ export default Container;
 
 const styles = StyleSheet.create({
   container: {
-    width: '100%',
-    height: '100%',
+    width: DIMENSIONS?.width,
+    height: DIMENSIONS?.height,
     backgroundColor: COLORS.background,
   },
 });

@@ -98,7 +98,7 @@ const Home = props => {
             <HomeRecentArticles data={articleData} />
           </View>
           <View style={{marginBottom: 0, marginTop: 10}}>
-            <HomeNews data={news} />
+            <HomeNews data={news} navigation={props?.navigation} />
           </View>
           <View style={{height: 30}}></View>
         </View>
