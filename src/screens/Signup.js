@@ -377,17 +377,17 @@ const styles = StyleSheet.create({
   googleView: {
     backgroundColor: 'lightgrey',
     flexDirection: 'row',
-    padding: 5,
     alignItems: 'center',
     borderRadius: 10,
     width: DIMENSIONS.width - 50,
-    marginTop: 10,
-    justifyContent: 'space-around',
-    marginBottom: 70,
+    marginTop: 30,
+    justifyContent: 'center',
+    height: 52,
+    marginBottom: 30,
   },
   googleText: {
     ...FONT.subTitle,
-    marginRight: 30,
+    marginLeft: 10,
     color: COLORS.light_black,
   },
   signUpTopTab: {

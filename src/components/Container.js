@@ -1,10 +1,12 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS} from '../constants/constants';
 
 const Container = props => {
   return (
-    <View style={{...styles.container, ...props.style}}>{props.children}</View>
+    <SafeAreaView style={{...styles.container, ...props.style}}>
+      {props.children}
+    </SafeAreaView>
   );
 };
 
