@@ -37,14 +37,18 @@ const Login = ({navigation}) => {
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
-      setErr({...err, email: '', password: ''});
       dispatch(setAuthenticated(true));
+      setErr({...err, email: '', password: ''});
     }
   };
 
   return (
     <ScrollView
-      style={{width: '100%', height: '100%'}}
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: COLORS?.background,
+      }}
       contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
       <Container style={{...styles.Container}}>
         <Text

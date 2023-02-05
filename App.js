@@ -8,7 +8,7 @@ import SplashScreen from './src/screens/SplashScreen';
 import AuthNavigator from './src/navigation/AuthNavigator';
 import {Provider, useSelector} from 'react-redux';
 import store from './src/redux/store';
-import { COLORS } from './src/constants/constants';
+import {COLORS} from './src/constants/constants';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.isAuthenticated);
@@ -23,12 +23,8 @@ const App = () => {
     };
   }, []);
 
-  // const loginChecker = async() => {
-
-  // }
-
   useEffect(() => {
-    // console.log(isAuthenticated);
+    console.log(isAuthenticated);
   }, [isAuthenticated]);
 
   return showSplashScreen ? (
