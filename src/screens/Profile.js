@@ -6,9 +6,13 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import About from './About';
 import MyHistory from './MyHistory';
+import {useSelector} from 'react-redux';
 
 const Tab = createMaterialTopTabNavigator();
+
 const Profile = ({navigation}) => {
+  const userType = useSelector(state => state?.userType);
+  console.log(userType);
   return (
     <View
       style={{

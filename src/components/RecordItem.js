@@ -29,11 +29,13 @@ export default RecordItem;
 
 const styles = StyleSheet.create({
   container: {
-    width: DIMENSIONS.width - 50,
+    width: DIMENSIONS.width - 48,
     // padding: 15,
     height: 150,
     backgroundColor: COLORS.blue,
     marginVertical: 10,
     borderRadius: 10,
+    elevation: 10,
+    shadowColor: `${COLORS.blue}cc`,
   },
 });
