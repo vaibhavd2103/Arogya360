@@ -4,6 +4,7 @@ const initialState = {
   isAuthenticated: false,
   user_id: '',
   token: '',
+  userType: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         user_id: action.payload,
+      };
+    case types.USER_TYPE:
+      return {
+        ...state,
+        userType: action.payload,
       };
     default:
       return state;

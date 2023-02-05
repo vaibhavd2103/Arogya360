@@ -12,3 +12,7 @@ export const setUserId = data => ({
   type: types.USER_ID,
   payload: data,
 });
+export const setUserType = data => ({
+  type: types.USER_TYPE,
+  payload: data,
+});

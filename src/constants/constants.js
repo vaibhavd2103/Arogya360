@@ -57,4 +57,10 @@ export const ROUTES = {
   medicinetracker: 'medicinetracker',
   phonedirectory: 'phonedirectory',
   message: 'message',
+  doctorsProfile: 'doctorsProfile',
+};
+
+export const USERS = {
+  doctor: 'doctor',
+  patient: 'patient',
 };

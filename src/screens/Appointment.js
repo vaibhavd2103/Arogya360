@@ -9,7 +9,7 @@ import {
 import React, {useState, useEffect} from 'react';
 //---------------------constants--------------------
 import Container from './../components/Container';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 //---------------------icons--------------------
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -198,7 +198,7 @@ const CounsellorInfo = ({navigation, item, id, setId}) => {
       <TouchableOpacity
         style={styles.viewDetailsButton}
         onPress={() => {
-          // navigation.navigate('CounsellorDetails', item);
+          navigation.navigate(ROUTES.doctorsProfile, {item: item});
         }}>
         <Text
           style={{

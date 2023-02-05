@@ -10,6 +10,8 @@ import axios from 'axios';
 import {NEWS_API_KEY} from '../../config';
 import Loader from '../components/Loader';
 import HomeNews from '../components/HomeNews';
+import {setUserType} from '../redux/actions';
+import {USERS} from '../constants/constants';
 
 const Home = props => {
   const [news, setNews] = useState([]);
@@ -22,6 +24,8 @@ const Home = props => {
         // console.log(res?.data);
         setNews(res?.data?.articles);
         setLoading(false);
+        ////////////////////// done by sakshi remove after login setting usertype
+        setUserType(USERS.doctor);
       })
       .catch(err => {
         console.log(err);
