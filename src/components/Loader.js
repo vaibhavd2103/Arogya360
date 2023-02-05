@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 
@@ -13,7 +13,7 @@ const Loader = ({loading}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{...FONT?.header}}>Loading...</Text>
+        <ActivityIndicator size="large" color={COLORS?.green} />
       </View>
     );
   }
