@@ -17,7 +17,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch} from 'react-redux';
-import {setAuthenticated} from '../redux/actions';
+import {setAuthenticated, setUserType} from '../redux/actions';
 
 const Login = ({navigation}) => {
   const dispatch = useDispatch();
@@ -75,6 +75,7 @@ const Login = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               setUser('patient');
+              dispatch(setUserType(2));
             }}
             style={{
               ...styles.userbutton,
@@ -93,6 +94,7 @@ const Login = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               setUser('doctor');
+              dispatch(setUserType(1));
             }}
             style={{
               ...styles.userbutton,
