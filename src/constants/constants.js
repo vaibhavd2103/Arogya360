@@ -58,6 +58,7 @@ export const ROUTES = {
   phonedirectory: 'phonedirectory',
   message: 'message',
   doctorsProfile: 'doctorsProfile',
+  createReport: 'createReport',
 };
 
 export const USERS = {

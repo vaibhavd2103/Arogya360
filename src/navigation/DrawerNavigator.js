@@ -17,18 +17,15 @@ import SlideMenu from '../components/SlideMenu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import StackNavigator from './StackNavigator';
 import DoctorsProfile from '../screens/DoctorsProfile';
+import CreateReport from '../screens/CreateReport';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNavigator = props => {
-  // const navigation = useNavigation();
-
-  // console.log('DrawerNavigator', props);
   return (
     <Drawer.Navigator
       drawerContent={props => <SlideMenu {...props} />}
       statusBarAnimation="fade">
-      {/* <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} /> */}
       <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
       <Drawer.Screen
@@ -101,6 +98,16 @@ const DrawerNavigator = props => {
           headerShown: true,
           header: stackHeaderProps => (
             <CustomHeader {...stackHeaderProps} title="Doctors Profile" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={ROUTES.createReport}
+        component={CreateReport}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="Create Report" />
           ),
         }}
       />

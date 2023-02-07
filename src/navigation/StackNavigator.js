@@ -5,6 +5,7 @@ import {ROUTES} from '../constants/constants';
 import {createStackNavigator} from '@react-navigation/stack';
 import Signup from '../screens/Signup';
 import TabNavigator from './TabNavigator';
+import CustomHeader from '../components/CustomHeader';
 
 const Stack = createStackNavigator();
 
@@ -25,10 +26,10 @@ const StackNavigator = () => {
         name={ROUTES.chat}
         component={Chat}
         options={{
-          headerShown: false,
-          // header: stackHeaderProps => (
-          //   <CustomHeader {...stackHeaderProps} title="Profile" />
-          // ),
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="Chat" />
+          ),
         }}
       />
     </Stack.Navigator>
