@@ -204,6 +204,17 @@ const Login = ({navigation}) => {
               style={{right: 10, position: 'absolute'}}
             />
           </View>
+          {err?.password && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.password}
+            </Text>
+          )}
           <Button
             title="Sign In"
             style={{width: DIMENSIONS.width - 50, marginTop: 50}}

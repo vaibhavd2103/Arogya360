@@ -8,47 +8,118 @@ import {
 import React, {useState} from 'react';
 //-------------------------------- import packages--------------------------------------
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import {CheckIcon, Select} from 'native-base';
 
 //------------------import components and constants-----------------------------------------
 import Container from '../components/Container';
 import Input from '../components/TextInput';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import {Button} from '../components/Buttons';
+import {ROUTES} from '../constants/constants';
 
 //---------------------import icons---------------------------------------------------
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {useRef} from 'react';
 
-const Signup = () => {
+const Signup = ({navigation}) => {
   //-----------------------------------------useState---------------------------------
   const [user, setUser] = useState('patient');
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
-  const [dob, setDob] = useState('');
   const [radioGender, setRadioGender] = useState('');
-  const [err, setErr] = useState({
-    messege: '',
+  const [errors, setErrors] = useState({
+    message: '',
+    fullName: '',
+    email: '',
+    mobileNumber: '',
+    password: '',
+    date: '',
+    country: '',
+    state: '',
+    city: '',
+    height: '',
+    weight: '',
+    gender: '',
   });
-  const [daterror, setDateError] = useState('');
-  const [occasion, setOccasion] = useState([]);
+
   const [datemodal, setDateModal] = useState(false);
-  const [dateValue, setDateValue] = useState('');
   const [date, setDate] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+
+  //-------------------------------useRef---------------------------------------------
+
+  const fullNameRef = useRef(null);
+  const emailRef = useRef(null);
+  const mobileNumberRef = useRef(null);
+  const passwordRef = useRef(null);
+  const dateRef = useRef(null);
+  const countryRef = useRef(null);
+  const stateRef = useRef(null);
+  const cityRef = useRef(null);
+  const heightRef = useRef(null);
+  const weightRef = useRef(null);
+  const genderRef = useRef(null);
 
   //--------------------------------------functions-------------------------------------
 
   const signup = () => {
-    if (email === '' || password === '' || fullName === '') {
-      setErr({...err, messege: 'Fill all mandatory fields'});
-      console.log(err);
+    if (fullName == '') {
+      setErrors({...errors, fullName: 'Enter full name'});
+      fullNameRef?.current?.focus();
+    } else if (email == '') {
+      setErrors({...errors, email: 'Enter email'});
+      emailRef?.current?.focus();
+    } else if (mobileNumber == '') {
+      setErrors({...errors, mobileNumber: 'Enter mobile number'});
+      mobileNumberRef?.current?.focus();
+    } else if (password == '') {
+      setErrors({...errors, password: 'Enter password'});
+      passwordRef?.current?.focus();
+    } else if (date == '') {
+      setErrors({...errors, date: 'Enter date'});
+      dateRef?.current?.focus();
+    } else if (country == '') {
+      setErrors({...errors, country: 'Enter country'});
+      countryRef?.current?.focus();
+    } else if (state == '') {
+      setErrors({...errors, state: 'Enter state'});
+      stateRef?.current?.focus();
+    } else if (city == '') {
+      setErrors({...errors, city: 'Enter city'});
+      cityRef?.current?.focus();
+    } else if (height == '') {
+      setErrors({...errors, height: 'Enter height'});
+      heightRef?.current?.focus();
+    } else if (weight == '') {
+      setErrors({...errors, weight: 'Enter weight'});
+      weightRef?.current?.focus();
+    } else if (gender == '') {
+      setErrors({...errors, gender: 'Enter gender'});
+      genderRef?.current?.focus();
     } else {
-      setErr({...err, messege: ''});
-      //  navigation.navigate(ROUTES.tabNav);
+      setErrors({
+        ...errors,
+        message: '',
+        fullName: '',
+        email: '',
+        mobileNumber: '',
+        password: '',
+        date: '',
+        country: '',
+        state: '',
+        city: '',
+        height: '',
+        weight: '',
+        gender: '',
+      });
     }
   };
-  //-----------------------------datetime picker-----------------------------------------
+  //-----------------------------dateTime picker-----------------------------------------
   const FormatDate = data => {
     let dateTimeString =
       data.getFullYear() +
@@ -60,32 +131,15 @@ const Signup = () => {
     return dateTimeString;
   };
 
-  const saveDetails = (val, index) => {
-    let saveAnswer = occasion;
-    saveAnswer.map((mapItem, mapIndex) => {
-      console.log('mapIndex ::', mapIndex);
-      if (mapIndex === index) {
-        saveAnswer[mapIndex] = {...mapItem, dateInEpoch: val};
-      }
-    });
-    setOccasion([...saveAnswer]);
-  };
-
-  const showDatePicker = () => {
-    setDateModal(true);
-    console.log('modal');
-  };
   const handleConfirm = data => {
     setDate(FormatDate(data));
-    saveDetails(FormatDate(data), dateIndex);
-    // console.log(FormatDate(data));
-    setDateValue(FormatDate(data));
+    // saveDetails(FormatDate(data), dateIndex);
+    console.log(FormatDate(data));
+    // setDateValue(FormatDate(data));
     setDateModal(false);
+    setErrors({...errors, date: ''});
   };
 
-  const hideDatePicker = () => {
-    setDateModal(false);
-  };
   //--------------------------------------------------------------------------------------
 
   return (
@@ -99,6 +153,7 @@ const Signup = () => {
         }}>
         Register
       </Text>
+      {/*---------------------------------topTab------------------------------------------------- */}
       <View
         style={{
           ...styles.signUpTopTab,
@@ -112,7 +167,7 @@ const Signup = () => {
           style={{
             ...styles.userButton,
             backgroundColor: user === 'patient' ? COLORS.blue : '#fff',
-            elevation: user === 'patient' ? 20 : 0,
+            elevation: 20,
             shadowColor: COLORS.blue,
           }}>
           <Text
@@ -130,7 +185,7 @@ const Signup = () => {
           style={{
             ...styles.userButton,
             backgroundColor: user === 'doctor' ? COLORS.blue : '#fff',
-            elevation: user === 'patient' ? 20 : 0,
+            elevation: 20,
             shadowColor: COLORS.blue,
           }}>
           <Text
@@ -142,61 +197,424 @@ const Signup = () => {
           </Text>
         </TouchableOpacity>
       </View>
+      {/* ----------------------------Input-------------------------------------------- */}
       <ScrollView
+        keyboardShouldPersistTaps={'handled'}
         style={styles.scrollView}
         contentContainerStyle={{
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          Full Name <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-        <Input
-          placeholder={'Full Name'}
-          onChangeText={text => {
-            setFullName(text);
-            setErr({...err, messege: ''});
-          }}
-          value={fullName}
-        />
-        <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          Email <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-        <Input
-          placeholder={'Email'}
-          onChangeText={text => {
-            setEmail(text);
-            setErr({...err, messege: ''});
-          }}
-          value={email}
-        />
-        <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          Mobile Number <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-        <Input
-          placeholder={'Mobile Number'}
-          onChangeText={text => {
-            setMobileNumber(text);
-            setErr({...err, messege: ''});
-          }}
-          value={mobileNumber}
-          keyboardType="numeric"
-        />
-        <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          Password <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-        <Input
-          placeholder={'Password'}
-          onChangeText={text => {
-            setPassword(text);
-            setErr({...err, messege: ''});
-          }}
-          value={password}
-        />
-        <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          Date of Birth <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-        {/* <TouchableOpacity
+        {/* ------------------------------------DOCTOR----------------------------------- */}
+        {user == 'doctor' ? (
+          <View style={{width: '100%', alignItems: 'center'}}>
+            {/* ---------------------------------------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Full Name <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Full Name'}
+              onChangeText={text => {
+                setFullName(text);
+                setErrors({...errors, fullName: ''});
+              }}
+              value={fullName}
+              props={{
+                ref: fullNameRef,
+              }}
+              err={errors.fullName}
+            />
+            {errors?.fullName && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.fullName}
+              </Text>
+            )}
+            {/* ------------------------------------------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Email <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Email'}
+              onChangeText={text => {
+                setEmail(text);
+                setErrors({...errors, email: ''});
+              }}
+              value={email}
+              props={{
+                ref: emailRef,
+              }}
+              err={errors.email}
+            />
+            {errors?.email && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.email}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Mobile Number <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Mobile Number'}
+              onChangeText={text => {
+                setMobileNumber(text);
+                setErrors({...errors, mobileNumber: ''});
+              }}
+              value={mobileNumber}
+              keyboardType="numeric"
+              props={{
+                ref: mobileNumberRef,
+              }}
+              err={errors.mobileNumber}
+            />
+            {errors?.mobileNumber && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.mobileNumber}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Password <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Password'}
+              onChangeText={text => {
+                setPassword(text);
+                setErrors({...errors, password: ''});
+              }}
+              value={password}
+              props={{
+                ref: passwordRef,
+              }}
+              err={errors.password}
+            />
+            {errors?.password && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.password}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Date of Birth <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {
+                // showDatePicker();
+                setDateModal(true);
+                console.log('open modal');
+              }}>
+              <Input
+                placeholder={'Date of Birth'}
+                value={date}
+                editable={false}
+                props={{
+                  ref: dateRef,
+                }}
+                err={errors.date}
+              />
+              {errors?.date && (
+                <Text
+                  style={{
+                    ...FONT.subTitle,
+                    color: COLORS.error,
+                    textAlign: 'left',
+                    marginTop: 5,
+                    width: DIMENSIONS.width - 60,
+                  }}>
+                  {errors.date}
+                </Text>
+              )}
+            </TouchableOpacity>
+            {/* --------------------------------------------------------------------------------------- */}
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Country <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Select
+              selectedValue={country}
+              // minWidth="200"
+              width="300"
+              accessibilityLabel="Choose country"
+              placeholder="Choose country"
+              _selectedItem={{
+                bg: 'teal.600',
+                endIcon: <CheckIcon size="5" />,
+              }}
+              style={{
+                height: 50,
+                width: DIMENSIONS.width - 60,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                padding: 10,
+                fontSize: 12,
+                borderWidth: 0,
+                borderColor: COLORS.error,
+                ...FONT.title,
+                elevation: 0,
+                shadowColor: `${COLORS.blue}cc`,
+
+                // shadowOpacity: 0.2,
+              }}
+              variant={'unstyled'}
+              mt={1}
+              ref={countryRef}
+              onValueChange={itemValue => setCountry(itemValue)}>
+              <Select.Item label="UX Research" value="ux" />
+              <Select.Item label="Web Development" value="web" />
+              <Select.Item label="Cross Platform Development" value="cross" />
+              <Select.Item label="UI Designing" value="ui" />
+              <Select.Item label="Backend Development" value="backend" />
+            </Select>
+            {errors?.country && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.country}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              State <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Select
+              selectedValue={state}
+              // minWidth="200"
+              width="300"
+              accessibilityLabel="Choose State"
+              placeholder="Choose State"
+              _selectedItem={{
+                bg: 'teal.600',
+                endIcon: <CheckIcon size="5" />,
+              }}
+              style={{
+                height: 50,
+                width: DIMENSIONS.width - 60,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                padding: 10,
+                fontSize: 12,
+                borderWidth: 0,
+                borderColor: COLORS.error,
+                ...FONT.title,
+                elevation: 0,
+                shadowColor: `${COLORS.blue}cc`,
+                // shadowOpaState: 0.2,
+              }}
+              variant={'unstyled'}
+              mt={1}
+              onValueChange={itemValue => setState(itemValue)}>
+              <Select.Item label="UX Research" value="ux" />
+              <Select.Item label="Web Development" value="web" />
+              <Select.Item label="Cross Platform Development" value="cross" />
+              <Select.Item label="UI Designing" value="ui" />
+              <Select.Item label="Backend Development" value="backend" />
+            </Select>
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              City <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Select
+              selectedValue={city}
+              // minWidth="200"
+              width="300"
+              accessibilityLabel="Choose City"
+              placeholder="Choose City"
+              _selectedItem={{
+                bg: 'teal.600',
+                endIcon: <CheckIcon size="5" />,
+              }}
+              style={{
+                height: 50,
+                width: DIMENSIONS.width - 60,
+                backgroundColor: '#fff',
+                borderRadius: 10,
+                padding: 10,
+                fontSize: 12,
+                borderWidth: 0,
+                borderColor: COLORS.error,
+                ...FONT.title,
+                elevation: 0,
+                shadowColor: `${COLORS.blue}cc`,
+                // shadowOpacity: 0.2,
+              }}
+              variant={'unstyled'}
+              mt={1}
+              onValueChange={itemValue => setCity(itemValue)}>
+              <Select.Item label="UX Research" value="ux" />
+              <Select.Item label="Web Development" value="web" />
+              <Select.Item label="Cross Platform Development" value="cross" />
+              <Select.Item label="UI Designing" value="ui" />
+              <Select.Item label="Backend Development" value="backend" />
+            </Select>
+
+            <View style={styles.heightWeight}>
+              <View style={{marginRight: 10}}>
+                <Text
+                  style={{
+                    ...FONT.subTitle,
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                    marginBottom: 5,
+                    width: '100%',
+                    marginLeft: 5,
+                  }}>
+                  Height <Text style={{color: COLORS.error}}>*</Text>
+                </Text>
+                <Input
+                  width={DIMENSIONS.width / 2 - 40}
+                  keyboardType={'numeric'}
+                  placeholder={'Enter height'}
+                />
+              </View>
+              <View style={{marginLeft: 10}}>
+                <Text
+                  style={{
+                    ...FONT.subTitle,
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                    marginBottom: 5,
+                    width: '100%',
+                    marginLeft: 5,
+                  }}>
+                  Weight <Text style={{color: COLORS.error}}>*</Text>
+                </Text>
+                <Input
+                  width={DIMENSIONS.width / 2 - 40}
+                  keyboardType={'numeric'}
+                  placeholder={'Enter weight'}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                ...FONT.subTitle,
+                ...styles.placeholderText,
+                // marginLeft: 60,
+              }}>
+              Gender <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+
+            <View style={styles.wrapperButton}>
+              {['Male', 'Female'].map(gender => {
+                return (
+                  <View
+                    key={gender}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginLeft: 20,
+                    }}>
+                    <Text
+                      style={{
+                        ...styles.radioText,
+                        ...FONT.title,
+                      }}>
+                      {gender}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.outerButton}
+                      onPress={() => {
+                        setRadioGender(gender);
+                      }}>
+                      {radioGender == gender && (
+                        <View style={styles.innerButton} />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        ) : (
+          // ----------------------------------------------PATIENT------------------------------------------------
+          <View style={{width: '100%', alignItems: 'center'}}>
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Full Name <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Full Name'}
+              onChangeText={text => {
+                setFullName(text);
+                setErrors({...errors, message: ''});
+              }}
+              value={fullName}
+            />
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Email <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Email'}
+              onChangeText={text => {
+                setEmail(text);
+                setErrors({...errors, message: ''});
+              }}
+              value={email}
+            />
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Mobile Number <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Mobile Number'}
+              onChangeText={text => {
+                setMobileNumber(text);
+                setErrors({...errors, message: ''});
+              }}
+              value={mobileNumber}
+              keyboardType="numeric"
+            />
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Password <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Password'}
+              onChangeText={text => {
+                setPassword(text);
+                setErrors({...errors, message: ''});
+              }}
+              value={password}
+            />
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Date of Birth <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            {/* <TouchableOpacity
           onPress={value => {
             showDatePicker();
             setDate(value);
@@ -207,108 +625,112 @@ const Signup = () => {
             placeholder={'Date of Birth'}
             onChangeText={text => {
               setDob(text);
-              setErr({...err, messege: ''});
+              setErrors({...errors, message: ''});
             }}
             value={dob}
           />
         </TouchableOpacity> */}
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => {
-            showDatePicker();
-            setDateModal(true);
-            console.log('open modal');
-          }}
-          // style={{backgroundColor: 'red', width: '100%'}}
-        >
-          <Input
-            placeholder={'Date of Birth'}
-            onChangeText={text => {
-              setDob(text);
-              setErr({...err, messege: ''});
-              setDateValue(text);
-            }}
-            value={dateValue}
-            editable={false}
-          />
-        </TouchableOpacity>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => {
+                // showDatePicker();
+                setDateModal(true);
+                console.log('open modal');
+              }}
+              // style={{backgroundColor: 'red', width: '100%'}}
+            >
+              <Input
+                placeholder={'Date of Birth'}
+                // onChangeText={text => {
+                //   setDob(text);
+                //   setErrors({...errors, message: ''});
+                //   setDateValue(text);
+                // }}
+                value={date}
+                editable={false}
+              />
+            </TouchableOpacity>
 
-        <View style={styles.heightWeight}>
-          <View style={{marginRight: 10}}>
-            <Text
-              style={{
-                ...FONT.subTitle,
-                alignSelf: 'flex-start',
-                marginTop: 20,
-                marginBottom: 5,
-                width: '100%',
-                marginLeft: 5,
-              }}>
-              Height <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <Input
-              width={DIMENSIONS.width / 2 - 40}
-              keyboardType={'numeric'}
-              placeholder={'Enter height'}
-            />
-          </View>
-          <View style={{marginLeft: 10}}>
-            <Text
-              style={{
-                ...FONT.subTitle,
-                alignSelf: 'flex-start',
-                marginTop: 20,
-                marginBottom: 5,
-                width: '100%',
-                marginLeft: 5,
-              }}>
-              Weight <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <Input
-              width={DIMENSIONS.width / 2 - 40}
-              keyboardType={'numeric'}
-              placeholder={'Enter weight'}
-            />
-          </View>
-        </View>
-
-        <Text
-          style={{
-            ...FONT.subTitle,
-            ...styles.placeholderText,
-            marginLeft: 60,
-          }}>
-          Gender <Text style={{color: COLORS.error}}>*</Text>
-        </Text>
-
-        <View style={styles.wrapperButton}>
-          {['Male', 'Female'].map(gender => {
-            return (
-              <View
-                key={gender}
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginLeft: 20,
-                }}>
+            <View style={styles.heightWeight}>
+              <View style={{marginRight: 10}}>
                 <Text
                   style={{
-                    ...styles.radioText,
-                    ...FONT.title,
+                    ...FONT.subTitle,
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                    marginBottom: 5,
+                    width: '100%',
+                    marginLeft: 5,
                   }}>
-                  {gender}
+                  Height <Text style={{color: COLORS.error}}>*</Text>
                 </Text>
-                <TouchableOpacity
-                  style={styles.outerButton}
-                  onPress={() => {
-                    setRadioGender(gender);
-                  }}>
-                  {radioGender == gender && <View style={styles.innerButton} />}
-                </TouchableOpacity>
+                <Input
+                  width={DIMENSIONS.width / 2 - 40}
+                  keyboardType={'numeric'}
+                  placeholder={'Enter height'}
+                />
               </View>
-            );
-          })}
-        </View>
+              <View style={{marginLeft: 10}}>
+                <Text
+                  style={{
+                    ...FONT.subTitle,
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                    marginBottom: 5,
+                    width: '100%',
+                    marginLeft: 5,
+                  }}>
+                  Weight <Text style={{color: COLORS.error}}>*</Text>
+                </Text>
+                <Input
+                  width={DIMENSIONS.width / 2 - 40}
+                  keyboardType={'numeric'}
+                  placeholder={'Enter weight'}
+                />
+              </View>
+            </View>
+
+            <Text
+              style={{
+                ...FONT.subTitle,
+                ...styles.placeholderText,
+                // marginLeft: 60,
+              }}>
+              Gender <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+
+            <View style={styles.wrapperButton}>
+              {['Male', 'Female'].map(gender => {
+                return (
+                  <View
+                    key={gender}
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      marginLeft: 20,
+                    }}>
+                    <Text
+                      style={{
+                        ...styles.radioText,
+                        ...FONT.title,
+                      }}>
+                      {gender}
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.outerButton}
+                      onPress={() => {
+                        setRadioGender(gender);
+                      }}>
+                      {radioGender == gender && (
+                        <View style={styles.innerButton} />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+        )}
         <Button
           title="Register"
           style={{width: DIMENSIONS.width - 50, marginTop: 50}}
@@ -318,10 +740,10 @@ const Signup = () => {
           }}
         />
         <View style={styles.signInView}>
-          <Text style={{...FONT.subTitle}}>Don't have an account? </Text>
+          <Text style={{...FONT.subTitle}}>Already have an account? </Text>
           <TouchableOpacity
             onPress={() => {
-              // navigation.navigate(ROUTES.signup);
+              navigation.navigate(ROUTES.login);
             }}>
             <Text style={{...FONT.subTitle, fontWeight: '800'}}>Login</Text>
           </TouchableOpacity>
@@ -332,24 +754,12 @@ const Signup = () => {
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </ScrollView>
-      {/* <DateTimePickerModal
-        isVisible={datemodal}
-        mode="date"
-        maximumDate={new Date()}
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-        style={{
-          backgroundColor: 'red',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      /> */}
       <DateTimePicker
         isVisible={datemodal}
         mode="date"
         maximumDate={new Date()}
         onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
+        onCancel={() => setDateModal(false)}
       />
     </Container>
   );
@@ -377,17 +787,17 @@ const styles = StyleSheet.create({
   googleView: {
     backgroundColor: 'lightgrey',
     flexDirection: 'row',
+    padding: 5,
     alignItems: 'center',
     borderRadius: 10,
     width: DIMENSIONS.width - 50,
-    marginTop: 30,
-    justifyContent: 'center',
-    height: 52,
-    marginBottom: 30,
+    marginTop: 10,
+    justifyContent: 'space-around',
+    marginBottom: 70,
   },
   googleText: {
     ...FONT.subTitle,
-    marginLeft: 10,
+    marginRight: 30,
     color: COLORS.light_black,
   },
   signUpTopTab: {
@@ -413,10 +823,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   placeholderText: {
-    width: '100%',
+    width: DIMENSIONS?.width - 60,
     marginTop: 20,
     marginBottom: 5,
-    marginLeft: 60,
+    // marginLeft: 0,
   },
   outerButton: {
     width: 15,
