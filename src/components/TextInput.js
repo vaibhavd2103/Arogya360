@@ -12,6 +12,7 @@ const Input = ({
   secureTextEntry,
   keyboardType,
   editable,
+  props,
 }) => {
   return (
     <View>
@@ -36,6 +37,7 @@ const Input = ({
         secureTextEntry={secureTextEntry}
         keyboardType={keyboardType}
         editable={editable}
+        {...props}
       />
     </View>
   );
