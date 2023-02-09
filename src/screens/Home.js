@@ -29,7 +29,9 @@ const Home = props => {
       .then(res => {
         // console.log(res?.data);
         setNews(res?.data?.articles);
+        // setTimeout(() => {
         setLoading(false);
+        // }, 2000);
         ////////////////////// done by sakshi remove after login setting usertype
         setUserType(USERS.doctor);
       })
@@ -111,7 +113,10 @@ const Home = props => {
         }}
         onLeftIconPress={() => props.navigation.openDrawer()}
       />
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: 60,
+        }}>
         <View style={{marginVertical: 20}}>
           <PrecautionCard
             precaution={`Avoid physical contact like handshakes, hand holding or hugs. Avoid touching surfaces such as table tops, chairs, door handles etc. b) Practice good hygiene Wash your hands frequently using soap and water`}
@@ -120,7 +125,7 @@ const Home = props => {
         <View style={{marginBottom: 0, marginTop: 10}}>
           <HomeAppointments />
         </View>
-        <View style={{marginBottom: 0, marginTop: 10}}>
+        <View style={{marginBottom: 20, marginTop: 10}}>
           <HomeRecentArticles data={articleData} />
         </View>
         <View style={{marginBottom: 0, marginTop: 10}}>

@@ -55,7 +55,7 @@ const TabNavigator = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 bottom: 5,
-                elevation: focused ? 20 : 0,
+                elevation: focused ? 10 : 0,
                 shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
@@ -85,7 +85,7 @@ const TabNavigator = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 bottom: 5,
-                elevation: focused ? 20 : 0,
+                elevation: focused ? 10 : 0,
                 shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
@@ -114,7 +114,7 @@ const TabNavigator = () => {
                 justifyContent: 'center',
                 alignItems: 'center',
                 bottom: 5,
-                elevation: focused ? 20 : 0,
+                elevation: focused ? 10 : 0,
                 shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons

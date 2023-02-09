@@ -110,169 +110,83 @@ const Login = ({navigation}) => {
         </View>
         {/* ------------------------------------------DOCTOR----------------------------------------------------------- */}
         <>
-          {user == 'doctor' ? (
-            <>
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  width: '100%',
-                  marginBottom: 5,
-                }}>
-                Email <Text style={{color: COLORS.error}}>*</Text>
-              </Text>
-              <Input
-                placeholder={'Enter email'}
-                onChangeText={text => {
-                  setEmail(text);
-                  setErr({...err, email: ''});
-                }}
-                value={email}
-                err={err?.email}
-              />
-              {err?.email && (
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    color: COLORS.error,
-                    fontSize: 12,
-                    paddingTop: 10,
-                  }}>
-                  {err?.email}
-                </Text>
-              )}
-
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  width: '100%',
-                  marginBottom: 5,
-                  marginTop: 20,
-                }}>
-                Password <Text style={{color: COLORS.error}}>*</Text>
-              </Text>
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Input
-                  secureTextEntry={secure}
-                  onChangeText={text => {
-                    setPassword(text);
-                    setErr({...err, password: ''});
-                  }}
-                  value={password}
-                  err={err?.password}
-                  placeholder="Password"
-                  placeholderTextColor="#9098AC"
-                  style={{
-                    color: '#000',
-                    width: '50%',
-                  }}
-                />
-                <Entypo
-                  name={secure ? 'eye-with-line' : 'eye'}
-                  size={20}
-                  color="black"
-                  onPress={() => setSecure(!secure)}
-                  style={{right: 10, position: 'absolute', padding: 10}}
-                />
-              </View>
-              {err?.password && (
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    color: COLORS.error,
-                    fontSize: 12,
-                    paddingTop: 10,
-                  }}>
-                  {err?.password}
-                </Text>
-              )}
-            </>
-          ) : (
-            // ----------------------------------------------PATIENT-------------------------------------------
-            <>
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  width: '100%',
-                  marginBottom: 5,
-                }}>
-                Email <Text style={{color: COLORS.error}}>*</Text>
-              </Text>
-              <Input
-                placeholder={'Enter email'}
-                onChangeText={text => {
-                  setEmail(text);
-                  setErr({...err, email: ''});
-                }}
-                value={email}
-                err={err?.email}
-              />
-              {err?.email && (
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    color: COLORS.error,
-                    fontSize: 12,
-                    paddingTop: 10,
-                  }}>
-                  {err?.email}
-                </Text>
-              )}
-
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  width: '100%',
-                  marginBottom: 5,
-                  marginTop: 20,
-                }}>
-                Password <Text style={{color: COLORS.error}}>*</Text>
-              </Text>
-              <View
-                style={{
-                  width: '100%',
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                }}>
-                <Input
-                  secureTextEntry={secure}
-                  onChangeText={text => {
-                    setPassword(text);
-                    setErr({...err, password: ''});
-                  }}
-                  value={password}
-                  err={err?.password}
-                  placeholder="Password"
-                  placeholderTextColor="#9098AC"
-                  style={{
-                    color: '#000',
-                    width: '50%',
-                  }}
-                />
-                <Entypo
-                  name={secure ? 'eye-with-line' : 'eye'}
-                  size={20}
-                  color="black"
-                  onPress={() => setSecure(!secure)}
-                  style={{right: 10, position: 'absolute', padding: 10}}
-                />
-              </View>
-              {err?.password && (
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    color: COLORS.error,
-                    fontSize: 12,
-                    paddingTop: 10,
-                  }}>
-                  {err?.password}
-                </Text>
-              )}
-            </>
+          <Text
+            style={{
+              ...FONT.subTitle,
+              width: '100%',
+              marginBottom: 5,
+            }}>
+            Email <Text style={{color: COLORS.error}}>*</Text>
+          </Text>
+          <Input
+            placeholder={'Enter email'}
+            onChangeText={text => {
+              setEmail(text);
+              setErr({...err, email: ''});
+            }}
+            value={email}
+            err={err?.email}
+          />
+          {err?.email && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.email}
+            </Text>
+          )}
+          <Text
+            style={{
+              ...FONT.subTitle,
+              width: '100%',
+              marginBottom: 5,
+              marginTop: 20,
+            }}>
+            Password <Text style={{color: COLORS.error}}>*</Text>
+          </Text>
+          <View
+            style={{
+              width: '100%',
+              flexDirection: 'row',
+              alignItems: 'center',
+            }}>
+            <Input
+              // value={fields.password}
+              secureTextEntry={secure}
+              onChangeText={text => {
+                setPassword(text);
+                setErr({...err, password: ''});
+              }}
+              value={password}
+              err={err?.password}
+              placeholder="Password"
+              placeholderTextColor="#9098AC"
+              style={{
+                color: '#000',
+                width: '50%',
+              }}
+            />
+            <Entypo
+              name={secure ? 'eye-with-line' : 'eye'}
+              size={20}
+              color="black"
+              onPress={() => setSecure(!secure)}
+              style={{right: 10, position: 'absolute', padding: 10}}
+            />
+          </View>
+          {err?.password && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.password}
+            </Text>
           )}
           {/* ----------------------------------LOGIN BUTTON------------------------------------------------- */}
           <Button
@@ -290,7 +204,9 @@ const Login = ({navigation}) => {
               onPress={() => {
                 navigation.navigate(ROUTES.signup);
               }}>
-              <Text style={{...FONT.subTitle, fontWeight: '800'}}>SignUp</Text>
+              <Text style={{...FONT.header, fontSize: 14, bottom: 3}}>
+                Sign Up
+              </Text>
             </TouchableOpacity>
           </View>
         </>
@@ -300,7 +216,6 @@ const Login = ({navigation}) => {
           style={styles.googleView}
           onPress={() => dispatch(setAuthenticated(true))}>
           <AntDesign name="google" size={24} color={COLORS.blue} />
-          {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </Container>
@@ -325,7 +240,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
-    width: DIMENSIONS.width - 50,
+    width: DIMENSIONS.width - 60,
     marginTop: 30,
     justifyContent: 'center',
     height: 52,

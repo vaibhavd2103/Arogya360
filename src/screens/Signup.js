@@ -1,5 +1,6 @@
 import {
   FlatList,
+  KeyboardAvoidingView,
   ScrollView,
   StyleSheet,
   Text,
@@ -195,6 +196,8 @@ const Signup = ({navigation}) => {
       });
     }
   };
+
+  const [searchTerm, setSearchTerm] = useState('');
   //-----------------------------dateTime picker-----------------------------------------
   const FormatDate = data => {
     let dateTimeString =
@@ -214,6 +217,15 @@ const Signup = ({navigation}) => {
     // setDateValue(FormatDate(data));
     setDateModal(false);
     setErrors({...errors, date: ''});
+  };
+
+  const handleSearchCountry = async text => {
+    const result = countries?.filter(value => {
+      if (value?.name?.toLowerCase() == text?.toLowerCase()) {
+        return value;
+      }
+    });
+    setCountries(result);
   };
 
   //--------------------------------------------------------------------------------------
@@ -1040,14 +1052,44 @@ const Signup = ({navigation}) => {
         onCancel={() => setDateModal(false)}
       />
       {/* ---------------------------------------------------ActionSheet----------------------------------------------- */}
-      <Actionsheet isOpen={countrySheet} onClose={() => setCountrySheet(false)}>
+      <Actionsheet
+        hideDragIndicator
+        isOpen={countrySheet}
+        onClose={() => setCountrySheet(false)}>
         <Actionsheet.Content>
+          <View style={{height: 20}} />
+          <Input
+            placeholder={'Search country name'}
+            onChangeText={text => {
+              // setSearchTerm(text);
+              // handleSearchCountry(text);
+              // const searchFilterCountry = text => {
+              if (text) {
+                const newData = countries?.filter(item => {
+                  const itemData = item?.name
+                    ? item?.name?.toUpperCase()
+                    : ''.toUpperCase();
+                  const textData = text?.toUpperCase();
+                  return itemData.indexOf(textData) > -1;
+                });
+                setCountries(newData);
+                setSearchTerm(text);
+              }
+              //  else {
+              //   setfilterCountry(countries);
+              //   setsearchCountry(text);
+              // }
+              // };
+            }}
+          />
+          <View style={{height: 20}} />
           <FlatList
             data={countries}
             keyExtractor={item => item?.id}
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
+                  style={{width: DIMENSIONS?.width - 40, padding: 5}}
                   onPress={() => {
                     setCountry(item);
                     setCountrySheet(false);
@@ -1056,7 +1098,7 @@ const Signup = ({navigation}) => {
                     setCity('');
                     getState(item?.iso2);
                   }}>
-                  <Text>{item?.name}</Text>
+                  <Text style={{...FONT?.title}}>{item?.name}</Text>
                 </TouchableOpacity>
               );
             }}
@@ -1141,6 +1183,7 @@ const Signup = ({navigation}) => {
           })}
         </Actionsheet.Content>
       </Actionsheet>
+      <KeyboardAvoidingView />
     </Container>
   );
 };
@@ -1164,17 +1207,17 @@ const styles = StyleSheet.create({
   googleView: {
     backgroundColor: 'lightgrey',
     flexDirection: 'row',
-    padding: 5,
     alignItems: 'center',
     borderRadius: 10,
-    width: DIMENSIONS.width - 50,
-    marginTop: 10,
-    justifyContent: 'space-around',
+    width: DIMENSIONS.width - 60,
+    marginTop: 30,
+    justifyContent: 'center',
+    height: 52,
     marginBottom: 70,
   },
   googleText: {
     ...FONT.subTitle,
-    marginRight: 30,
+    marginLeft: 10,
     color: COLORS.light_black,
   },
   signUpTopTab: {

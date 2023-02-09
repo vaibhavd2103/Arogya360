@@ -88,6 +88,12 @@ const Article = props => {
         renderItem={({item}) => {
           return <ArticleCard item={item} />;
         }}
+        ListHeaderComponent={() => {
+          return <View style={{height: 20}}></View>;
+        }}
+        ListFooterComponent={() => {
+          return <View style={{height: 100}}></View>;
+        }}
       />
     </Container>
   );

@@ -1,6 +1,7 @@
 import {ActivityIndicator, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import AnimatedLottieView from 'lottie-react-native';
 
 const Loader = ({loading}) => {
   if (loading) {
@@ -13,7 +14,15 @@ const Loader = ({loading}) => {
           justifyContent: 'center',
           alignItems: 'center',
         }}>
-        <ActivityIndicator size="large" color={COLORS?.green} />
+        {/* <ActivityIndicator size="large" color={COLORS?.green} /> */}
+        <AnimatedLottieView
+          style={{
+            height: DIMENSIONS?.width - 100,
+            width: DIMENSIONS?.width - 100,
+          }}
+          source={require('../assets/loading.json')}
+          autoPlay={true}
+        />
       </View>
     );
   }
