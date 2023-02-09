@@ -49,6 +49,7 @@ const Login = ({navigation}) => {
         height: '100%',
         backgroundColor: COLORS?.background,
       }}
+      keyboardShouldPersistTaps={'handled'}
       contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
       <Container style={{...styles.Container}}>
         <Text
@@ -199,7 +200,7 @@ const Login = ({navigation}) => {
               style={{
                 // fontFamily: 'Poppins-Regular',
                 color: '#000',
-                width: '70%',
+                width: '50%',
               }}
             />
             <Entypo
@@ -207,9 +208,20 @@ const Login = ({navigation}) => {
               size={20}
               color="black"
               onPress={() => setSecure(!secure)}
-              style={{right: 10, position: 'absolute'}}
+              style={{right: 10, position: 'absolute', padding: 10}}
             />
           </View>
+          {err?.password && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.password}
+            </Text>
+          )}
           <Button
             title="Sign In"
             style={{width: DIMENSIONS.width - 50, marginTop: 50}}
