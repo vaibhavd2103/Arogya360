@@ -17,7 +17,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
         alignItems: 'center',
         marginRight: index == length - 1 ? 20 : 0,
         marginBottom: 20,
-        elevation: 10,
+        elevation: 20,
         shadowColor: COLORS?.green,
         marginTop: 10,
       }}>

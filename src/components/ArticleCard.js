@@ -17,12 +17,13 @@ const ArticleCard = ({item, index, length}) => {
     <View
       style={{
         backgroundColor: COLORS.white,
-        marginVertical: 15,
+        marginBottom: 15,
         padding: 15,
         width: DIMENSIONS?.width - 40,
         marginHorizontal: 20,
         borderRadius: 10,
-        elevation: 5,
+        elevation: 10,
+        shadowColor: `${COLORS?.blue}`,
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <View style={{flexDirection: 'row'}}>

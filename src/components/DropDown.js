@@ -19,7 +19,7 @@ const DropDown = ({onPress, value, height, width, err, placeholder}) => {
           borderWidth: err ? 1 : 0,
           borderColor: COLORS.error,
           ...FONT.title,
-
+          justifyContent: 'center',
           elevation: 20,
           shadowColor: err ? `${COLORS.error}aa` : `${COLORS.blue}cc`,
           // shadowOpacity: 0.2,
