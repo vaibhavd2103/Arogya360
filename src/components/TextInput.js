@@ -28,8 +28,7 @@ const Input = ({
           borderColor: COLORS.error,
           ...FONT.title,
           elevation: 20,
-          shadowColor: err ? `${COLORS.error}aa` : `${COLORS.blue}cc`,
-          // shadowOpacity: 0.2,
+          shadowColor: err ? `${COLORS.error}` : `${COLORS.blue}cc`,
         }}
         placeholderTextColor={'grey'}
         onChangeText={onChangeText}

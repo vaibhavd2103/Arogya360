@@ -3,8 +3,8 @@ import React from 'react';
 import {COLORS, FONT, DIMENSIONS} from '../constants/constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Button = props => {
-  const {onPress, style, title, style1} = props;
+const Button = ({onPress, style, title, style1}) => {
+  // const {onPress, style, title, style1} = props;
   return (
     // <View style={{...styles.Button, ...style}}>
     <TouchableOpacity
@@ -63,16 +63,17 @@ const styles = StyleSheet.create({
   Button: {
     width: '100%',
     height: 52,
-    borderRadius: 12,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: COLORS.blue,
     marginVertical: 10,
+    elevation: 10,
+    shadowColor: `${COLORS?.blue}`,
   },
   roundButton: {
     width: '100%',
     height: 52,
-
     borderTopLeftRadius: 26,
     borderTopRightRadius: 2,
     borderBottomRightRadius: 26,

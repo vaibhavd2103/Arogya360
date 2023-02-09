@@ -140,36 +140,6 @@ const Login = ({navigation}) => {
               {err?.email}
             </Text>
           )}
-          {/* <Text
-            style={{
-              ...FONT.subTitle,
-              width: '100%',
-              marginBottom: 5,
-              marginTop: 20,
-            }}>
-            Password <Text style={{color: COLORS.error}}>*</Text>
-          </Text>
-          <Input
-            placeholder={'Password'}
-            onChangeText={text => {
-              setPassword(text);
-              setErr({...err, password: ''});
-            }}
-            value={password}
-            err={err?.password}
-          />
-          {err?.password && (
-            <Text
-              style={{
-                ...FONT.subTitle,
-                color: COLORS.error,
-                fontSize: 12,
-                paddingTop: 10,
-                marginBottom: 10,
-              }}>
-              {err?.password}
-            </Text>
-          )} */}
           <Text
             style={{
               ...FONT.subTitle,
@@ -197,7 +167,6 @@ const Login = ({navigation}) => {
               placeholder="Password"
               placeholderTextColor="#9098AC"
               style={{
-                // fontFamily: 'Poppins-Regular',
                 color: '#000',
                 width: '70%',
               }}
