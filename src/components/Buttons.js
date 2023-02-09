@@ -1,31 +1,40 @@
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import React from 'react';
-import {COLORS, FONT} from '../constants/constants';
+import {COLORS, FONT, DIMENSIONS} from '../constants/constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Button = props => {
-  const {onPress, style, title} = props;
+  const {onPress, style, title, style1} = props;
   return (
     // <View style={{...styles.Button, ...style}}>
     <TouchableOpacity
       activeOpacity={0.8}
       style={{...styles.Button, ...style}}
       onPress={onPress}>
-      <Text style={{...FONT?.header, color: '#fff'}}>{title}</Text>
+      <Text style={{...FONT?.header, color: '#fff', ...style1}}>{title}</Text>
     </TouchableOpacity>
     // </View>
   );
 };
 
 const RoundedButton = props => {
-  const {onPress, style, title} = props;
+  const {onPress, icon, style} = props;
   return (
     // <View style={{...styles.roundButton, ...style}}>
     <TouchableOpacity
-      style={{...styles.roundButton, ...style}}
+      style={{
+        width: DIMENSIONS.height / 20,
+        height: DIMENSIONS.height / 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: DIMENSIONS.height / 40,
+        backgroundColor: COLORS.blue,
+        marginHorizontal: 10,
+        ...style,
+      }}
       activeOpacity={0.8}
       onPress={onPress}>
-      <Text style={{...FONT.header, color: '#fff'}}>{title}</Text>
+      {icon}
     </TouchableOpacity>
     // </View>
   );

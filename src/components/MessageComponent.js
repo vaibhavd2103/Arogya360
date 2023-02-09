@@ -1,6 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {DIMENSIONS, FONT, ROUTES} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import {useNavigation} from '@react-navigation/native';
 
 const MessageComponent = ({item}) => {
@@ -34,12 +34,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     backgroundColor: '#fff',
-    marginTop: 5,
+    // marginTop: 5,
     padding: 10,
-
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
     alignItems: 'center',
     width: DIMENSIONS.width - 30,
     alignSelf: 'center',
-    // borderRadius: 10,
+    elevation: 10,
+    borderRadius: 10,
+    paddingVertical: 5,
+    marginTop: 10,
+    shadowColor: '#0007',
   },
 });

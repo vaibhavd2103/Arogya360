@@ -17,7 +17,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useDispatch} from 'react-redux';
-import {setAuthenticated} from '../redux/actions';
+import {setAuthenticated, setUserType} from '../redux/actions';
 
 const Login = ({navigation}) => {
   const dispatch = useDispatch();
@@ -37,14 +37,19 @@ const Login = ({navigation}) => {
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
-      setErr({...err, email: '', password: ''});
       dispatch(setAuthenticated(true));
+      setErr({...err, email: '', password: ''});
     }
   };
 
   return (
     <ScrollView
-      style={{width: '100%', height: '100%'}}
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: COLORS?.background,
+      }}
+      keyboardShouldPersistTaps={'handled'}
       contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
       <Container style={{...styles.Container}}>
         <Text
@@ -71,6 +76,7 @@ const Login = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               setUser('patient');
+              dispatch(setUserType(2));
             }}
             style={{
               ...styles.userbutton,
@@ -89,6 +95,7 @@ const Login = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               setUser('doctor');
+              dispatch(setUserType(1));
             }}
             style={{
               ...styles.userbutton,
@@ -193,7 +200,7 @@ const Login = ({navigation}) => {
               style={{
                 // fontFamily: 'Poppins-Regular',
                 color: '#000',
-                width: '70%',
+                width: '50%',
               }}
             />
             <Entypo
@@ -201,7 +208,7 @@ const Login = ({navigation}) => {
               size={20}
               color="black"
               onPress={() => setSecure(!secure)}
-              style={{right: 10, position: 'absolute'}}
+              style={{right: 10, position: 'absolute', padding: 10}}
             />
           </View>
           {err?.password && (

@@ -1,13 +1,21 @@
-import {StyleSheet, View, StatusBar, Image, Text, FlatList} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Image,
+  Text,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
 import React, {useEffect} from 'react';
 
 import CustomHeader from '../components/CustomHeader';
-import {FONT} from '../constants/constants';
+import {COLORS, FONT} from '../constants/constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Container from './../components/Container';
 import ArticleCard from '../components/ArticleCard';
 
-const Article = ({props}) => {
+const Article = props => {
   const articleData = [
     {
       id: '1',
@@ -52,7 +60,24 @@ const Article = ({props}) => {
         title="Article"
         LeftIcon={() => {
           return (
-            <MaterialCommunityIcons name="menu-open" size={24} color="black" />
+            <TouchableOpacity
+              style={{
+                width: 40,
+                height: 40,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 40,
+                backgroundColor: COLORS?.blue,
+                marginHorizontal: 10,
+              }}
+              activeOpacity={0.8}
+              onPress={() => props?.navigation.openDrawer()}>
+              <MaterialCommunityIcons
+                name="menu"
+                size={24}
+                color={COLORS?.white}
+              />
+            </TouchableOpacity>
           );
         }}
         onLeftIconPress={() => props.navigation.openDrawer()}

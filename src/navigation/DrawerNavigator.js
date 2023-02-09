@@ -16,18 +16,16 @@ import MedicineTracker from '../screens/MedicineTracker';
 import SlideMenu from '../components/SlideMenu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import StackNavigator from './StackNavigator';
+import DoctorsProfile from '../screens/DoctorsProfile';
+import CreateReport from '../screens/CreateReport';
 
 const Drawer = createDrawerNavigator();
 
-const DrawerNavigator = () => {
-  // const navigation = useNavigation();
-
-  // console.log('DrawerNavigator', navigation);
+const DrawerNavigator = props => {
   return (
     <Drawer.Navigator
       drawerContent={props => <SlideMenu {...props} />}
       statusBarAnimation="fade">
-      {/* <Drawer.Screen name={ROUTES.tabNav} component={TabNavigator} /> */}
       <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
       <Drawer.Screen
@@ -52,7 +50,12 @@ const DrawerNavigator = () => {
               RightIcon={() => {
                 return <AntDesign name="edit" size={24} color="black" />;
               }}
-              // onRightIconPress={() => navigation.navigate(ROUTES.editProfile)}
+              onRightIconPress={() => {
+                stackHeaderProps?.scene?.descriptor?.navigation?.navigate(
+                  ROUTES.editProfile,
+                );
+                // console.log(stackHeaderProps?.scene?.descriptor?.navigation);
+              }}
             />
           ),
         }}
@@ -88,6 +91,26 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen name={ROUTES.phonedirectory} component={PhoneDirectory} />
+      <Drawer.Screen
+        name={ROUTES.doctorsProfile}
+        component={DoctorsProfile}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="Doctors Profile" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={ROUTES.createReport}
+        component={CreateReport}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="Create Report" />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   );
 };

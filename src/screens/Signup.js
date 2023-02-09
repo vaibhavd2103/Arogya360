@@ -1,26 +1,31 @@
 import {
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
+import axios from 'axios';
 //-------------------------------- import packages--------------------------------------
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import {CheckIcon, Select} from 'native-base';
+import {CheckIcon, Select, Actionsheet} from 'native-base';
 
 //------------------import components and constants-----------------------------------------
 import Container from '../components/Container';
 import Input from '../components/TextInput';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import {Button} from '../components/Buttons';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import {ROUTES} from '../constants/constants';
+import DropDown from '../components/DropDown';
+import {COUNTRY_API_KEY} from '../../config';
 
 //---------------------import icons---------------------------------------------------
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useRef} from 'react';
+import Entypo from 'react-native-vector-icons/Entypo';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 const Signup = ({navigation}) => {
   //-----------------------------------------useState---------------------------------
@@ -30,6 +35,14 @@ const Signup = ({navigation}) => {
   const [mobileNumber, setMobileNumber] = useState('');
   const [password, setPassword] = useState('');
   const [radioGender, setRadioGender] = useState('');
+  const [datemodal, setDateModal] = useState(false);
+  const [date, setDate] = useState('');
+  const [country, setCountry] = useState('');
+  const [city, setCity] = useState('');
+  const [state, setState] = useState('');
+  const [height, setHeight] = useState('');
+  const [weight, setWeight] = useState('');
+  const [secure, setSecure] = useState(true);
   const [errors, setErrors] = useState({
     message: '',
     fullName: '',
@@ -44,12 +57,14 @@ const Signup = ({navigation}) => {
     weight: '',
     gender: '',
   });
-
-  const [datemodal, setDateModal] = useState(false);
-  const [date, setDate] = useState('');
-  const [country, setCountry] = useState('');
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
+  const [countrySheet, setCountrySheet] = useState(false);
+  const [countries, setCountries] = useState([]);
+  const [stateSheet, setStateSheet] = useState(false);
+  const [states, setStates] = useState([]);
+  const [citySheet, setCitySheet] = useState(false);
+  const [cities, setCities] = useState([]);
+  const [gender, setGender] = useState('');
+  const [genderSheet, setGenderSheet] = useState([]);
 
   //-------------------------------useRef---------------------------------------------
 
@@ -64,6 +79,65 @@ const Signup = ({navigation}) => {
   const heightRef = useRef(null);
   const weightRef = useRef(null);
   const genderRef = useRef(null);
+
+  //---------------------------------------API------------------------------------------
+
+  const getCountry = async () => {
+    const config = {
+      method: 'get',
+      url: 'https://api.countrystatecity.in/v1/countries',
+      headers: {
+        'X-CSCAPI-KEY': COUNTRY_API_KEY,
+      },
+    };
+    await axios(config)
+      .then(res => {
+        // console.log(res?.data);
+        setCountries(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const getState = async data => {
+    const config = {
+      method: 'get',
+      url: `https://api.countrystatecity.in/v1/countries/${data}/states`,
+      headers: {
+        'X-CSCAPI-KEY': COUNTRY_API_KEY,
+      },
+    };
+    await axios(config)
+      .then(res => {
+        console.log(res?.data);
+        setStates(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const getCity = async data => {
+    const config = {
+      method: 'get',
+      url: `https://api.countrystatecity.in/v1/countries/${country?.iso2}/states/${data}/cities`,
+      headers: {
+        'X-CSCAPI-KEY': COUNTRY_API_KEY,
+      },
+    };
+    await axios(config)
+      .then(res => {
+        console.log(res?.data);
+        setCities(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  //-----------------------------useEffect----------------------------------------------
+  useEffect(() => {
+    getCountry();
+  }, []);
 
   //--------------------------------------functions-------------------------------------
 
@@ -92,13 +166,15 @@ const Signup = ({navigation}) => {
     } else if (city == '') {
       setErrors({...errors, city: 'Enter city'});
       cityRef?.current?.focus();
-    } else if (height == '') {
-      setErrors({...errors, height: 'Enter height'});
-      heightRef?.current?.focus();
-    } else if (weight == '') {
-      setErrors({...errors, weight: 'Enter weight'});
-      weightRef?.current?.focus();
-    } else if (gender == '') {
+    }
+    // else if (height == '') {
+    //   setErrors({...errors, height: 'Enter height'});
+    //   heightRef?.current?.focus();
+    // } else if (weight == '') {
+    //   setErrors({...errors, weight: 'Enter weight'});
+    //   weightRef?.current?.focus();
+    // }
+    else if (gender == '') {
       setErrors({...errors, gender: 'Enter gender'});
       genderRef?.current?.focus();
     } else {
@@ -197,6 +273,7 @@ const Signup = ({navigation}) => {
           </Text>
         </TouchableOpacity>
       </View>
+
       {/* ----------------------------Input-------------------------------------------- */}
       <ScrollView
         keyboardShouldPersistTaps={'handled'}
@@ -298,18 +375,33 @@ const Signup = ({navigation}) => {
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Password <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <Input
-              placeholder={'Password'}
-              onChangeText={text => {
-                setPassword(text);
-                setErrors({...errors, password: ''});
-              }}
-              value={password}
-              props={{
-                ref: passwordRef,
-              }}
-              err={errors.password}
-            />
+            <View
+              style={{
+                // width: '100%',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Input
+                placeholder={'Password'}
+                secureTextEntry={secure}
+                onChangeText={text => {
+                  setPassword(text);
+                  setErrors({...errors, password: ''});
+                }}
+                value={password}
+                props={{
+                  ref: passwordRef,
+                }}
+                err={errors.password}
+              />
+              <Entypo
+                name={secure ? 'eye-with-line' : 'eye'}
+                size={20}
+                color="grey"
+                onPress={() => setSecure(!secure)}
+                style={{right: 10, position: 'absolute', padding: 10}}
+              />
+            </View>
             {errors?.password && (
               <Text
                 style={{
@@ -327,75 +419,62 @@ const Signup = ({navigation}) => {
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Date of Birth <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                // showDatePicker();
-                setDateModal(true);
-                console.log('open modal');
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
               }}>
-              <Input
-                placeholder={'Date of Birth'}
-                value={date}
-                editable={false}
-                props={{
-                  ref: dateRef,
-                }}
-                err={errors.date}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  // showDatePicker();
+                  setDateModal(true);
+                  console.log('open modal');
+                }}>
+                <Input
+                  placeholder={'Date of Birth'}
+                  value={date}
+                  editable={false}
+                  props={{
+                    ref: dateRef,
+                  }}
+                  err={errors.date}
+                />
+                {errors?.date && (
+                  <Text
+                    style={{
+                      ...FONT.subTitle,
+                      color: COLORS.error,
+                      textAlign: 'left',
+                      marginTop: 5,
+                      width: DIMENSIONS.width - 60,
+                    }}>
+                    {errors.date}
+                  </Text>
+                )}
+              </TouchableOpacity>
+              <FontAwesome5
+                name="calendar-alt"
+                size={20}
+                color="grey"
+                style={{position: 'absolute', right: 20}}
               />
-              {errors?.date && (
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    color: COLORS.error,
-                    textAlign: 'left',
-                    marginTop: 5,
-                    width: DIMENSIONS.width - 60,
-                  }}>
-                  {errors.date}
-                </Text>
-              )}
-            </TouchableOpacity>
+            </View>
             {/* --------------------------------------------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Country <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <Select
-              selectedValue={country}
-              // minWidth="200"
-              width="300"
-              accessibilityLabel="Choose country"
-              placeholder="Choose country"
-              _selectedItem={{
-                bg: 'teal.600',
-                endIcon: <CheckIcon size="5" />,
-              }}
-              style={{
-                height: 50,
-                width: DIMENSIONS.width - 60,
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                padding: 10,
-                fontSize: 12,
-                borderWidth: 0,
-                borderColor: COLORS.error,
-                ...FONT.title,
-                elevation: 0,
-                shadowColor: `${COLORS.blue}cc`,
 
-                // shadowOpacity: 0.2,
+            <DropDown
+              onPress={() => {
+                setCountrySheet(true);
               }}
-              variant={'unstyled'}
-              mt={1}
-              ref={countryRef}
-              onValueChange={itemValue => setCountry(itemValue)}>
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
-              <Select.Item label="Cross Platform Development" value="cross" />
-              <Select.Item label="UI Designing" value="ui" />
-              <Select.Item label="Backend Development" value="backend" />
-            </Select>
+              value={country?.name}
+              placeholder={'Choose country'}
+              err={errors?.country}
+            />
+
             {errors?.country && (
               <Text
                 style={{
@@ -413,78 +492,58 @@ const Signup = ({navigation}) => {
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               State <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <Select
-              selectedValue={state}
-              // minWidth="200"
-              width="300"
-              accessibilityLabel="Choose State"
-              placeholder="Choose State"
-              _selectedItem={{
-                bg: 'teal.600',
-                endIcon: <CheckIcon size="5" />,
+
+            <DropDown
+              onPress={() => {
+                setStateSheet(true);
               }}
-              style={{
-                height: 50,
-                width: DIMENSIONS.width - 60,
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                padding: 10,
-                fontSize: 12,
-                borderWidth: 0,
-                borderColor: COLORS.error,
-                ...FONT.title,
-                elevation: 0,
-                shadowColor: `${COLORS.blue}cc`,
-                // shadowOpaState: 0.2,
-              }}
-              variant={'unstyled'}
-              mt={1}
-              onValueChange={itemValue => setState(itemValue)}>
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
-              <Select.Item label="Cross Platform Development" value="cross" />
-              <Select.Item label="UI Designing" value="ui" />
-              <Select.Item label="Backend Development" value="backend" />
-            </Select>
+              value={state?.name}
+              placeholder={'Choose state'}
+              err={errors?.state}
+            />
+
+            {errors?.state && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.state}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               City <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <Select
-              selectedValue={city}
-              // minWidth="200"
-              width="300"
-              accessibilityLabel="Choose City"
-              placeholder="Choose City"
-              _selectedItem={{
-                bg: 'teal.600',
-                endIcon: <CheckIcon size="5" />,
-              }}
-              style={{
-                height: 50,
-                width: DIMENSIONS.width - 60,
-                backgroundColor: '#fff',
-                borderRadius: 10,
-                padding: 10,
-                fontSize: 12,
-                borderWidth: 0,
-                borderColor: COLORS.error,
-                ...FONT.title,
-                elevation: 0,
-                shadowColor: `${COLORS.blue}cc`,
-                // shadowOpacity: 0.2,
-              }}
-              variant={'unstyled'}
-              mt={1}
-              onValueChange={itemValue => setCity(itemValue)}>
-              <Select.Item label="UX Research" value="ux" />
-              <Select.Item label="Web Development" value="web" />
-              <Select.Item label="Cross Platform Development" value="cross" />
-              <Select.Item label="UI Designing" value="ui" />
-              <Select.Item label="Backend Development" value="backend" />
-            </Select>
 
-            <View style={styles.heightWeight}>
+            <DropDown
+              onPress={() => {
+                setCitySheet(true);
+              }}
+              value={city?.name}
+              placeholder={'Choose city'}
+              err={errors?.city}
+            />
+
+            {errors?.city && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.city}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
+            {/* <View style={styles.heightWeight}>
               <View style={{marginRight: 10}}>
                 <Text
                   style={{
@@ -495,12 +554,16 @@ const Signup = ({navigation}) => {
                     width: '100%',
                     marginLeft: 5,
                   }}>
-                  Height <Text style={{color: COLORS.error}}>*</Text>
+                  Height
                 </Text>
                 <Input
                   width={DIMENSIONS.width / 2 - 40}
                   keyboardType={'numeric'}
                   placeholder={'Enter height'}
+                  onChangeText={text => {
+                    setHeight(text);
+                  }}
+                  value={height}
                 />
               </View>
               <View style={{marginLeft: 10}}>
@@ -513,15 +576,21 @@ const Signup = ({navigation}) => {
                     width: '100%',
                     marginLeft: 5,
                   }}>
-                  Weight <Text style={{color: COLORS.error}}>*</Text>
+                  Weight
                 </Text>
                 <Input
                   width={DIMENSIONS.width / 2 - 40}
                   keyboardType={'numeric'}
                   placeholder={'Enter weight'}
+                  onChangeText={text => {
+                    setWeight(text);
+                  }}
+                  value={weight}
                 />
               </View>
-            </View>
+            </View> */}
+
+            {/* --------------------------------------------------------------------------------------- */}
 
             <Text
               style={{
@@ -532,7 +601,7 @@ const Signup = ({navigation}) => {
               Gender <Text style={{color: COLORS.error}}>*</Text>
             </Text>
 
-            <View style={styles.wrapperButton}>
+            {/* <View style={styles.wrapperButton}>
               {['Male', 'Female'].map(gender => {
                 return (
                   <View
@@ -562,6 +631,38 @@ const Signup = ({navigation}) => {
                 );
               })}
             </View>
+            {errors?.gender && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.gender}
+              </Text>
+            )} */}
+            <DropDown
+              onPress={() => {
+                setGenderSheet(true);
+              }}
+              value={gender}
+              placeholder={'Select gender'}
+              err={errors?.gender}
+            />
+            {errors?.gender && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.gender}
+              </Text>
+            )}
           </View>
         ) : (
           // ----------------------------------------------PATIENT------------------------------------------------
@@ -614,38 +715,15 @@ const Signup = ({navigation}) => {
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Date of Birth <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            {/* <TouchableOpacity
-          onPress={value => {
-            showDatePicker();
-            setDate(value);
-            // setDateIndex(index);
-            setDateError('');
-          }}>
-          <Input
-            placeholder={'Date of Birth'}
-            onChangeText={text => {
-              setDob(text);
-              setErrors({...errors, message: ''});
-            }}
-            value={dob}
-          />
-        </TouchableOpacity> */}
+
             <TouchableOpacity
               activeOpacity={0.7}
               onPress={() => {
-                // showDatePicker();
                 setDateModal(true);
                 console.log('open modal');
-              }}
-              // style={{backgroundColor: 'red', width: '100%'}}
-            >
+              }}>
               <Input
                 placeholder={'Date of Birth'}
-                // onChangeText={text => {
-                //   setDob(text);
-                //   setErrors({...errors, message: ''});
-                //   setDateValue(text);
-                // }}
                 value={date}
                 editable={false}
               />
@@ -656,11 +734,7 @@ const Signup = ({navigation}) => {
                 <Text
                   style={{
                     ...FONT.subTitle,
-                    alignSelf: 'flex-start',
-                    marginTop: 20,
-                    marginBottom: 5,
-                    width: '100%',
-                    marginLeft: 5,
+                    ...styles.heightWeightText,
                   }}>
                   Height <Text style={{color: COLORS.error}}>*</Text>
                 </Text>
@@ -674,11 +748,7 @@ const Signup = ({navigation}) => {
                 <Text
                   style={{
                     ...FONT.subTitle,
-                    alignSelf: 'flex-start',
-                    marginTop: 20,
-                    marginBottom: 5,
-                    width: '100%',
-                    marginLeft: 5,
+                    ...styles.heightWeightText,
                   }}>
                   Weight <Text style={{color: COLORS.error}}>*</Text>
                 </Text>
@@ -694,7 +764,6 @@ const Signup = ({navigation}) => {
               style={{
                 ...FONT.subTitle,
                 ...styles.placeholderText,
-                // marginLeft: 60,
               }}>
               Gender <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -735,7 +804,6 @@ const Signup = ({navigation}) => {
           title="Register"
           style={{width: DIMENSIONS.width - 50, marginTop: 50}}
           onPress={() => {
-            // error();
             signup();
           }}
         />
@@ -754,6 +822,8 @@ const Signup = ({navigation}) => {
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </ScrollView>
+
+      {/* ---------------------------------------------DateTimePicker-------------------------------------- */}
       <DateTimePicker
         isVisible={datemodal}
         mode="date"
@@ -761,6 +831,108 @@ const Signup = ({navigation}) => {
         onConfirm={handleConfirm}
         onCancel={() => setDateModal(false)}
       />
+      {/* ---------------------------------------------------ActionSheet----------------------------------------------- */}
+      <Actionsheet isOpen={countrySheet} onClose={() => setCountrySheet(false)}>
+        <Actionsheet.Content>
+          <FlatList
+            data={countries}
+            keyExtractor={item => item?.id}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCountry(item);
+                    setCountrySheet(false);
+                    setErrors({...errors, country: ''});
+                    setState('');
+                    setCity('');
+                    getState(item?.iso2);
+                  }}>
+                  <Text>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </Actionsheet.Content>
+      </Actionsheet>
+
+      <Actionsheet isOpen={stateSheet} onClose={() => setStateSheet(false)}>
+        <Actionsheet.Content>
+          <FlatList
+            data={states}
+            keyExtractor={item => item?.id}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setState(item);
+                    setStateSheet(false);
+                    setErrors({...errors, state: ''});
+                    setCity('');
+                    getCity(item?.iso2);
+                  }}>
+                  <Text>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </Actionsheet.Content>
+      </Actionsheet>
+
+      <Actionsheet isOpen={citySheet} onClose={() => setCitySheet(false)}>
+        <Actionsheet.Content>
+          <FlatList
+            data={cities}
+            keyExtractor={item => item?.id}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCity(item);
+                    setCitySheet(false);
+                    setErrors({...errors, city: ''});
+                  }}>
+                  <Text>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </Actionsheet.Content>
+      </Actionsheet>
+
+      <Actionsheet isOpen={genderSheet} onClose={() => setGenderSheet(false)}>
+        <Actionsheet.Content>
+          {/* <FlatList
+            data={cities}
+            keyExtractor={item => item?.id}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setCity(item);
+                    setCitySheet(false);
+                    setErrors({...errors, city: ''});
+                  }}>
+                  <Text>{item?.name}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          /> */}
+          {['Male', 'Female', 'Other'].map(item => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  setGenderSheet(false);
+                  setGender(item);
+                  setErrors({...errors, gender: ''});
+                }}
+                key={item}>
+                <Text>{item}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </Actionsheet.Content>
+      </Actionsheet>
     </Container>
   );
 };
@@ -771,14 +943,11 @@ const styles = StyleSheet.create({
   scrollView: {
     height: '100%',
     width: '100%',
-    // paddingHorizontal: 30,
     paddingBottom: 70,
   },
   signupContainer: {
     justifyContent: 'center',
     alignItems: 'center',
-    // marginBottom: 10,
-    // paddingHorizontal: 30,
   },
   signInView: {
     flexDirection: 'row',
@@ -801,10 +970,6 @@ const styles = StyleSheet.create({
     color: COLORS.light_black,
   },
   signUpTopTab: {
-    // width: DIMENSIONS.width - 60,
-    // flexDirection: 'row',
-    // justifyContent: 'space-around',
-    // alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -814,9 +979,6 @@ const styles = StyleSheet.create({
     width: DIMENSIONS.width - 60,
   },
   userButton: {
-    // height: '100%',
-    // width: '50%',
-    // padding: 10,
     padding: 10,
     width: '50%',
     borderRadius: 10,
@@ -826,7 +988,6 @@ const styles = StyleSheet.create({
     width: DIMENSIONS?.width - 60,
     marginTop: 20,
     marginBottom: 5,
-    // marginLeft: 0,
   },
   outerButton: {
     width: 15,
@@ -856,5 +1017,25 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
+  },
+  SelectedStyle: {
+    height: 50,
+    width: DIMENSIONS.width - 60,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    padding: 10,
+    fontSize: 12,
+    borderWidth: 0,
+    borderColor: COLORS.error,
+    ...FONT.title,
+    elevation: 0,
+    shadowColor: `${COLORS.blue}cc`,
+  },
+  heightWeightText: {
+    alignSelf: 'flex-start',
+    marginTop: 20,
+    marginBottom: 5,
+    width: '100%',
+    marginLeft: 5,
   },
 });

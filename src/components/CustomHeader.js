@@ -39,26 +39,26 @@ const CustomHeader = props => {
         {LeftIcon ? (
           <TouchableOpacity
             activeOpacity={0.8}
-            style={{
-              padding: 4,
-            }}
+            // style={{
+            //   padding: 4,
+            // }}
             onPress={onLeftIconPress}>
             <LeftIcon />
           </TouchableOpacity>
         ) : (
           <TouchableOpacity
             style={{
-              width: DIMENSIONS.height / 20,
-              height: DIMENSIONS.height / 20,
+              width: 40,
+              height: 40,
               justifyContent: 'center',
               alignItems: 'center',
-              borderRadius: DIMENSIONS.height / 40,
-              backgroundColor: '#E3EFFF',
+              borderRadius: 40,
+              backgroundColor: COLORS?.blue,
               marginHorizontal: 10,
             }}
             activeOpacity={0.8}
             onPress={() => navigation.goBack()}>
-            <Back name={'chevron-left'} size={30} color={COLORS.light_black} />
+            <Back name={'chevron-left'} size={30} color={COLORS.white} />
           </TouchableOpacity>
         )}
         {title && (
