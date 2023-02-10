@@ -678,7 +678,141 @@ const Signup = ({navigation}) => {
           </View>
         ) : (
           // ----------------------------------------------PATIENT------------------------------------------------
+          // <View style={{width: '100%', alignItems: 'center'}}>
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Full Name <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Full Name'}
+          //     onChangeText={text => {
+          //       setFullName(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={fullName}
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Email <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Email'}
+          //     onChangeText={text => {
+          //       setEmail(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={email}
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Mobile Number <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Mobile Number'}
+          //     onChangeText={text => {
+          //       setMobileNumber(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={mobileNumber}
+          //     keyboardType="numeric"
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Password <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Password'}
+          //     onChangeText={text => {
+          //       setPassword(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={password}
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Date of Birth <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+
+          //   <TouchableOpacity
+          //     activeOpacity={0.7}
+          //     onPress={() => {
+          //       setDateModal(true);
+          //       console.log('open modal');
+          //     }}>
+          //     <Input
+          //       placeholder={'Date of Birth'}
+          //       value={date}
+          //       editable={false}
+          //     />
+          //   </TouchableOpacity>
+
+          //   <View style={styles.heightWeight}>
+          //     <View style={{marginRight: 10}}>
+          //       <Text
+          //         style={{
+          //           ...FONT.subTitle,
+          //           ...styles.heightWeightText,
+          //         }}>
+          //         Height <Text style={{color: COLORS.error}}>*</Text>
+          //       </Text>
+          //       <Input
+          //         width={DIMENSIONS.width / 2 - 40}
+          //         keyboardType={'numeric'}
+          //         placeholder={'Enter height'}
+          //       />
+          //     </View>
+          //     <View style={{marginLeft: 10}}>
+          //       <Text
+          //         style={{
+          //           ...FONT.subTitle,
+          //           ...styles.heightWeightText,
+          //         }}>
+          //         Weight <Text style={{color: COLORS.error}}>*</Text>
+          //       </Text>
+          //       <Input
+          //         width={DIMENSIONS.width / 2 - 40}
+          //         keyboardType={'numeric'}
+          //         placeholder={'Enter weight'}
+          //       />
+          //     </View>
+          //   </View>
+
+          //   <Text
+          //     style={{
+          //       ...FONT.subTitle,
+          //       ...styles.placeholderText,
+          //     }}>
+          //     Gender <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+
+          //   <View style={styles.wrapperButton}>
+          //     {['Male', 'Female'].map(gender => {
+          //       return (
+          //         <View
+          //           key={gender}
+          //           style={{
+          //             flexDirection: 'row',
+          //             alignItems: 'center',
+          //             marginLeft: 20,
+          //           }}>
+          //           <Text
+          //             style={{
+          //               ...styles.radioText,
+          //               ...FONT.title,
+          //             }}>
+          //             {gender}
+          //           </Text>
+          //           <TouchableOpacity
+          //             style={styles.outerButton}
+          //             onPress={() => {
+          //               setRadioGender(gender);
+          //             }}>
+          //             {radioGender == gender && (
+          //               <View style={styles.innerButton} />
+          //             )}
+          //           </TouchableOpacity>
+          //         </View>
+          //       );
+          //     })}
+          //   </View>
+          // </View>
           <View style={{width: '100%', alignItems: 'center'}}>
+            {/* ---------------------------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Full Name <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -686,10 +820,27 @@ const Signup = ({navigation}) => {
               placeholder={'Full Name'}
               onChangeText={text => {
                 setFullName(text);
-                setErrors({...errors, message: ''});
+                setErrors({...errors, fullName: ''});
               }}
               value={fullName}
+              props={{
+                ref: fullNameRef,
+              }}
+              err={errors.fullName}
             />
+            {errors?.fullName && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.fullName}
+              </Text>
+            )}
+            {/* ------------------------------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Email <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -697,10 +848,27 @@ const Signup = ({navigation}) => {
               placeholder={'Email'}
               onChangeText={text => {
                 setEmail(text);
-                setErrors({...errors, message: ''});
+                setErrors({...errors, email: ''});
               }}
               value={email}
+              props={{
+                ref: emailRef,
+              }}
+              err={errors.email}
             />
+            {errors?.email && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.email}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Mobile Number <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -708,108 +876,148 @@ const Signup = ({navigation}) => {
               placeholder={'Mobile Number'}
               onChangeText={text => {
                 setMobileNumber(text);
-                setErrors({...errors, message: ''});
+                setErrors({...errors, mobileNumber: ''});
               }}
               value={mobileNumber}
               keyboardType="numeric"
+              props={{
+                ref: mobileNumberRef,
+              }}
+              err={errors.mobileNumber}
             />
+            {errors?.mobileNumber && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.mobileNumber}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Password <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <Input
-              placeholder={'Password'}
-              onChangeText={text => {
-                setPassword(text);
-                setErrors({...errors, message: ''});
-              }}
-              value={password}
-            />
+            <View
+              style={{
+                // width: '100%',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Input
+                placeholder={'Password'}
+                secureTextEntry={secure}
+                onChangeText={text => {
+                  setPassword(text);
+                  setErrors({...errors, password: ''});
+                }}
+                value={password}
+                props={{
+                  ref: passwordRef,
+                }}
+                err={errors.password}
+              />
+              <Entypo
+                name={secure ? 'eye-with-line' : 'eye'}
+                size={20}
+                color="grey"
+                onPress={() => setSecure(!secure)}
+                style={{right: 10, position: 'absolute', padding: 10}}
+              />
+            </View>
+            {errors?.password && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.password}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Date of Birth <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                setDateModal(true);
-                console.log('open modal');
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
               }}>
-              <Input
-                placeholder={'Date of Birth'}
-                value={date}
-                editable={false}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  // showDatePicker();
+                  setDateModal(true);
+                  console.log('open modal');
+                }}>
+                <Input
+                  placeholder={'Date of Birth'}
+                  value={date}
+                  editable={false}
+                  props={{
+                    ref: dateRef,
+                  }}
+                  err={errors.date}
+                />
+                {errors?.date && (
+                  <Text
+                    style={{
+                      ...FONT.subTitle,
+                      color: COLORS.error,
+                      textAlign: 'left',
+                      marginTop: 5,
+                      width: DIMENSIONS.width - 60,
+                    }}>
+                    {errors.date}
+                  </Text>
+                )}
+              </TouchableOpacity>
+              <FontAwesome5
+                name="calendar-alt"
+                size={20}
+                color="grey"
+                style={{position: 'absolute', right: 20}}
               />
-            </TouchableOpacity>
-
-            <View style={styles.heightWeight}>
-              <View style={{marginRight: 10}}>
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    ...styles.heightWeightText,
-                  }}>
-                  Height <Text style={{color: COLORS.error}}>*</Text>
-                </Text>
-                <Input
-                  width={DIMENSIONS.width / 2 - 40}
-                  keyboardType={'numeric'}
-                  placeholder={'Enter height'}
-                />
-              </View>
-              <View style={{marginLeft: 10}}>
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    ...styles.heightWeightText,
-                  }}>
-                  Weight <Text style={{color: COLORS.error}}>*</Text>
-                </Text>
-                <Input
-                  width={DIMENSIONS.width / 2 - 40}
-                  keyboardType={'numeric'}
-                  placeholder={'Enter weight'}
-                />
-              </View>
             </View>
+            {/* --------------------------------------------------------------------------------------- */}
 
             <Text
               style={{
                 ...FONT.subTitle,
                 ...styles.placeholderText,
+                // marginLeft: 60,
               }}>
               Gender <Text style={{color: COLORS.error}}>*</Text>
             </Text>
 
-            <View style={styles.wrapperButton}>
-              {['Male', 'Female'].map(gender => {
-                return (
-                  <View
-                    key={gender}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginLeft: 20,
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.radioText,
-                        ...FONT.title,
-                      }}>
-                      {gender}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.outerButton}
-                      onPress={() => {
-                        setRadioGender(gender);
-                      }}>
-                      {radioGender == gender && (
-                        <View style={styles.innerButton} />
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                );
-              })}
-            </View>
+            <DropDown
+              onPress={() => {
+                setGenderSheet(true);
+              }}
+              value={gender}
+              placeholder={'Select gender'}
+              err={errors?.gender}
+            />
+            {errors?.gender && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.gender}
+              </Text>
+            )}
           </View>
         )}
         <Button
