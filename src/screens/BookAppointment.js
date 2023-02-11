@@ -29,33 +29,43 @@ const BookAppointment = ({navigation, route}) => {
   const Time = [
     {
       id: '1',
-      time: '10 AM - 11 AM',
+      time: '6 PM - 5 PM',
       booked: true,
     },
     {
       id: '2',
-      time: '11 AM - 12 PM',
+      time: '5 PM - 4 PM',
       booked: false,
     },
     {
       id: '3',
-      time: '1 PM - 2 PM',
+      time: '4 PM - 3 PM',
       booked: false,
     },
     {
       id: '4',
-      time: '2 AM - 3 AM',
+      time: '3 PM - 2 PM',
       booked: true,
     },
     {
       id: '5',
-      time: '3 AM - 4 AM',
+      time: '2 PM - 1 PM',
       booked: false,
     },
     {
       id: '6',
-      time: '4 AM - 5 AM',
+      time: '1 PM - 12 PM',
       booked: false,
+    },
+    {
+      id: '7',
+      time: '12 PM - 11 PM',
+      booked: false,
+    },
+    {
+      id: '8',
+      time: '11 PM - 10 PM',
+      booked: true,
     },
   ];
 
@@ -188,7 +198,7 @@ const BookAppointment = ({navigation, route}) => {
             data={Time}
             contentContainerStyle={{
               flexDirection: 'row',
-              flexWrap: 'wrap-reverse',
+              flexWrap: 'wrap',
             }}
             keyExtractor={item => item.id}
             renderItem={({item}) => {
@@ -198,7 +208,7 @@ const BookAppointment = ({navigation, route}) => {
                     ...styles.timeCard,
 
                     backgroundColor: item?.booked
-                      ? 'red'
+                      ? 'lightgrey'
                       : selectedTime == item?.time
                       ? COLORS.lightBlue
                       : COLORS.yellow,
@@ -210,7 +220,7 @@ const BookAppointment = ({navigation, route}) => {
                     style={{
                       ...FONT.title,
                     }}>
-                    {item?.time}
+                    {item?.booked ? 'Booked' : item?.time}
                   </Text>
                 </TouchableOpacity>
               );
