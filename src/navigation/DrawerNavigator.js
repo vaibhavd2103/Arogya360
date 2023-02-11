@@ -16,6 +16,7 @@ import MedicineTracker from '../screens/MedicineTracker';
 import SlideMenu from '../components/SlideMenu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import StackNavigator from './StackNavigator';
+import BMIChecker from '../screens/BMIChecker';
 
 const Drawer = createDrawerNavigator();
 
@@ -88,6 +89,7 @@ const DrawerNavigator = () => {
         }}
       />
       <Drawer.Screen name={ROUTES.phonedirectory} component={PhoneDirectory} />
+      <Drawer.Screen name={ROUTES.bmichecker} component={BMIChecker} />
     </Drawer.Navigator>
   );
 };

@@ -1,48 +1,54 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Foundation from 'react-native-vector-icons/Foundation';
+import Entypo from 'react-native-vector-icons/Entypo';
 
 const SlideMenu = ({navigation}) => {
   const options = [
     {
       id: '1',
       name: 'Appointment',
-      icon: <AntDesign name="calendar" size={24} color={COLORS?.light_black} />,
+      icon: (
+        <Foundation name="calendar" size={30} color={COLORS?.light_black} />
+      ),
       navigation: ROUTES.appointment,
     },
     {
       id: '2',
       name: 'Medicine Tracker',
       icon: (
-        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
+        <FontAwesome5 name="capsules" size={24} color={COLORS?.light_black} />
       ),
       navigation: ROUTES.medicinetracker,
     },
     {
       id: '3',
       name: 'Phone Directory',
-      icon: (
-        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
-      ),
+      icon: <FontAwesome name="phone" size={24} color={COLORS?.light_black} />,
       navigation: ROUTES.phonedirectory,
     },
     {
       id: '4',
       name: 'Find a Doctor',
-      icon: (
-        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
-      ),
+      icon: <Fontisto name="doctor" size={24} color={COLORS?.light_black} />,
       navigation: ROUTES.finddoctor,
     },
     {
       id: '5',
       name: 'Settings',
-      icon: (
-        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
-      ),
+      icon: <Ionicons name="settings" size={24} color={COLORS?.light_black} />,
       navigation: ROUTES.settings,
+    },
+    {
+      id: '6',
+      name: 'BMI Checker',
+      icon: <Entypo name="calculator" size={24} color={COLORS?.light_black} />,
+      navigation: ROUTES.bmichecker,
     },
   ];
 

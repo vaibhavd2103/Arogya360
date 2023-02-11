@@ -57,4 +57,5 @@ export const ROUTES = {
   medicinetracker: 'medicinetracker',
   phonedirectory: 'phonedirectory',
   message: 'message',
+  bmichecker: 'bmichecker',
 };

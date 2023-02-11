@@ -7,7 +7,7 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 import Container from './../components/Container';
 import ArticleCard from '../components/ArticleCard';
 
-const Article = ({props}) => {
+const Article = props => {
   const articleData = [
     {
       id: '1',
