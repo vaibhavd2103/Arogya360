@@ -1089,14 +1089,11 @@ const Signup = ({navigation}) => {
         hideDragIndicator
         isOpen={countrySheet}
         onClose={() => setCountrySheet(false)}>
-        <Actionsheet.Content>
+        <Actionsheet.Content h={DIMENSIONS.height - 200}>
           <View style={{height: 20}} />
           <Input
             placeholder={'Search country name'}
             onChangeText={text => {
-              // setSearchTerm(text);
-              // handleSearchCountry(text);
-              // const searchFilterCountry = text => {
               if (text) {
                 const newData = countries?.filter(item => {
                   const itemData = item?.name
@@ -1108,11 +1105,6 @@ const Signup = ({navigation}) => {
                 setCountries(newData);
                 setSearchTerm(text);
               }
-              //  else {
-              //   setfilterCountry(countries);
-              //   setsearchCountry(text);
-              // }
-              // };
             }}
           />
           <View style={{height: 20}} />
@@ -1122,7 +1114,13 @@ const Signup = ({navigation}) => {
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
-                  style={{width: DIMENSIONS?.width - 40, padding: 5}}
+                  style={{
+                    width: DIMENSIONS?.width - 60,
+                    padding: 8,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                  }}
                   onPress={() => {
                     setCountry(item);
                     setCountrySheet(false);
@@ -1132,6 +1130,7 @@ const Signup = ({navigation}) => {
                     getState(item?.iso2);
                   }}>
                   <Text style={{...FONT?.title}}>{item?.name}</Text>
+                  <Text style={{...FONT?.title}}>{item?.iso2}</Text>
                 </TouchableOpacity>
               );
             }}
@@ -1140,7 +1139,7 @@ const Signup = ({navigation}) => {
       </Actionsheet>
 
       <Actionsheet isOpen={stateSheet} onClose={() => setStateSheet(false)}>
-        <Actionsheet.Content>
+        <Actionsheet.Content h={DIMENSIONS.height - 200}>
           <FlatList
             data={states}
             keyExtractor={item => item?.id}
@@ -1163,7 +1162,7 @@ const Signup = ({navigation}) => {
       </Actionsheet>
 
       <Actionsheet isOpen={citySheet} onClose={() => setCitySheet(false)}>
-        <Actionsheet.Content>
+        <Actionsheet.Content h={DIMENSIONS.height - 200}>
           <FlatList
             data={cities}
             keyExtractor={item => item?.id}
