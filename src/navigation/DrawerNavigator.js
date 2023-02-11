@@ -16,6 +16,7 @@ import MedicineTracker from '../screens/MedicineTracker';
 import SlideMenu from '../components/SlideMenu';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import StackNavigator from './StackNavigator';
+import BMIChecker from '../screens/BMIChecker';
 import DoctorsProfile from '../screens/DoctorsProfile';
 import CreateReport from '../screens/CreateReport';
 import BookAppointment from '../screens/BookAppointment';
@@ -92,6 +93,16 @@ const DrawerNavigator = props => {
         }}
       />
       <Drawer.Screen name={ROUTES.phonedirectory} component={PhoneDirectory} />
+      <Drawer.Screen
+        name={ROUTES.bmichecker}
+        component={BMIChecker}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="BMI Checker" />
+          ),
+        }}
+      />
       <Drawer.Screen
         name={ROUTES.doctorsProfile}
         component={DoctorsProfile}
