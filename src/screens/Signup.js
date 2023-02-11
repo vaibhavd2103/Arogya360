@@ -27,6 +27,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {qualifications} from '../constants/data';
 
 const Signup = ({navigation}) => {
   //-----------------------------------------useState---------------------------------
@@ -65,7 +66,9 @@ const Signup = ({navigation}) => {
   const [citySheet, setCitySheet] = useState(false);
   const [cities, setCities] = useState([]);
   const [gender, setGender] = useState('');
-  const [genderSheet, setGenderSheet] = useState([]);
+  const [genderSheet, setGenderSheet] = useState(false);
+  const [qualificationSheet, setQualificationSheet] = useState(false);
+  const [qualification, setQualification] = useState('');
 
   //-------------------------------useRef---------------------------------------------
 
@@ -80,6 +83,7 @@ const Signup = ({navigation}) => {
   const heightRef = useRef(null);
   const weightRef = useRef(null);
   const genderRef = useRef(null);
+  const qualificationRef = useRef(null);
 
   //---------------------------------------API------------------------------------------
 
@@ -175,7 +179,10 @@ const Signup = ({navigation}) => {
     //   setErrors({...errors, weight: 'Enter weight'});
     //   weightRef?.current?.focus();
     // }
-    else if (gender == '') {
+    else if (qualification == '') {
+      setErrors({...errors, qualification: 'Enter qualification'});
+      qualificationRef?.current?.focus();
+    } else if (gender == '') {
       setErrors({...errors, gender: 'Enter gender'});
       genderRef?.current?.focus();
     } else {
@@ -554,6 +561,32 @@ const Signup = ({navigation}) => {
               </Text>
             )}
             {/* --------------------------------------------------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Qualification <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+
+            <DropDown
+              onPress={() => {
+                setQualificationSheet(true);
+              }}
+              value={qualification}
+              placeholder={'Select Qualification'}
+              err={errors?.qualification}
+            />
+
+            {errors?.qualification && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.qualification}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
 
             {/* <View style={styles.heightWeight}>
               <View style={{marginRight: 10}}>
@@ -678,7 +711,141 @@ const Signup = ({navigation}) => {
           </View>
         ) : (
           // ----------------------------------------------PATIENT------------------------------------------------
+          // <View style={{width: '100%', alignItems: 'center'}}>
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Full Name <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Full Name'}
+          //     onChangeText={text => {
+          //       setFullName(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={fullName}
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Email <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Email'}
+          //     onChangeText={text => {
+          //       setEmail(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={email}
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Mobile Number <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Mobile Number'}
+          //     onChangeText={text => {
+          //       setMobileNumber(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={mobileNumber}
+          //     keyboardType="numeric"
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Password <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+          //   <Input
+          //     placeholder={'Password'}
+          //     onChangeText={text => {
+          //       setPassword(text);
+          //       setErrors({...errors, message: ''});
+          //     }}
+          //     value={password}
+          //   />
+          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+          //     Date of Birth <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+
+          //   <TouchableOpacity
+          //     activeOpacity={0.7}
+          //     onPress={() => {
+          //       setDateModal(true);
+          //       console.log('open modal');
+          //     }}>
+          //     <Input
+          //       placeholder={'Date of Birth'}
+          //       value={date}
+          //       editable={false}
+          //     />
+          //   </TouchableOpacity>
+
+          //   <View style={styles.heightWeight}>
+          //     <View style={{marginRight: 10}}>
+          //       <Text
+          //         style={{
+          //           ...FONT.subTitle,
+          //           ...styles.heightWeightText,
+          //         }}>
+          //         Height <Text style={{color: COLORS.error}}>*</Text>
+          //       </Text>
+          //       <Input
+          //         width={DIMENSIONS.width / 2 - 40}
+          //         keyboardType={'numeric'}
+          //         placeholder={'Enter height'}
+          //       />
+          //     </View>
+          //     <View style={{marginLeft: 10}}>
+          //       <Text
+          //         style={{
+          //           ...FONT.subTitle,
+          //           ...styles.heightWeightText,
+          //         }}>
+          //         Weight <Text style={{color: COLORS.error}}>*</Text>
+          //       </Text>
+          //       <Input
+          //         width={DIMENSIONS.width / 2 - 40}
+          //         keyboardType={'numeric'}
+          //         placeholder={'Enter weight'}
+          //       />
+          //     </View>
+          //   </View>
+
+          //   <Text
+          //     style={{
+          //       ...FONT.subTitle,
+          //       ...styles.placeholderText,
+          //     }}>
+          //     Gender <Text style={{color: COLORS.error}}>*</Text>
+          //   </Text>
+
+          //   <View style={styles.wrapperButton}>
+          //     {['Male', 'Female'].map(gender => {
+          //       return (
+          //         <View
+          //           key={gender}
+          //           style={{
+          //             flexDirection: 'row',
+          //             alignItems: 'center',
+          //             marginLeft: 20,
+          //           }}>
+          //           <Text
+          //             style={{
+          //               ...styles.radioText,
+          //               ...FONT.title,
+          //             }}>
+          //             {gender}
+          //           </Text>
+          //           <TouchableOpacity
+          //             style={styles.outerButton}
+          //             onPress={() => {
+          //               setRadioGender(gender);
+          //             }}>
+          //             {radioGender == gender && (
+          //               <View style={styles.innerButton} />
+          //             )}
+          //           </TouchableOpacity>
+          //         </View>
+          //       );
+          //     })}
+          //   </View>
+          // </View>
           <View style={{width: '100%', alignItems: 'center'}}>
+            {/* ---------------------------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Full Name <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -686,10 +853,27 @@ const Signup = ({navigation}) => {
               placeholder={'Full Name'}
               onChangeText={text => {
                 setFullName(text);
-                setErrors({...errors, message: ''});
+                setErrors({...errors, fullName: ''});
               }}
               value={fullName}
+              props={{
+                ref: fullNameRef,
+              }}
+              err={errors.fullName}
             />
+            {errors?.fullName && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.fullName}
+              </Text>
+            )}
+            {/* ------------------------------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Email <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -697,10 +881,27 @@ const Signup = ({navigation}) => {
               placeholder={'Email'}
               onChangeText={text => {
                 setEmail(text);
-                setErrors({...errors, message: ''});
+                setErrors({...errors, email: ''});
               }}
               value={email}
+              props={{
+                ref: emailRef,
+              }}
+              err={errors.email}
             />
+            {errors?.email && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.email}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Mobile Number <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -708,108 +909,148 @@ const Signup = ({navigation}) => {
               placeholder={'Mobile Number'}
               onChangeText={text => {
                 setMobileNumber(text);
-                setErrors({...errors, message: ''});
+                setErrors({...errors, mobileNumber: ''});
               }}
               value={mobileNumber}
               keyboardType="numeric"
+              props={{
+                ref: mobileNumberRef,
+              }}
+              err={errors.mobileNumber}
             />
+            {errors?.mobileNumber && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.mobileNumber}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Password <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-            <Input
-              placeholder={'Password'}
-              onChangeText={text => {
-                setPassword(text);
-                setErrors({...errors, message: ''});
-              }}
-              value={password}
-            />
+            <View
+              style={{
+                // width: '100%',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Input
+                placeholder={'Password'}
+                secureTextEntry={secure}
+                onChangeText={text => {
+                  setPassword(text);
+                  setErrors({...errors, password: ''});
+                }}
+                value={password}
+                props={{
+                  ref: passwordRef,
+                }}
+                err={errors.password}
+              />
+              <Entypo
+                name={secure ? 'eye-with-line' : 'eye'}
+                size={20}
+                color="grey"
+                onPress={() => setSecure(!secure)}
+                style={{right: 10, position: 'absolute', padding: 10}}
+              />
+            </View>
+            {errors?.password && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.password}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Date of Birth <Text style={{color: COLORS.error}}>*</Text>
             </Text>
-
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                setDateModal(true);
-                console.log('open modal');
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
               }}>
-              <Input
-                placeholder={'Date of Birth'}
-                value={date}
-                editable={false}
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  // showDatePicker();
+                  setDateModal(true);
+                  console.log('open modal');
+                }}>
+                <Input
+                  placeholder={'Date of Birth'}
+                  value={date}
+                  editable={false}
+                  props={{
+                    ref: dateRef,
+                  }}
+                  err={errors.date}
+                />
+                {errors?.date && (
+                  <Text
+                    style={{
+                      ...FONT.subTitle,
+                      color: COLORS.error,
+                      textAlign: 'left',
+                      marginTop: 5,
+                      width: DIMENSIONS.width - 60,
+                    }}>
+                    {errors.date}
+                  </Text>
+                )}
+              </TouchableOpacity>
+              <FontAwesome5
+                name="calendar-alt"
+                size={20}
+                color="grey"
+                style={{position: 'absolute', right: 20}}
               />
-            </TouchableOpacity>
-
-            <View style={styles.heightWeight}>
-              <View style={{marginRight: 10}}>
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    ...styles.heightWeightText,
-                  }}>
-                  Height <Text style={{color: COLORS.error}}>*</Text>
-                </Text>
-                <Input
-                  width={DIMENSIONS.width / 2 - 40}
-                  keyboardType={'numeric'}
-                  placeholder={'Enter height'}
-                />
-              </View>
-              <View style={{marginLeft: 10}}>
-                <Text
-                  style={{
-                    ...FONT.subTitle,
-                    ...styles.heightWeightText,
-                  }}>
-                  Weight <Text style={{color: COLORS.error}}>*</Text>
-                </Text>
-                <Input
-                  width={DIMENSIONS.width / 2 - 40}
-                  keyboardType={'numeric'}
-                  placeholder={'Enter weight'}
-                />
-              </View>
             </View>
+            {/* --------------------------------------------------------------------------------------- */}
 
             <Text
               style={{
                 ...FONT.subTitle,
                 ...styles.placeholderText,
+                // marginLeft: 60,
               }}>
               Gender <Text style={{color: COLORS.error}}>*</Text>
             </Text>
 
-            <View style={styles.wrapperButton}>
-              {['Male', 'Female'].map(gender => {
-                return (
-                  <View
-                    key={gender}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginLeft: 20,
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.radioText,
-                        ...FONT.title,
-                      }}>
-                      {gender}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.outerButton}
-                      onPress={() => {
-                        setRadioGender(gender);
-                      }}>
-                      {radioGender == gender && (
-                        <View style={styles.innerButton} />
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                );
-              })}
-            </View>
+            <DropDown
+              onPress={() => {
+                setGenderSheet(true);
+              }}
+              value={gender}
+              placeholder={'Select gender'}
+              err={errors?.gender}
+            />
+            {errors?.gender && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.gender}
+              </Text>
+            )}
           </View>
         )}
         <Button
@@ -942,23 +1183,7 @@ const Signup = ({navigation}) => {
       </Actionsheet>
 
       <Actionsheet isOpen={genderSheet} onClose={() => setGenderSheet(false)}>
-        <Actionsheet.Content h={DIMENSIONS.height - 200}>
-          {/* <FlatList
-            data={cities}
-            keyExtractor={item => item?.id}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCity(item);
-                    setCitySheet(false);
-                    setErrors({...errors, city: ''});
-                  }}>
-                  <Text>{item?.name}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          /> */}
+        <Actionsheet.Content>
           {['Male', 'Female', 'Other'].map(item => {
             return (
               <TouchableOpacity
@@ -974,6 +1199,30 @@ const Signup = ({navigation}) => {
           })}
         </Actionsheet.Content>
       </Actionsheet>
+
+      <Actionsheet
+        isOpen={qualificationSheet}
+        onClose={() => setQualificationSheet(false)}>
+        <Actionsheet.Content>
+          <FlatList
+            data={qualifications}
+            keyExtractor={item => item}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setQualification(item);
+                    setQualificationSheet(false);
+                    setErrors({...errors, qualification: ''});
+                  }}>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </Actionsheet.Content>
+      </Actionsheet>
+
       <KeyboardAvoidingView />
     </Container>
   );
