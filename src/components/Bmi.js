@@ -228,7 +228,6 @@ const Bmi = () => {
                   style={{
                     ...FONT.title,
                     padding: 12,
-                    // textDecorationLine: 'underline',
                     color: COLORS.blue,
                   }}>
                   {item.value}

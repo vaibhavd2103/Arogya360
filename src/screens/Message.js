@@ -1,7 +1,6 @@
-import {StyleSheet, Text, TextInput, View, FlatList} from 'react-native';
+import {StyleSheet, TextInput, View, FlatList} from 'react-native';
 import React from 'react';
 import Container from '../components/Container';
-import Input from '../components/TextInput';
 import CustomHeader from '../components/CustomHeader';
 import Search from 'react-native-vector-icons/Feather';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
@@ -46,15 +45,19 @@ const Message = () => {
     <Container>
       <CustomHeader title={'Messages'} />
       <View style={styles.searchView}>
-        <TextInput style={styles.searchInput} placeholder={'Search'} />
+        <TextInput
+          style={styles.searchInput}
+          placeholder={'Search'}
+          placeholderTextColor="#555"
+        />
         <Search
           name="search"
           size={24}
           color="black"
-          style={{paddingRight: 10}}
+          style={{paddingRight: 25}}
         />
       </View>
-      <View style={{marginTop: 10}}>
+      <View style={{marginTop: 10, height: '100%'}}>
         <FlatList
           data={data}
           keyExtractor={item => item?.id}
@@ -64,6 +67,9 @@ const Message = () => {
                 <MessageComponent item={item} />
               </View>
             );
+          }}
+          ListFooterComponent={() => {
+            return <View style={{height: 20}}></View>;
           }}
         />
       </View>
@@ -84,15 +90,17 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginTop: 10,
     height: 45,
+    elevation: 10,
+    // padding: 10,
   },
   searchInput: {
     height: 45,
     width: DIMENSIONS.width - 80,
     borderRadius: 30,
     padding: 10,
-    fontSize: 12,
     borderWidth: 0,
     ...FONT.title,
     paddingHorizontal: 10,
+    paddingLeft: 30,
   },
 });

@@ -58,4 +58,12 @@ export const ROUTES = {
   phonedirectory: 'phonedirectory',
   message: 'message',
   bmichecker: 'bmichecker',
+  doctorsProfile: 'doctorsProfile',
+  createReport: 'createReport',
+  bookAppointment: 'bookAppointment',
+};
+
+export const USERS = {
+  doctor: 'doctor',
+  patient: 'patient',
 };

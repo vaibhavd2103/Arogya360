@@ -12,13 +12,10 @@ const NewsComponent = ({item, index, length}) => {
         backgroundColor: COLORS?.white,
         width: DIMENSIONS?.width - 40,
         marginLeft: index == 0 ? 20 : 10,
-        // flexDirection: 'row',
-        // alignItems: 'center',
         marginRight: index == length - 1 ? 20 : 0,
         marginBottom: 20,
         elevation: 10,
-        shadowColor: `${COLORS?.blue}aa`,
-        // shadowColor: `#0007`,
+        shadowColor: `${COLORS?.blue}`,
         marginTop: 10,
       }}>
       <Text style={{...FONT?.title}}>{item?.title}</Text>

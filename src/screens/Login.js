@@ -1,26 +1,26 @@
 import {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {useState} from 'react';
+import {useDispatch} from 'react-redux';
+import {setAuthenticated, setUserType} from '../redux/actions';
+// ------------------------------COmponents and Constants----------------------------------------
 import Container from '../components/Container';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import Input from '../components/TextInput';
 import {Button} from '../components/Buttons';
+// --------------------------------------Icons--------------------------------------------------------
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
-import Icon from 'react-native-vector-icons/Ionicons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {useDispatch} from 'react-redux';
-import {setAuthenticated} from '../redux/actions';
 
+// ---------------------------------------------------------------------------------------------------
 const Login = ({navigation}) => {
   const dispatch = useDispatch();
+  // ---------------------------------------------UseState-----------------------------------------------
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState({
@@ -30,6 +30,7 @@ const Login = ({navigation}) => {
   const [user, setUser] = useState('patient');
   const [secure, setSecure] = useState(true);
 
+  // --------------------------------------------Validation----------------------------------------------
   const login = () => {
     if (email === '') {
       setErr({...err, email: 'Email cannot be empty'});
@@ -37,16 +38,23 @@ const Login = ({navigation}) => {
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
-      setErr({...err, email: '', password: ''});
       dispatch(setAuthenticated(true));
+      setErr({...err, email: '', password: ''});
     }
   };
+  // -------------------------------------------------------------------------------------------------------
 
   return (
     <ScrollView
-      style={{width: '100%', height: '100%'}}
+      style={{
+        width: '100%',
+        height: '100%',
+        backgroundColor: COLORS?.background,
+      }}
+      keyboardShouldPersistTaps={'handled'}
       contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
       <Container style={{...styles.Container}}>
+        {/* ----------------------------------------------Header-------------------------------------------- */}
         <Text
           style={{
             ...FONT.header,
@@ -56,10 +64,7 @@ const Login = ({navigation}) => {
           }}>
           Sign In
         </Text>
-        {/* <Image
-          source={require('../assets/login.png')}
-          style={{width: '100%', height: DIMENSIONS.width - 60}}
-        /> */}
+
         <Text
           style={{
             ...FONT.subTitle,
@@ -71,12 +76,11 @@ const Login = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               setUser('patient');
+              dispatch(setUserType(2));
             }}
             style={{
               ...styles.userbutton,
               backgroundColor: user === 'patient' ? COLORS.blue : '#fff',
-              elevation: user === 'patient' ? 20 : 0,
-              shadowColor: COLORS.blue,
             }}>
             <Text
               style={{
@@ -89,12 +93,11 @@ const Login = ({navigation}) => {
           <TouchableOpacity
             onPress={() => {
               setUser('doctor');
+              dispatch(setUserType(1));
             }}
             style={{
               ...styles.userbutton,
               backgroundColor: user === 'doctor' ? COLORS.blue : '#fff',
-              elevation: user === 'doctor' ? 20 : 0,
-              shadowColor: COLORS.blue,
             }}>
             <Text
               style={{
@@ -105,6 +108,7 @@ const Login = ({navigation}) => {
             </Text>
           </TouchableOpacity>
         </View>
+        {/* ------------------------------------------DOCTOR----------------------------------------------------------- */}
         <>
           <Text
             style={{
@@ -134,36 +138,6 @@ const Login = ({navigation}) => {
               {err?.email}
             </Text>
           )}
-          {/* <Text
-            style={{
-              ...FONT.subTitle,
-              width: '100%',
-              marginBottom: 5,
-              marginTop: 20,
-            }}>
-            Password <Text style={{color: COLORS.error}}>*</Text>
-          </Text>
-          <Input
-            placeholder={'Password'}
-            onChangeText={text => {
-              setPassword(text);
-              setErr({...err, password: ''});
-            }}
-            value={password}
-            err={err?.password}
-          />
-          {err?.password && (
-            <Text
-              style={{
-                ...FONT.subTitle,
-                color: COLORS.error,
-                fontSize: 12,
-                paddingTop: 10,
-                marginBottom: 10,
-              }}>
-              {err?.password}
-            </Text>
-          )} */}
           <Text
             style={{
               ...FONT.subTitle,
@@ -191,9 +165,8 @@ const Login = ({navigation}) => {
               placeholder="Password"
               placeholderTextColor="#9098AC"
               style={{
-                // fontFamily: 'Poppins-Regular',
                 color: '#000',
-                width: '70%',
+                width: '50%',
               }}
             />
             <Entypo
@@ -201,9 +174,21 @@ const Login = ({navigation}) => {
               size={20}
               color="black"
               onPress={() => setSecure(!secure)}
-              style={{right: 10, position: 'absolute'}}
+              style={{right: 10, position: 'absolute', padding: 10}}
             />
           </View>
+          {err?.password && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.password}
+            </Text>
+          )}
+          {/* ----------------------------------LOGIN BUTTON------------------------------------------------- */}
           <Button
             title="Sign In"
             style={{width: DIMENSIONS.width - 50, marginTop: 50}}
@@ -211,22 +196,26 @@ const Login = ({navigation}) => {
               login();
             }}
           />
+
+          {/* ---------------------------------------------Sign up button----------------------------------- */}
           <View style={styles.signUpView}>
             <Text style={{...FONT.subTitle}}>Don't have an account? </Text>
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate(ROUTES.signup);
               }}>
-              <Text style={{...FONT.subTitle, fontWeight: '800'}}>SignUp</Text>
+              <Text style={{...FONT.header, fontSize: 14, bottom: 3}}>
+                Sign Up
+              </Text>
             </TouchableOpacity>
           </View>
         </>
+        {/* -----------------------------------------Google SignIn--------------------------------------------------- */}
         <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
         <TouchableOpacity
           style={styles.googleView}
           onPress={() => dispatch(setAuthenticated(true))}>
           <AntDesign name="google" size={24} color={COLORS.blue} />
-          {/* <Icon name="ios-person" size={30} color="#4F8EF7" /> */}
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity>
       </Container>
@@ -251,10 +240,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 10,
-    width: DIMENSIONS.width - 50,
+    width: DIMENSIONS.width - 60,
     marginTop: 30,
     justifyContent: 'center',
     height: 52,
+    marginBottom: 20,
   },
   googleText: {
     ...FONT.subTitle,
@@ -269,6 +259,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 30,
+    elevation: 20,
+    shadowColor: COLORS?.blue,
   },
   userbutton: {
     padding: 10,

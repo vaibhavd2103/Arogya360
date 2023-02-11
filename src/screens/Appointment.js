@@ -9,7 +9,7 @@ import {
 import React, {useState, useEffect} from 'react';
 //---------------------constants--------------------
 import Container from './../components/Container';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 //---------------------icons--------------------
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -62,7 +62,7 @@ const Appointment = ({navigation, route}) => {
       {/* <Text>Appointment</Text> */}
       <FlatList
         data={Types}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item?.id}
         keyboardShouldPersistTaps="handled"
         ListFooterComponent={() => {
           return <View style={{height: 120}}></View>;
@@ -147,7 +147,8 @@ const CounsellorInfo = ({navigation, item, id, setId}) => {
       style={{
         ...styles.counsellorContainer,
         backgroundColor:
-          id === item.id ? 'rgba(137, 196, 244, 0.3)' : COLORS.blue,
+          // id === item.id ? COLORS.blue : 'rgba(137, 196, 244, 0.3)',
+          id === item.id ? COLORS.blue : `${COLORS?.blue}77`,
         //    height: id === item.id ? 200 : 150,
       }}
       onPress={() => {
@@ -198,12 +199,12 @@ const CounsellorInfo = ({navigation, item, id, setId}) => {
       <TouchableOpacity
         style={styles.viewDetailsButton}
         onPress={() => {
-          // navigation.navigate('CounsellorDetails', item);
+          navigation.navigate(ROUTES.doctorsProfile, {item: item});
         }}>
         <Text
           style={{
             ...FONT.subTitle,
-            color: COLORS.yellow,
+            color: id === item.id ? `${COLORS?.white}ff` : COLORS.blue,
           }}>
           View Details
         </Text>
@@ -219,16 +220,13 @@ const styles = StyleSheet.create({
     width: DIMENSIONS.width - 50,
     // padding: 15,
     height: 80,
-    backgroundColor: COLORS.yellow,
+    backgroundColor: COLORS.blue,
     marginVertical: 10,
     justifyContent: 'space-between',
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
-    borderTopLeftRadius: 2,
-    borderTopRightRadius: 26,
-    borderBottomRightRadius: 2,
-    borderBottomLeftRadius: 26,
+    borderRadius: 10,
     padding: 10,
   },
   counsellorContainer: {

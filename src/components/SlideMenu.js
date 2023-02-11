@@ -7,6 +7,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector} from 'react-redux';
 
 const SlideMenu = ({navigation}) => {
   const options = [
@@ -49,8 +51,15 @@ const SlideMenu = ({navigation}) => {
       name: 'BMI Checker',
       icon: <Entypo name="calculator" size={24} color={COLORS?.light_black} />,
       navigation: ROUTES.bmichecker,
+      name: 'Create Report',
+      icon: (
+        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
+      ),
+      navigation: ROUTES.createReport,
     },
   ];
+
+  const userType = useSelector(state => state?.userType);
 
   return (
     <View style={{flex: 1}}>
@@ -86,38 +95,42 @@ const SlideMenu = ({navigation}) => {
       </TouchableOpacity>
       <View style={{alignItems: 'center'}}>
         {options.map(item => {
-          return (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => {
-                navigation.navigate(item.navigation);
-              }}
-              style={{
-                flexDirection: 'row',
-                marginVertical: 10,
-                alignItems: 'center',
-                height: 50,
-                borderRadius: 20,
-                width: '95%',
-              }}
-              activeOpacity={0.7}>
-              <View
+          if (item?.id == '6' && userType != 1) {
+            return null;
+          } else {
+            return (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => {
+                  navigation.navigate(item.navigation);
+                }}
                 style={{
                   flexDirection: 'row',
-                  marginLeft: 10,
-                }}>
-                {item.icon}
-              </View>
-              <Text
-                style={{
-                  ...FONT?.title,
-                  marginLeft: 20,
-                  color: COLORS.light_black,
-                }}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-          );
+                  marginVertical: 10,
+                  alignItems: 'center',
+                  height: 50,
+                  borderRadius: 20,
+                  width: '95%',
+                }}
+                activeOpacity={0.7}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginLeft: 10,
+                  }}>
+                  {item.icon}
+                </View>
+                <Text
+                  style={{
+                    ...FONT?.title,
+                    marginLeft: 20,
+                    color: COLORS.light_black,
+                  }}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          }
         })}
       </View>
 

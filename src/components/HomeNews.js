@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import NewsComponent from './NewsComponent';
 
-const HomeNews = ({data}) => {
+const HomeNews = ({data, navigation}) => {
   return (
     <View>
       <View

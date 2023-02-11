@@ -8,8 +8,9 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View} from 'react-native';
 import Message from '../screens/Message';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
@@ -19,36 +20,43 @@ const TabNavigator = () => {
       keyboardHidesNavigationBar
       labeled={false}
       inactiveColor={'#fff'}
-      barStyle={{
-        backgroundColor: '#fff',
-        width: DIMENSIONS.width - 0,
-        alignSelf: 'center',
-        // bottom: 20,
-        elevation: 20,
-        shadowOffset: {height: 10},
-        // borderRadius: 24,
-        padding: 10,
-        shadowColor: `${COLORS?.blue}`,
-        height: 80,
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          alignSelf: 'center',
+          bottom: 20,
+          right: 30,
+          left: 30,
+          elevation: 20,
+          shadowOffset: {height: 10},
+          borderRadius: 24,
+          position: 'absolute',
+          padding: 10,
+          shadowColor: `${COLORS?.blue}`,
+          height: 80,
+          alignItems: 'center',
+        },
+        tabBarActiveTintColor: COLORS?.blue,
       }}>
       <Tab.Screen
         name={ROUTES.home}
         component={Home}
         options={{
           tabBarLabel: 'Home',
+          tabBarShowLabel: false,
           tabBarIcon: ({color, focused}) => (
             <View
               style={{
-                backgroundColor: `${color}`,
+                backgroundColor: focused ? `${color}` : '#fff',
                 borderRadius: 20,
                 height: 50,
                 width: 50,
-                position: 'absolute',
-                top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
-                // elevation: 20,
-                // shadowColor: `${COLORS?.blue}`,
+                bottom: 5,
+                elevation: focused ? 10 : 0,
+                shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
                 name={focused ? 'md-home' : 'md-home-outline'}
@@ -66,19 +74,19 @@ const TabNavigator = () => {
         options={{
           title: 'Article',
           tabBarLabel: 'Home',
+          tabBarShowLabel: false,
           tabBarIcon: ({color, focused}) => (
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: focused ? `${color}` : '#fff',
                 borderRadius: 20,
                 height: 50,
                 width: 50,
-                position: 'absolute',
-                top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
-                // elevation: 20,
-                // shadowColor: `${COLORS?.blue}`,
+                bottom: 5,
+                elevation: focused ? 10 : 0,
+                shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
                 name={focused ? 'newspaper' : 'newspaper-outline'}
@@ -95,19 +103,19 @@ const TabNavigator = () => {
         options={{
           title: 'Chat',
           tabBarLabel: 'Home',
+          tabBarShowLabel: false,
           tabBarIcon: ({color, focused}) => (
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: focused ? `${color}` : '#fff',
                 borderRadius: 20,
                 height: 50,
                 width: 50,
-                position: 'absolute',
-                top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
-                // elevation: 20,
-                // shadowColor: `${COLORS?.blue}`,
+                bottom: 5,
+                elevation: focused ? 10 : 0,
+                shadowColor: `${COLORS?.blue}`,
               }}>
               <Ionicons
                 name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
