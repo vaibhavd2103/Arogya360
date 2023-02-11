@@ -3,14 +3,15 @@ import React from 'react';
 import {COLORS, FONT, DIMENSIONS} from '../constants/constants';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
-const Button = ({onPress, style, title, style1}) => {
+const Button = ({onPress, style, title, style1, disabled}) => {
   // const {onPress, style, title, style1} = props;
   return (
     // <View style={{...styles.Button, ...style}}>
     <TouchableOpacity
       activeOpacity={0.8}
       style={{...styles.Button, ...style}}
-      onPress={onPress}>
+      onPress={onPress}
+      disabled={disabled}>
       <Text style={{...FONT?.header, color: '#fff', ...style1}}>{title}</Text>
     </TouchableOpacity>
     // </View>
