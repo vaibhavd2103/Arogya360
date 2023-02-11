@@ -59,6 +59,7 @@ export const ROUTES = {
   message: 'message',
   doctorsProfile: 'doctorsProfile',
   createReport: 'createReport',
+  bookAppointment: 'bookAppointment',
 };
 
 export const USERS = {
