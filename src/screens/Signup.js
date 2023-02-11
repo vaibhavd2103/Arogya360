@@ -201,6 +201,7 @@ const Signup = ({navigation}) => {
         weight: '',
         gender: '',
       });
+      console.log('Success registered');
     }
   };
 
@@ -1020,6 +1021,54 @@ const Signup = ({navigation}) => {
                 style={{position: 'absolute', right: 20}}
               />
             </View>
+
+            {/* --------------------------------------------------------------------------------------- */}
+            <View style={styles.heightWeight}>
+              <View style={{marginRight: 10}}>
+                <Text
+                  style={{
+                    ...FONT.subTitle,
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                    marginBottom: 5,
+                    width: '100%',
+                    marginLeft: 5,
+                  }}>
+                  Height
+                </Text>
+                <Input
+                  width={DIMENSIONS.width / 2 - 40}
+                  keyboardType={'numeric'}
+                  placeholder={'Enter height'}
+                  onChangeText={text => {
+                    setHeight(text);
+                  }}
+                  value={height}
+                />
+              </View>
+              <View style={{marginLeft: 10}}>
+                <Text
+                  style={{
+                    ...FONT.subTitle,
+                    alignSelf: 'flex-start',
+                    marginTop: 20,
+                    marginBottom: 5,
+                    width: '100%',
+                    marginLeft: 5,
+                  }}>
+                  Weight
+                </Text>
+                <Input
+                  width={DIMENSIONS.width / 2 - 40}
+                  keyboardType={'numeric'}
+                  placeholder={'Enter weight'}
+                  onChangeText={text => {
+                    setWeight(text);
+                  }}
+                  value={weight}
+                />
+              </View>
+            </View>
             {/* --------------------------------------------------------------------------------------- */}
 
             <Text
@@ -1139,14 +1188,43 @@ const Signup = ({navigation}) => {
         </Actionsheet.Content>
       </Actionsheet>
 
+      {/* ----------------------------------------------------------------------------------------- */}
+
       <Actionsheet isOpen={stateSheet} onClose={() => setStateSheet(false)}>
         <Actionsheet.Content>
+          <View style={{height: 20}} />
+          <Input
+            placeholder={'Search state name'}
+            onChangeText={text => {
+              // setSearchTerm(text);
+              // handleSearchCountry(text);
+              // const searchFilterCountry = text => {
+              if (text) {
+                const newData = states?.filter(item => {
+                  const itemData = item?.name
+                    ? item?.name?.toUpperCase()
+                    : ''.toUpperCase();
+                  const textData = text?.toUpperCase();
+                  return itemData.indexOf(textData) > -1;
+                });
+                setStates(newData);
+                setSearchTerm(text);
+              }
+              //  else {
+              //   setfilterCountry(countries);
+              //   setsearchCountry(text);
+              // }
+              // };
+            }}
+          />
+          <View style={{height: 20}} />
           <FlatList
             data={states}
             keyExtractor={item => item?.id}
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
+                  style={{width: DIMENSIONS?.width - 40, padding: 5}}
                   onPress={() => {
                     setState(item);
                     setStateSheet(false);
@@ -1154,7 +1232,7 @@ const Signup = ({navigation}) => {
                     setCity('');
                     getCity(item?.iso2);
                   }}>
-                  <Text>{item?.name}</Text>
+                  <Text style={{...FONT?.title}}>{item?.name}</Text>
                 </TouchableOpacity>
               );
             }}
@@ -1175,26 +1253,27 @@ const Signup = ({navigation}) => {
                     setCitySheet(false);
                     setErrors({...errors, city: ''});
                   }}>
-                  <Text>{item?.name}</Text>
+                  <Text style={{...FONT?.title}}>{item?.name}</Text>
                 </TouchableOpacity>
               );
             }}
           />
         </Actionsheet.Content>
       </Actionsheet>
-
+      {/* ------------------------------------------------------------------------------------ */}
       <Actionsheet isOpen={genderSheet} onClose={() => setGenderSheet(false)}>
         <Actionsheet.Content>
           {['Male', 'Female', 'Other'].map(item => {
             return (
               <TouchableOpacity
+                style={{width: DIMENSIONS?.width - 40, padding: 5}}
                 onPress={() => {
                   setGenderSheet(false);
                   setGender(item);
                   setErrors({...errors, gender: ''});
                 }}
                 key={item}>
-                <Text>{item}</Text>
+                <Text style={{...FONT?.title}}>{item}</Text>
               </TouchableOpacity>
             );
           })}
@@ -1205,18 +1284,45 @@ const Signup = ({navigation}) => {
         isOpen={qualificationSheet}
         onClose={() => setQualificationSheet(false)}>
         <Actionsheet.Content>
+          <View style={{height: 20}} />
+          <Input
+            placeholder={'Search qualification'}
+            onChangeText={text => {
+              // setSearchTerm(text);
+              // handleSearchCountry(text);
+              // const searchFilterCountry = text => {
+              if (text) {
+                const newData = qualifications?.filter(item => {
+                  const itemData = item?.name
+                    ? item?.name?.toUpperCase()
+                    : ''.toUpperCase();
+                  const textData = text?.toUpperCase();
+                  return itemData.indexOf(textData) > -1;
+                });
+                setQualification(newData);
+                setSearchTerm(text);
+              }
+              //  else {
+              //   setfilterCountry(countries);
+              //   setsearchCountry(text);
+              // }
+              // };
+            }}
+          />
+          <View style={{height: 20}} />
           <FlatList
             data={qualifications}
             keyExtractor={item => item}
             renderItem={({item, index}) => {
               return (
                 <TouchableOpacity
+                  style={{width: DIMENSIONS?.width - 40, padding: 5}}
                   onPress={() => {
                     setQualification(item);
                     setQualificationSheet(false);
                     setErrors({...errors, qualification: ''});
                   }}>
-                  <Text>{item}</Text>
+                  <Text style={{...FONT?.title}}>{item}</Text>
                 </TouchableOpacity>
               );
             }}
