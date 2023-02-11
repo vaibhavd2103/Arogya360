@@ -99,7 +99,7 @@ const DoctorsProfile = ({navigation, route}) => {
           style1={{...FONT.title, color: COLORS.white}}
           style={{width: DIMENSIONS.width / 2.5, height: 40}}
           onPress={() => {
-            console.log('hello');
+              navigation.navigate(ROUTES.bookAppointment, {item: item});
           }}
         />
       </View>

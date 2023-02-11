@@ -18,6 +18,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import StackNavigator from './StackNavigator';
 import DoctorsProfile from '../screens/DoctorsProfile';
 import CreateReport from '../screens/CreateReport';
+import BookAppointment from '../screens/BookAppointment';
 
 const Drawer = createDrawerNavigator();
 
@@ -108,6 +109,16 @@ const DrawerNavigator = props => {
           headerShown: true,
           header: stackHeaderProps => (
             <CustomHeader {...stackHeaderProps} title="Create Report" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={ROUTES.bookAppointment}
+        component={BookAppointment}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="Book Appointment" />
           ),
         }}
       />
