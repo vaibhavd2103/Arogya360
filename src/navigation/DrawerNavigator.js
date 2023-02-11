@@ -93,7 +93,16 @@ const DrawerNavigator = props => {
         }}
       />
       <Drawer.Screen name={ROUTES.phonedirectory} component={PhoneDirectory} />
-      <Drawer.Screen name={ROUTES.bmichecker} component={BMIChecker} />
+      <Drawer.Screen
+        name={ROUTES.bmichecker}
+        component={BMIChecker}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="BMI Checker" />
+          ),
+        }}
+      />
       <Drawer.Screen
         name={ROUTES.doctorsProfile}
         component={DoctorsProfile}

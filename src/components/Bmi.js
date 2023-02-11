@@ -41,6 +41,8 @@ const Bmi = () => {
       setErr({...err, height: 'Height cannot be empty'});
     } else if (weight === '') {
       setErr({...err, weight: 'Weight cannot be empty'});
+    } else {
+      calculate();
     }
   };
 
@@ -78,6 +80,7 @@ const Bmi = () => {
           keyboardType={'number-pad'}
           onChangeText={val => {
             setHeight(val);
+            setCal(null);
             setErr({...err, height: ''});
           }}
           value={height}
@@ -119,6 +122,7 @@ const Bmi = () => {
           keyboardType={'number-pad'}
           onChangeText={val => {
             setWeight(val);
+            setCal(null);
             setErr({...err, weight: ''});
           }}
           value={weight}
@@ -187,7 +191,6 @@ const Bmi = () => {
           activeOpacity={0.7}
           onPress={() => {
             validate();
-            calculate();
           }}>
           <Text
             style={{
@@ -221,7 +224,9 @@ const Bmi = () => {
                   justifyContent: 'space-between',
                   paddingRight: 10,
                 }}>
-                <Text style={{...FONT.title, padding: 12}}>{item.name}</Text>
+                <Text style={{...FONT.title, padding: 12, color: COLORS.blue}}>
+                  {item.name}
+                </Text>
               </View>
               <View style={{backgroundColor: '#E2E2E2', width: '50%'}}>
                 <Text

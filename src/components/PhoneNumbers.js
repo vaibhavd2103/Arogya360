@@ -20,7 +20,9 @@ const PhoneNumbers = ({item}) => {
           justifyContent: 'space-between',
           paddingRight: 10,
         }}>
-        <Text style={{...FONT.title, padding: 12}}>{item.name}</Text>
+        <Text style={{...FONT.title, padding: 12, color: COLORS.lightBlue}}>
+          {item.name}
+        </Text>
       </View>
       <View style={{backgroundColor: '#E2E2E2', width: '50%'}}>
         <TouchableOpacity activeOpacity={0.7}>
@@ -29,7 +31,7 @@ const PhoneNumbers = ({item}) => {
               ...FONT.title,
               padding: 12,
               textDecorationLine: 'underline',
-              color: 'blue',
+              color: COLORS.blue,
             }}>
             {item.num}
           </Text>

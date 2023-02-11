@@ -47,14 +47,15 @@ const SlideMenu = ({navigation}) => {
       navigation: ROUTES.settings,
     },
     {
-      id: '6',
+      id: '8',
       name: 'BMI Checker',
       icon: <Entypo name="calculator" size={24} color={COLORS?.light_black} />,
       navigation: ROUTES.bmichecker,
+    },
+    {
+      id: '6',
       name: 'Create Report',
-      icon: (
-        <FontAwesome name="bookmark" size={24} color={COLORS?.light_black} />
-      ),
+      icon: <FontAwesome name="file" size={21} color={COLORS?.light_black} />,
       navigation: ROUTES.createReport,
     },
   ];
@@ -95,7 +96,7 @@ const SlideMenu = ({navigation}) => {
       </TouchableOpacity>
       <View style={{alignItems: 'center'}}>
         {options.map(item => {
-          if (item?.id == '6' && userType != 1) {
+          if (item?.id == '7' && userType != 1) {
             return null;
           } else {
             return (

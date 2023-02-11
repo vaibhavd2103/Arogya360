@@ -9,16 +9,6 @@ import {FlatList} from 'react-native';
 const BMIChecker = props => {
   return (
     <Container>
-      <CustomHeader
-        style={{width: '100%'}}
-        title="BMI Checker"
-        LeftIcon={() => {
-          return (
-            <MaterialCommunityIcons name="menu-open" size={24} color="black" />
-          );
-        }}
-        onLeftIconPress={() => props.navigation.openDrawer()}
-      />
       <Bmi />
     </Container>
   );
