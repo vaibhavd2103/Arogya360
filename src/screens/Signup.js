@@ -27,6 +27,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {qualifications} from '../constants/data';
 
 const Signup = ({navigation}) => {
   //-----------------------------------------useState---------------------------------
@@ -65,7 +66,9 @@ const Signup = ({navigation}) => {
   const [citySheet, setCitySheet] = useState(false);
   const [cities, setCities] = useState([]);
   const [gender, setGender] = useState('');
-  const [genderSheet, setGenderSheet] = useState([]);
+  const [genderSheet, setGenderSheet] = useState(false);
+  const [qualificationSheet, setQualificationSheet] = useState(false);
+  const [qualification, setQualification] = useState('');
 
   //-------------------------------useRef---------------------------------------------
 
@@ -80,6 +83,7 @@ const Signup = ({navigation}) => {
   const heightRef = useRef(null);
   const weightRef = useRef(null);
   const genderRef = useRef(null);
+  const qualificationRef = useRef(null);
 
   //---------------------------------------API------------------------------------------
 
@@ -175,7 +179,10 @@ const Signup = ({navigation}) => {
     //   setErrors({...errors, weight: 'Enter weight'});
     //   weightRef?.current?.focus();
     // }
-    else if (gender == '') {
+    else if (qualification == '') {
+      setErrors({...errors, qualification: 'Enter qualification'});
+      qualificationRef?.current?.focus();
+    } else if (gender == '') {
       setErrors({...errors, gender: 'Enter gender'});
       genderRef?.current?.focus();
     } else {
@@ -551,6 +558,32 @@ const Signup = ({navigation}) => {
                   width: DIMENSIONS.width - 60,
                 }}>
                 {errors.city}
+              </Text>
+            )}
+            {/* --------------------------------------------------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Qualification <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+
+            <DropDown
+              onPress={() => {
+                setQualificationSheet(true);
+              }}
+              value={qualification}
+              placeholder={'Select Qualification'}
+              err={errors?.qualification}
+            />
+
+            {errors?.qualification && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.qualification}
               </Text>
             )}
             {/* --------------------------------------------------------------------------------------- */}
@@ -1152,22 +1185,6 @@ const Signup = ({navigation}) => {
 
       <Actionsheet isOpen={genderSheet} onClose={() => setGenderSheet(false)}>
         <Actionsheet.Content>
-          {/* <FlatList
-            data={cities}
-            keyExtractor={item => item?.id}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCity(item);
-                    setCitySheet(false);
-                    setErrors({...errors, city: ''});
-                  }}>
-                  <Text>{item?.name}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          /> */}
           {['Male', 'Female', 'Other'].map(item => {
             return (
               <TouchableOpacity
@@ -1183,6 +1200,30 @@ const Signup = ({navigation}) => {
           })}
         </Actionsheet.Content>
       </Actionsheet>
+
+      <Actionsheet
+        isOpen={qualificationSheet}
+        onClose={() => setQualificationSheet(false)}>
+        <Actionsheet.Content>
+          <FlatList
+            data={qualifications}
+            keyExtractor={item => item}
+            renderItem={({item, index}) => {
+              return (
+                <TouchableOpacity
+                  onPress={() => {
+                    setQualification(item);
+                    setQualificationSheet(false);
+                    setErrors({...errors, qualification: ''});
+                  }}>
+                  <Text>{item}</Text>
+                </TouchableOpacity>
+              );
+            }}
+          />
+        </Actionsheet.Content>
+      </Actionsheet>
+
       <KeyboardAvoidingView />
     </Container>
   );
