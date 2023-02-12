@@ -10,7 +10,7 @@ const NewsComponent = ({item, index, length}) => {
         padding: 10,
         borderRadius: 10,
         backgroundColor: COLORS?.white,
-        width: DIMENSIONS?.width - 40,
+        width: DIMENSIONS?.width - 60,
         marginLeft: index == 0 ? 20 : 10,
         marginRight: index == length - 1 ? 20 : 0,
         marginBottom: 20,

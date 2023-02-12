@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     shadowColor: `${COLORS.blue}cc`,
+    marginHorizontal: 30,
     alignSelf: 'center',
   },
 });

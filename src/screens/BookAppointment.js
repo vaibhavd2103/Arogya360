@@ -22,7 +22,7 @@ const BookAppointment = ({navigation, route}) => {
   const [calType, setCalType] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const item = route.params.item;
-  console.log(item);
+  // console.log(item);
   const [selectedTime, setSelectedTime] = useState('');
   const [successModal, setSuccessModal] = useState(false);
 
@@ -85,22 +85,25 @@ const BookAppointment = ({navigation, route}) => {
             backgroundColor: 'white',
             //   height: 160,
             backgroundColor: `#ECDCBC`,
+            padding: 10,
+            borderRadius: 10,
           }}>
           <Image
             source={{
               uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
             }}
             style={{
-              width: DIMENSIONS.width / 4,
-              height: 140,
+              width: 100,
+              height: 100,
+              borderRadius: 10,
             }}
             resizeMode="cover"
           />
           <View
             style={{
               flexGrow: 1,
-              height: 140,
-              padding: 15,
+              // height: 100,
+              paddingLeft: 15,
             }}>
             <Text
               style={{
@@ -156,13 +159,17 @@ const BookAppointment = ({navigation, route}) => {
               scrollable
               calendarColor={COLORS.background}
               style={{height: 90, paddingVertical: 5}}
-              calendarHeaderStyle={{color: COLORS.grey}}
+              calendarHeaderStyle={{
+                ...FONT?.header,
+                color: '#000',
+                fontSize: 14,
+              }}
               dateNumberStyle={{color: COLORS.grey}}
               iconContainer={{flex: 0.1}}
               dateNameStyle={{color: COLORS.grey}}
               selectedDate={selectedDate}
-              highlightDateNameStyle={{color: COLORS.blue}}
-              highlightDateNumberStyle={{color: COLORS.blue}}
+              highlightDateNameStyle={{color: COLORS.green}}
+              highlightDateNumberStyle={{color: COLORS.green}}
               onDateSelected={val => setSelectedDate(val)}
             />
           </View>
@@ -196,23 +203,29 @@ const BookAppointment = ({navigation, route}) => {
         <View style={{height: 180}}>
           <FlatList
             data={Time}
-            contentContainerStyle={{
-              flexDirection: 'row',
-              flexWrap: 'wrap',
-            }}
+            numColumns={3}
+            scrollEnabled={false}
+            // contentContainerStyle={{
+            //   flexDirection: 'row',
+            //   flexWrap: 'wrap',
+            // }}
             keyExtractor={item => item.id}
             renderItem={({item}) => {
               return (
                 <TouchableOpacity
                   style={{
                     ...styles.timeCard,
-
                     backgroundColor: item?.booked
-                      ? 'lightgrey'
+                      ? `${COLORS?.error}aa`
                       : selectedTime == item?.time
-                      ? COLORS.lightBlue
+                      ? COLORS.green
                       : COLORS.yellow,
-                    elevation: selectedTime === item.time ? 5 : 0,
+                    elevation: selectedTime === item.time ? 10 : 0,
+                    shadowColor: item?.booked
+                      ? `${COLORS?.error}`
+                      : selectedTime == item?.time
+                      ? COLORS.green
+                      : COLORS.yellow,
                   }}
                   disabled={item?.booked}
                   onPress={() => setSelectedTime(item.time)}>
@@ -265,7 +278,7 @@ export default BookAppointment;
 
 const styles = StyleSheet.create({
   timeCard: {
-    height: 35,
+    height: 40,
     //     width: Sizes.width / 3 - 40,
     margin: 10,
     alignItems: 'center',

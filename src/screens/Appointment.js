@@ -82,7 +82,7 @@ const TypeItem = ({item, index, navigation}) => {
     {id: '1', name: 'Dr Sakshi', country: 'US'},
     {id: '2', name: 'Tanya', country: 'UK'},
     {id: '3', name: 'Tanisha', country: 'Uganda'},
-    {id: '4', name: 'Vaibhav', country: 'China'},
+    {id: '4', name: 'Vaibhav', country: 'India'},
   ];
   return (
     <>
