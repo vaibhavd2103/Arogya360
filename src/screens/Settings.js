@@ -25,7 +25,6 @@ const Settings = () => {
           trackColor={COLORS?.blue}
           thumbColor={COLORS?.blue}
           style={{
-            // top: 10,
             elevation: 20,
           }}
         />
@@ -45,7 +44,6 @@ const Settings = () => {
           trackColor={COLORS?.blue}
           thumbColor={COLORS?.blue}
           style={{
-            // top: 10,
             elevation: 20,
           }}
         />
@@ -65,7 +63,6 @@ const Settings = () => {
           trackColor={COLORS?.blue}
           thumbColor={COLORS?.blue}
           style={{
-            // top: 10,
             elevation: 20,
           }}
         />
