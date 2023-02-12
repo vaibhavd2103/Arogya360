@@ -61,6 +61,7 @@ export const ROUTES = {
   doctorsProfile: 'doctorsProfile',
   createReport: 'createReport',
   bookAppointment: 'bookAppointment',
+  savedArticles: 'savedArticles',
 };
 
 export const USERS = {

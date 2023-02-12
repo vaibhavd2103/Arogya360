@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Verticledots from 'react-native-vector-icons/Entypo';
@@ -9,8 +9,9 @@ import Notlike from 'react-native-vector-icons/AntDesign';
 import Share from 'react-native-vector-icons/Feather';
 import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
+import {Menu} from 'native-base';
 
-const ArticleCard = ({item, index, length}) => {
+const ArticleCard = ({item, index, length, saved}) => {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
   return (
@@ -49,11 +50,23 @@ const ArticleCard = ({item, index, length}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Verticledots
-            name="dots-three-vertical"
-            size={21}
-            color={COLORS.grey}
-          />
+          <Menu
+            w="150"
+            trigger={triggerProps => {
+              return (
+                <Pressable
+                  accessibilityLabel="More options menu"
+                  {...triggerProps}>
+                  <Verticledots
+                    name="dots-three-vertical"
+                    size={21}
+                    color={COLORS.grey}
+                  />
+                </Pressable>
+              );
+            }}>
+            <Menu.Item>Report</Menu.Item>
+          </Menu>
         </TouchableOpacity>
       </View>
       {item?.img ? (
@@ -126,20 +139,30 @@ const ArticleCard = ({item, index, length}) => {
           </TouchableOpacity>
         </View>
         <View style={{width: '10%'}}>
-          <TouchableOpacity
-            onPress={() => {
-              setBookmark(!bookmark);
-            }}>
-            {bookmark ? (
+          {saved ? (
+            <View>
               <Bookmark name="bookmark" size={21} color={COLORS.light_black} />
-            ) : (
-              <NotBookmark
-                name="bookmark-o"
-                size={21}
-                color={COLORS.light_black}
-              />
-            )}
-          </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                setBookmark(!bookmark);
+              }}>
+              {bookmark ? (
+                <Bookmark
+                  name="bookmark"
+                  size={21}
+                  color={COLORS.light_black}
+                />
+              ) : (
+                <NotBookmark
+                  name="bookmark-o"
+                  size={21}
+                  color={COLORS.light_black}
+                />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

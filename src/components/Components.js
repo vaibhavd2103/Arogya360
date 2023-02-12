@@ -83,7 +83,39 @@ const DividedTitleSubTitle = ({title1, title2, subTitle1, subTitle2}) => {
   );
 };
 
-export {HeaderWithSeeAll, TitleSubTitle, DividedTitleSubTitle};
+const Title_SubTitle = ({title, subTitle, style}) => {
+  return (
+    <View
+      style={{
+        // flexDirection: 'row',
+        // alignItems: 'center',
+        marginVertical: 5,
+
+        ...style,
+        // justifyContent: 'center',
+      }}>
+      <Text
+        style={{
+          ...FONT.title,
+          marginRight: 10,
+          textAlign: 'justify',
+          color: COLORS.blue,
+        }}>
+        {title} :{' '}
+        <Text
+          style={{
+            ...FONT.subTitle,
+            color: 'gray',
+            // marginLeft: 10,
+          }}>
+          {subTitle}
+        </Text>
+      </Text>
+    </View>
+  );
+};
+
+export {HeaderWithSeeAll, TitleSubTitle, DividedTitleSubTitle, Title_SubTitle};
 
 const styles = StyleSheet.create({
   container: {
