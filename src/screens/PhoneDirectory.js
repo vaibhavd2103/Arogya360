@@ -7,7 +7,7 @@ import {FONT} from '../constants/constants';
 import PhoneNumbers from '../components/PhoneNumbers';
 import {not} from 'react-native-reanimated';
 
-const PhoneDirectory = () => {
+const PhoneDirectory = props => {
   const numbers = [
     {
       id: '1',

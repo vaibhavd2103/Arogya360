@@ -107,14 +107,14 @@ const ArticleCard = ({item, index, length}) => {
             )}
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => {}}>
+          {/* <TouchableOpacity onPress={() => {}}>
             <Comment
               name="comment-o"
               size={19}
               style={{marginHorizontal: 10}}
               color={COLORS.light_black}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
 
           <TouchableOpacity onPress={() => {}}>
             <Share
