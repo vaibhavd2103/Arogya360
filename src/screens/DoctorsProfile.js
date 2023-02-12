@@ -21,22 +21,25 @@ const DoctorsProfile = ({navigation, route}) => {
           //   height: 160,
           backgroundColor: `#ECDCBC`,
           marginTop: 20,
+          padding: 10,
+          borderRadius: 10,
         }}>
         <Image
           source={{
             uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
           }}
           style={{
-            width: DIMENSIONS.width / 4,
-            height: 140,
+            width: 100,
+            height: 100,
+            borderRadius: 10,
           }}
           resizeMode="cover"
         />
         <View
           style={{
             flexGrow: 1,
-            height: 140,
-            padding: 15,
+            // height: 140,
+            paddingLeft: 15,
           }}>
           <Text
             style={{
@@ -99,7 +102,7 @@ const DoctorsProfile = ({navigation, route}) => {
           style1={{...FONT.title, color: COLORS.white}}
           style={{width: DIMENSIONS.width / 2.5, height: 40}}
           onPress={() => {
-              navigation.navigate(ROUTES.bookAppointment, {item: item});
+            navigation.navigate(ROUTES.bookAppointment, {item: item});
           }}
         />
       </View>

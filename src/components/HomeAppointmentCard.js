@@ -42,7 +42,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
             name="checksquareo"
             size={18}
             color={'#fff'}
-            style={{marginRight: 0}}
+            style={{marginRight: 0, top: 2}}
           />
           <Text style={{...FONT?.title, color: '#fff', marginBottom: 0}}>
             {' - '}
@@ -62,7 +62,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
             name="calendar"
             size={18}
             color={'#fff'}
-            style={{marginRight: 10}}
+            style={{marginRight: 10, top: 2}}
           />
           {' - '}
           {item?.date}
@@ -72,7 +72,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
             name="clockcircleo"
             size={18}
             color={'#fff'}
-            style={{marginRight: 10}}
+            style={{marginRight: 10, top: 2}}
           />
           {' - '}
           {item?.time}

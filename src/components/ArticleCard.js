@@ -6,19 +6,42 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Comment from 'react-native-vector-icons/FontAwesome';
 import Like from 'react-native-vector-icons/AntDesign';
 import Notlike from 'react-native-vector-icons/AntDesign';
-import Share from 'react-native-vector-icons/Feather';
+import Feather from 'react-native-vector-icons/Feather';
 import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
+import Share from 'react-native-share';
 import {Menu} from 'native-base';
 
 const ArticleCard = ({item, index, length, saved}) => {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
+  const [readMore, setReadMore] = useState(false);
+  const [showMore, setShowMore] = useState(false);
+
+  const onShare = () => {
+    var message = item?.article;
+    console.log('message', message);
+    const options = {
+      title: 'Share the Article',
+      message: `Checkout new article by\n${item?.docName} on our App \n\n${message}\n\nCheck out app on this url\n`,
+      url: `https://mailchi.mp/0d11e22015e3/arogya360`,
+      // url: item?.img,
+      // urls: [item?.img],
+    };
+    try {
+      Share.open(options).catch(err => {
+        console.log('error is ---->', err);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <View
       style={{
         backgroundColor: COLORS.white,
-        marginBottom: 15,
+        marginVertical: 15,
         padding: 15,
         width: DIMENSIONS?.width - 40,
         marginHorizontal: 20,
@@ -46,12 +69,16 @@ const ArticleCard = ({item, index, length, saved}) => {
         </View>
         <TouchableOpacity
           style={{
-            // paddingRight: 10,
             justifyContent: 'center',
             alignItems: 'center',
           }}>
           <Menu
-            w="150"
+            mr={5}
+            marginTop={50}
+            w="100"
+            borderRadius={10}
+            style={{elevation: 20, shadowColor: COLORS?.blue}}
+            backgroundColor={'#fff'}
             trigger={triggerProps => {
               return (
                 <Pressable
@@ -65,7 +92,10 @@ const ArticleCard = ({item, index, length, saved}) => {
                 </Pressable>
               );
             }}>
-            <Menu.Item>Report</Menu.Item>
+            <Menu.Item
+              style={{right: 0, backgroundColor: '#fff', ...FONT?.title}}>
+              Report
+            </Menu.Item>
           </Menu>
         </TouchableOpacity>
       </View>
@@ -83,21 +113,34 @@ const ArticleCard = ({item, index, length, saved}) => {
             textAlign: 'justify',
             justifyContent: 'center',
           }}
-          numberOfLines={2}>
+          numberOfLines={showMore ? null : 2}
+          onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
           {item?.article}
         </Text>
-        <TouchableOpacity>
-          <Text style={{...FONT.subTitle}} onPress={() => {}}>
-            see more..
+        {readMore && (
+          <Text
+            onPress={() => {
+              setShowMore(!showMore);
+            }}
+            style={{
+              color: COLORS?.green,
+              fontSize: 12,
+            }}>
+            {!showMore ? 'Read More' : 'View less'}
           </Text>
-        </TouchableOpacity>
+        )}
       </View>
-      <View style={{flexDirection: 'row', paddingTop: 15}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          paddingTop: 15,
+          width: '100%',
+          justifyContent: 'space-between',
+        }}>
         <View
           style={{
             flexDirection: 'row',
-            marginHorizontal: 5,
-            width: '90%',
+            // marginHorizontal: 5,
           }}>
           <TouchableOpacity
             onPress={() => {
@@ -107,14 +150,14 @@ const ArticleCard = ({item, index, length, saved}) => {
               <Notlike
                 name="like1"
                 size={21}
-                style={{marginHorizontal: 10}}
+                style={{marginRight: 10}}
                 color={COLORS.blue}
               />
             ) : (
               <Like
                 name="like2"
                 size={21}
-                style={{marginHorizontal: 10}}
+                style={{marginRight: 10}}
                 color={COLORS.light_black}
               />
             )}
@@ -129,8 +172,11 @@ const ArticleCard = ({item, index, length, saved}) => {
             />
           </TouchableOpacity> */}
 
-          <TouchableOpacity onPress={() => {}}>
-            <Share
+          <TouchableOpacity
+            onPress={() => {
+              onShare();
+            }}>
+            <Feather
               name="share-2"
               size={19}
               style={{marginHorizontal: 10}}

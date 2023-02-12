@@ -2,7 +2,7 @@ import {View, Text} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import TabNavigator from './TabNavigator';
-import {COLORS, FONT, ROUTES} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import Appointment from '../screens/Appointment';
 import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
@@ -27,6 +27,13 @@ const DrawerNavigator = props => {
   return (
     <Drawer.Navigator
       drawerContent={props => <SlideMenu {...props} />}
+      screenOptions={() => {
+        return {
+          drawerStyle: {
+            width: (DIMENSIONS?.width * 3) / 4,
+          },
+        };
+      }}
       statusBarAnimation="fade">
       <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
       <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />

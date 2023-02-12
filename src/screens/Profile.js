@@ -21,12 +21,11 @@ const Profile = ({navigation}) => {
     <Tab.Navigator
       screenOptions={{
         tabBarLabelStyle: {fontSize: 12},
-
         tabBarActiveTintColor: COLORS.blue,
         tabBarInactiveTintColor: '#9098ac',
-        // tabBarIndicatorContainerStyle: {
-        //   width: '100%',
-        // },
+        tabBarIndicatorContainerStyle: {
+          backgroundColor: '#f00',
+        },
         tabBarIndicatorStyle: {
           backgroundColor: COLORS.blue,
         },
@@ -39,7 +38,7 @@ const Profile = ({navigation}) => {
         </>
       ) : (
         <>
-          <Tab.Screen name={'About'} component={About} />
+          <Tab.Screen name={'About'} component={About} options={{}} />
           <Tab.Screen name={'My              History'} component={MyHistory} />
           <Tab.Screen name={'Saved Articles'} component={SavedArticles} />
         </>

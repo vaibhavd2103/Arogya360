@@ -1,11 +1,29 @@
-import {StyleSheet, View, StatusBar, Image} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  StatusBar,
+  Image,
+  Animated,
+  Easing,
+} from 'react-native';
 import React, {useEffect} from 'react';
 import {Text} from 'native-base';
 import {COLORS, DIMENSIONS, ROUTES} from './../constants/constants';
 
 const SplashScreen = ({navigation}) => {
+  const animation = () => {
+    scaleValue.setValue(0);
+    Animated.timing(scaleValue, {
+      toValue: 1,
+      duration: 1990,
+      easing: Easing.linear,
+      useNativeDriver: true,
+    }).start();
+  };
+
   useEffect(() => {
-    goToLogin();
+    // goToLogin();
+    animation();
   }, []);
 
   function goToLogin() {
@@ -15,15 +33,25 @@ const SplashScreen = ({navigation}) => {
     }, 3000);
   }
 
+  let scaleValue = new Animated.Value(0); // declare an animated value
+
+  const cardScale = scaleValue.interpolate({
+    inputRange: [0, 0.1, 0.55, 1],
+    outputRange: [1, 1, 1.1, 1.2],
+  });
+
+  // let transformStyle = {...styles.card, transform: [{scale: cardScale}]};
+
   return (
     <View style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" />
-      <Image
+      <StatusBar backgroundColor={COLORS?.blue} />
+      <Animated.Image
         source={require('../assets/logo.png')}
         style={{
-          height: DIMENSIONS?.width - 150,
-          width: DIMENSIONS?.width - 150,
+          height: DIMENSIONS?.width - 200,
+          width: DIMENSIONS?.width - 200,
           borderRadius: 20,
+          transform: [{scale: cardScale}],
         }}
       />
     </View>
