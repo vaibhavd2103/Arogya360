@@ -29,7 +29,7 @@ export default RecordItem;
 
 const styles = StyleSheet.create({
   container: {
-    width: DIMENSIONS.width - 48,
+    width: DIMENSIONS.width - 60,
     // padding: 15,
     height: 150,
     backgroundColor: COLORS.blue,
@@ -37,5 +37,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     elevation: 10,
     shadowColor: `${COLORS.blue}cc`,
+    marginHorizontal: 30,
   },
 });

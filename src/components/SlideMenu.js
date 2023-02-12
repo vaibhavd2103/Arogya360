@@ -9,53 +9,51 @@ import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useSelector} from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
+import {Button} from './Buttons';
 
 const SlideMenu = ({navigation}) => {
   const options = [
     {
       id: '1',
       name: 'Appointment',
-      icon: (
-        <Foundation name="calendar" size={30} color={COLORS?.light_black} />
-      ),
+      icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
       navigation: ROUTES.appointment,
     },
     {
       id: '2',
       name: 'Medicine Tracker',
-      icon: (
-        <FontAwesome5 name="capsules" size={24} color={COLORS?.light_black} />
-      ),
+      icon: <FontAwesome5 name="capsules" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.medicinetracker,
     },
     {
       id: '3',
       name: 'Phone Directory',
-      icon: <FontAwesome name="phone" size={24} color={COLORS?.light_black} />,
+      icon: <FontAwesome name="phone" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.phonedirectory,
     },
     {
       id: '4',
       name: 'Find a Doctor',
-      icon: <Fontisto name="doctor" size={24} color={COLORS?.light_black} />,
+      icon: <Fontisto name="doctor" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.finddoctor,
     },
     {
       id: '5',
       name: 'Settings',
-      icon: <Ionicons name="settings" size={24} color={COLORS?.light_black} />,
+      icon: <Ionicons name="settings" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.settings,
     },
     {
       id: '8',
       name: 'BMI Checker',
-      icon: <Entypo name="calculator" size={24} color={COLORS?.light_black} />,
+      icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.bmichecker,
     },
     {
       id: '6',
       name: 'Create Report',
-      icon: <FontAwesome name="file" size={21} color={COLORS?.light_black} />,
+      icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
       navigation: ROUTES.createReport,
     },
   ];
@@ -74,27 +72,42 @@ const SlideMenu = ({navigation}) => {
         onPress={() => navigation.navigate(ROUTES.profile)}>
         <Image
           source={{
-            uri: 'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
+            uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
           }}
           style={{
-            height: '80%',
+            height: '100%',
             width: '100%',
             position: 'absolute',
           }}
         />
-        <Text
+        <LinearGradient
           style={{
-            ...FONT?.header,
-            fontSize: 18,
-            color: '#fff',
-            marginTop: 10,
             position: 'absolute',
-            bottom: 10,
-          }}>
-          Tanisha Thakur
-        </Text>
+            bottom: 0,
+            width: '100%',
+            alignItems: 'center',
+            height: '30%',
+            justifyContent: 'center',
+          }}
+          colors={['#0000', '#0007', '#000']}>
+          <Text
+            style={{
+              ...FONT?.header,
+              fontSize: 18,
+              color: '#fff',
+            }}>
+            Dr. John Doe
+          </Text>
+          <Text
+            style={{
+              ...FONT?.title,
+              color: '#fff',
+            }}>
+            ENT Surgeon
+          </Text>
+        </LinearGradient>
       </TouchableOpacity>
-      <View style={{alignItems: 'center'}}>
+      <View style={{alignItems: 'center', paddingTop: 10}}>
         {options.map(item => {
           if (item?.id == '7' && userType != 1) {
             return null;
@@ -110,8 +123,12 @@ const SlideMenu = ({navigation}) => {
                   marginVertical: 10,
                   alignItems: 'center',
                   height: 50,
-                  borderRadius: 20,
-                  width: '95%',
+                  borderRadius: 10,
+                  width: '90%',
+                  backgroundColor: '#fff',
+                  paddingLeft: 15,
+                  elevation: 20,
+                  shadowColor: `${COLORS?.blue}88`,
                 }}
                 activeOpacity={0.7}>
                 <View
@@ -125,7 +142,7 @@ const SlideMenu = ({navigation}) => {
                   style={{
                     ...FONT?.title,
                     marginLeft: 20,
-                    color: COLORS.light_black,
+                    color: COLORS.blue,
                   }}>
                   {item.name}
                 </Text>
@@ -135,14 +152,14 @@ const SlideMenu = ({navigation}) => {
         })}
       </View>
 
-      <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
+      <View style={{position: 'absolute', bottom: 20, width: '100%'}}>
         <View
           style={{
             padding: 10,
-            borderTopWidth: 1,
+            // borderTopWidth: 1,
             borderTopColor: COLORS?.blue,
           }}>
-          <TouchableOpacity
+          {/* <TouchableOpacity
             onPress={() => {}}
             style={{
               marginVertical: 10,
@@ -162,9 +179,31 @@ const SlideMenu = ({navigation}) => {
               }}>
               Sign Out
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
+          <Button
+            title={'Logout'}
+            style={{width: '90%', alignSelf: 'center'}}
+          />
         </View>
       </View>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          navigation?.navigate(ROUTES?.home);
+        }}
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          backgroundColor: '#fff',
+          height: 40,
+          width: 40,
+          borderRadius: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Ionicons name="md-home" color={COLORS?.blue} size={24} />
+      </TouchableOpacity>
     </View>
   );
 };

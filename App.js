@@ -30,18 +30,15 @@ const App = () => {
   return showSplashScreen ? (
     <SplashScreen />
   ) : (
-    // <Provider store={store}>
     <SafeAreaView style={{flex: 1}}>
       <StatusBar
         backgroundColor={COLORS?.background}
         barStyle={'dark-content'}
-        // backgroundColor={COLORS?.blue}
       />
       <NavigationContainer>
         {isAuthenticated ? <DrawerNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </SafeAreaView>
-    // </Provider>
   );
 };
 

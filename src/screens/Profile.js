@@ -36,9 +36,7 @@ const Profile = ({navigation}) => {
           }}
           style={styles.profilePic}
         />
-        <Text style={{...FONT.header, paddingVertical: 10}}>
-          Tanisha Thakur
-        </Text>
+        <Text style={{...FONT.header, paddingVertical: 10}}>Dr. John Doe</Text>
         <Text style={{...FONT.title, color: 'gray'}}>129 Years old</Text>
 
         <View
