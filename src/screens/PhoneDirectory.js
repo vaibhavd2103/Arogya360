@@ -57,16 +57,6 @@ const PhoneDirectory = props => {
   ];
   return (
     <Container>
-      <CustomHeader
-        style={{width: '100%'}}
-        title="Phone Directory"
-        LeftIcon={() => {
-          return (
-            <MaterialCommunityIcons name="menu-open" size={24} color="black" />
-          );
-        }}
-        onLeftIconPress={() => props.navigation.openDrawer()}
-      />
       <View>
         <View
           style={{

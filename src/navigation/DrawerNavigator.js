@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import TabNavigator from './TabNavigator';
@@ -20,6 +20,7 @@ import BMIChecker from '../screens/BMIChecker';
 import DoctorsProfile from '../screens/DoctorsProfile';
 import CreateReport from '../screens/CreateReport';
 import BookAppointment from '../screens/BookAppointment';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Drawer = createDrawerNavigator();
 
@@ -36,14 +37,83 @@ const DrawerNavigator = props => {
       }}
       statusBarAnimation="fade">
       <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
-      <Drawer.Screen name={ROUTES.finddoctor} component={FindADoctor} />
+      <Drawer.Screen
+        name={ROUTES.finddoctor}
+        component={FindADoctor}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader
+              {...stackHeaderProps}
+              title="Find a Doctor"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
+          ),
+        }}
+      />
       <Drawer.Screen
         name={ROUTES.appointment}
         component={Appointment}
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="Book Appointment" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="My Appointments"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
           ),
         }}
       />
@@ -56,6 +126,33 @@ const DrawerNavigator = props => {
             <CustomHeader
               {...stackHeaderProps}
               title="Profile"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
               RightIcon={() => {
                 return <AntDesign name="edit" size={24} color="black" />;
               }}
@@ -85,7 +182,37 @@ const DrawerNavigator = props => {
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="Settings" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="Settings"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
           ),
         }}
       />
@@ -95,18 +222,117 @@ const DrawerNavigator = props => {
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="Medicine Tracker" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="Medicine Tracker"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
           ),
         }}
       />
-      <Drawer.Screen name={ROUTES.phonedirectory} component={PhoneDirectory} />
+      <Drawer.Screen
+        name={ROUTES.phonedirectory}
+        component={PhoneDirectory}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader
+              {...stackHeaderProps}
+              title="Phone Directory"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
+          ),
+        }}
+      />
       <Drawer.Screen
         name={ROUTES.bmichecker}
         component={BMIChecker}
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="BMI Checker" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="BMI Checker"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
           ),
         }}
       />
@@ -126,7 +352,37 @@ const DrawerNavigator = props => {
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="Create Report" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="Create Report"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
           ),
         }}
       />
