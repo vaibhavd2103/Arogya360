@@ -79,7 +79,7 @@ const MyHistory = props => {
   ];
 
   return (
-    <Container style={{alignItems: 'center'}}>
+    <Container>
       <FlatList
         data={Data}
         keyExtractor={item => item.id}

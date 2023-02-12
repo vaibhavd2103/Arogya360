@@ -11,7 +11,7 @@ import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
 import {Menu} from 'native-base';
 
-const ArticleCard = ({item, index, length}) => {
+const ArticleCard = ({item, index, length, saved}) => {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
   return (
@@ -139,20 +139,30 @@ const ArticleCard = ({item, index, length}) => {
           </TouchableOpacity>
         </View>
         <View style={{width: '10%'}}>
-          <TouchableOpacity
-            onPress={() => {
-              setBookmark(!bookmark);
-            }}>
-            {bookmark ? (
+          {saved ? (
+            <View>
               <Bookmark name="bookmark" size={21} color={COLORS.light_black} />
-            ) : (
-              <NotBookmark
-                name="bookmark-o"
-                size={21}
-                color={COLORS.light_black}
-              />
-            )}
-          </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                setBookmark(!bookmark);
+              }}>
+              {bookmark ? (
+                <Bookmark
+                  name="bookmark"
+                  size={21}
+                  color={COLORS.light_black}
+                />
+              ) : (
+                <NotBookmark
+                  name="bookmark-o"
+                  size={21}
+                  color={COLORS.light_black}
+                />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>
