@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import Signup from '../screens/Signup';
 import TabNavigator from './TabNavigator';
 import CustomHeader from '../components/CustomHeader';
+import SavedArticles from '../screens/SavedArticles';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,16 @@ const StackNavigator = () => {
           ),
         }}
       />
+      {/* <Stack.Screen
+        name={ROUTES.savedArticles}
+        component={SavedArticles}
+        options={{
+          headerShown: false,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="" />
+          ),
+        }}
+      /> */}
     </Stack.Navigator>
   );
 };

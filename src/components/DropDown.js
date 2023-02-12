@@ -4,9 +4,18 @@ import {Actionsheet} from 'native-base';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Entypo from 'react-native-vector-icons/Entypo';
 
-const DropDown = ({onPress, value, height, width, err, placeholder}) => {
+const DropDown = ({
+  onPress,
+  value,
+  height,
+  width,
+  err,
+  placeholder,
+  style,
+  style1,
+}) => {
   return (
-    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+    <View style={{flexDirection: 'row', alignItems: 'center', ...style1}}>
       <TouchableOpacity
         onPress={onPress}
         style={{
@@ -22,6 +31,7 @@ const DropDown = ({onPress, value, height, width, err, placeholder}) => {
           justifyContent: 'center',
           elevation: 20,
           shadowColor: err ? `${COLORS.error}aa` : `${COLORS.blue}cc`,
+          ...style,
           // shadowOpacity: 0.2,
         }}>
         <Text

@@ -75,13 +75,13 @@ export const NormalInput = ({
           borderRadius: 10,
           padding: 10,
           fontSize: 12,
-          borderWidth: 1,
-          borderColor: err ? COLORS.error : COLORS.TEXTCOLOR,
+          borderWidth: err ? 1 : 0,
+          borderColor: err ? COLORS.error : null,
           ...FONT.title,
           ...style,
-          // elevation: 20,
-          // shadowColor: err ? `${COLORS.Red}aa` : `${COLORS.accentColor}cc`,
-          // shadowOpacity: 0.2,
+          elevation: 20,
+          shadowColor: err ? `${COLORS.Red}aa` : `${COLORS.blue}cc`,
+          shadowOpacity: 0.2,
         }}
         placeholderTextColor={'grey'}
         onChangeText={onChangeText}
