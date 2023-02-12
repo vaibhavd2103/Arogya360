@@ -12,3 +12,21 @@ export const qualifications = [
   'LCEH',
   'FRCS',
 ];
+
+export const specialities = [
+  'ENT',
+  'General Surgery',
+  'Gynaecology',
+  'Dermatology',
+  'Pediatrics',
+  'Pathology',
+  'Radiotherapy',
+  'Psychiatry',
+  'Cardiothoracic Surgery',
+  'Orthopaedics',
+  'Anaesthesiology',
+  'Geriatrics',
+  'Pharmacology',
+  'Nuclear Medicine',
+  'Dentist',
+];

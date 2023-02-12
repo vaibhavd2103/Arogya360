@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import Container from './../components/Container';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -7,102 +7,43 @@ import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs
 import About from './About';
 import MyHistory from './MyHistory';
 import {useSelector} from 'react-redux';
+import SavedArticles from './SavedArticles';
+import DoctorsAbout from './DoctorsAbout';
+import DoctorsArticles from './DoctorsArticles';
 
 const Tab = createMaterialTopTabNavigator();
 
 const Profile = ({navigation}) => {
   const userType = useSelector(state => state?.userType);
-  console.log(userType);
-  return (
-    <View
-      style={{
-        // paddingHorizontal: 25,
-        // alignItems: 'center',
-        height: DIMENSIONS.height,
-        backgroundColor: COLORS.background,
-      }}>
-      {/* <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={{alignItems: 'center', flex: 1}}> */}
-      <View
-        style={{
-          paddingHorizontal: 25,
-          alignItems: 'center',
-          marginBottom: 10,
-        }}>
-        <Image
-          source={{
-            uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
-          }}
-          style={styles.profilePic}
-        />
-        <Text style={{...FONT.header, paddingVertical: 10}}>Dr. John Doe</Text>
-        <Text style={{...FONT.title, color: 'gray'}}>129 Years old</Text>
+  // const [userType, setUserType] = useState(2);
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-evenly',
-            width: '100%',
-            marginTop: 10,
-          }}>
-          <View style={styles.boxes}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                // justifyContent: 'center',
-              }}>
-              <Entypo name="dot-single" size={30} color={COLORS.blue} />
-              <Text style={{...FONT.subTitle, color: 'gray'}}>Weight</Text>
-            </View>
-            <Text style={{...FONT.header, fontSize: 18, paddingLeft: 30}}>
-              55kg
-            </Text>
-          </View>
-          <View style={styles.boxes}>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                // justifyContent: 'center',
-              }}>
-              <Entypo name="dot-single" size={30} color={COLORS.blue} />
-              <Text style={{...FONT.subTitle, color: 'gray'}}>Height</Text>
-            </View>
-            <Text style={{...FONT.header, fontSize: 18, paddingLeft: 30}}>
-              170cm
-            </Text>
-          </View>
-        </View>
-      </View>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            // height: 100,
-            // backgroundColor: 'red',
-            fontWeight: 'bold',
-            width: DIMENSIONS.width,
-            alignSelf: 'center',
-          },
-          tabBarLabelStyle: {
-            fontSize: 14,
-            textTransform: 'none',
-          },
-          tabBarActiveTintColor: '#003467',
-          tabBarInactiveTintColor: '#9098ac',
-          tabBarIndicatorContainerStyle: {
-            width: '100%',
-          },
-          tabBarIndicatorStyle: {
-            backgroundColor: COLORS.blue,
-          },
-        }}>
-        <Tab.Screen name={'About'} component={About} />
-        <Tab.Screen name={'Medical History'} component={MyHistory} />
-      </Tab.Navigator>
-    </View>
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        tabBarLabelStyle: {fontSize: 12},
+        tabBarActiveTintColor: COLORS.blue,
+        tabBarInactiveTintColor: '#9098ac',
+        tabBarIndicatorContainerStyle: {
+          backgroundColor: '#f00',
+        },
+        tabBarIndicatorStyle: {
+          backgroundColor: COLORS.blue,
+        },
+      }}
+      keyboardDismissMode="on-drag">
+      {userType == 1 ? (
+        <>
+          <Tab.Screen name={'About'} component={DoctorsAbout} />
+          <Tab.Screen name={'My Articles'} component={DoctorsArticles} />
+        </>
+      ) : (
+        <>
+          <Tab.Screen name={'About'} component={About} options={{}} />
+          <Tab.Screen name={'My              History'} component={MyHistory} />
+          <Tab.Screen name={'Saved Articles'} component={SavedArticles} />
+        </>
+      )}
+    </Tab.Navigator>
   );
 };
 
@@ -115,7 +56,7 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     borderWidth: 2,
     borderColor: 'black',
-    marginTop: 40,
+    marginTop: 20,
   },
   boxes: {
     width: '40%',

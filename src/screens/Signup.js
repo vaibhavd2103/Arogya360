@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import React, {useState, useRef, useEffect} from 'react';
 import axios from 'axios';
+import {setAuthenticated, setUserType} from '../redux/actions';
+import {useDispatch} from 'react-redux';
 //-------------------------------- import packages--------------------------------------
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import {CheckIcon, Select, Actionsheet} from 'native-base';
@@ -21,15 +23,14 @@ import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import {ROUTES} from '../constants/constants';
 import DropDown from '../components/DropDown';
 import {COUNTRY_API_KEY} from '../../config';
+import {qualifications, specialities} from '../constants/data';
 
 //---------------------import icons---------------------------------------------------
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import {qualifications} from '../constants/data';
 
 const Signup = ({navigation}) => {
+  const dispatch = useDispatch();
   //-----------------------------------------useState---------------------------------
   const [user, setUser] = useState('patient');
   const [fullName, setFullName] = useState('');
@@ -44,6 +45,8 @@ const Signup = ({navigation}) => {
   const [state, setState] = useState('');
   const [height, setHeight] = useState('');
   const [weight, setWeight] = useState('');
+  const [qualification, setQualification] = useState('');
+  const [speciality, setSpeciality] = useState('');
   const [secure, setSecure] = useState(true);
   const [errors, setErrors] = useState({
     message: '',
@@ -61,14 +64,23 @@ const Signup = ({navigation}) => {
   });
   const [countrySheet, setCountrySheet] = useState(false);
   const [countries, setCountries] = useState([]);
+  const [filteredCountries, setFilteredCountries] = useState([]);
   const [stateSheet, setStateSheet] = useState(false);
   const [states, setStates] = useState([]);
+  const [filteredStates, setFilteredStates] = useState([]);
   const [citySheet, setCitySheet] = useState(false);
   const [cities, setCities] = useState([]);
-  const [gender, setGender] = useState('');
+  const [filteredCities, setFilteredCities] = useState([]);
   const [genderSheet, setGenderSheet] = useState(false);
+  const [gender, setGender] = useState('');
   const [qualificationSheet, setQualificationSheet] = useState(false);
-  const [qualification, setQualification] = useState('');
+  const [qualificationsList, setQualificationsList] = useState(qualifications);
+  const [filteredQualificationsList, setFilteredQualificationsList] =
+    useState(qualifications);
+  const [specialitiesList, setspecialitiesList] = useState(specialities);
+  const [specialitySheet, setSpecialitySheet] = useState(false);
+  const [filteredSpecialities, setFilteredSpecialities] =
+    useState(specialities);
 
   //-------------------------------useRef---------------------------------------------
 
@@ -80,10 +92,9 @@ const Signup = ({navigation}) => {
   const countryRef = useRef(null);
   const stateRef = useRef(null);
   const cityRef = useRef(null);
-  const heightRef = useRef(null);
-  const weightRef = useRef(null);
   const genderRef = useRef(null);
   const qualificationRef = useRef(null);
+  const specialityRef = useRef(null);
 
   //---------------------------------------API------------------------------------------
 
@@ -97,8 +108,8 @@ const Signup = ({navigation}) => {
     };
     await axios(config)
       .then(res => {
-        // console.log(res?.data);
         setCountries(res?.data);
+        setFilteredCountries(res?.data);
       })
       .catch(err => {
         console.log(err);
@@ -115,8 +126,8 @@ const Signup = ({navigation}) => {
     };
     await axios(config)
       .then(res => {
-        console.log(res?.data);
         setStates(res?.data);
+        setFilteredStates(res?.data);
       })
       .catch(err => {
         console.log(err);
@@ -132,8 +143,8 @@ const Signup = ({navigation}) => {
     };
     await axios(config)
       .then(res => {
-        console.log(res?.data);
         setCities(res?.data);
+        setFilteredCities(res?.data);
       })
       .catch(err => {
         console.log(err);
@@ -147,60 +158,102 @@ const Signup = ({navigation}) => {
   //--------------------------------------functions-------------------------------------
 
   const signup = () => {
-    if (fullName == '') {
-      setErrors({...errors, fullName: 'Enter full name'});
-      fullNameRef?.current?.focus();
-    } else if (email == '') {
-      setErrors({...errors, email: 'Enter email'});
-      emailRef?.current?.focus();
-    } else if (mobileNumber == '') {
-      setErrors({...errors, mobileNumber: 'Enter mobile number'});
-      mobileNumberRef?.current?.focus();
-    } else if (password == '') {
-      setErrors({...errors, password: 'Enter password'});
-      passwordRef?.current?.focus();
-    } else if (date == '') {
-      setErrors({...errors, date: 'Enter date'});
-      dateRef?.current?.focus();
-    } else if (country == '') {
-      setErrors({...errors, country: 'Enter country'});
-      countryRef?.current?.focus();
-    } else if (state == '') {
-      setErrors({...errors, state: 'Enter state'});
-      stateRef?.current?.focus();
-    } else if (city == '') {
-      setErrors({...errors, city: 'Enter city'});
-      cityRef?.current?.focus();
-    }
-    // else if (height == '') {
-    //   setErrors({...errors, height: 'Enter height'});
-    //   heightRef?.current?.focus();
-    // } else if (weight == '') {
-    //   setErrors({...errors, weight: 'Enter weight'});
-    //   weightRef?.current?.focus();
-    // }
-    else if (qualification == '') {
-      setErrors({...errors, qualification: 'Enter qualification'});
-      qualificationRef?.current?.focus();
-    } else if (gender == '') {
-      setErrors({...errors, gender: 'Enter gender'});
-      genderRef?.current?.focus();
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (user == 'doctor') {
+      if (fullName == '') {
+        setErrors({...errors, fullName: 'Enter full name'});
+        fullNameRef?.current?.focus();
+      } else if (email == '') {
+        setErrors({...errors, email: 'Enter email'});
+        emailRef?.current?.focus();
+      } else if (!emailRegex.test(email)) {
+        setErrors({...errors, email: 'Enter valid email id'});
+        emailRef?.current?.focus();
+      } else if (mobileNumber == '') {
+        setErrors({...errors, mobileNumber: 'Enter mobile number'});
+        mobileNumberRef?.current?.focus();
+      } else if (password == '') {
+        setErrors({...errors, password: 'Enter password'});
+        passwordRef?.current?.focus();
+      } else if (date == '') {
+        setErrors({...errors, date: 'Enter date'});
+        dateRef?.current?.focus();
+      } else if (country == '') {
+        setErrors({...errors, country: 'Enter country'});
+        countryRef?.current?.focus();
+      } else if (state == '') {
+        setErrors({...errors, state: 'Enter state'});
+        stateRef?.current?.focus();
+      } else if (city == '') {
+        setErrors({...errors, city: 'Enter city'});
+        cityRef?.current?.focus();
+      } else if (qualification == '') {
+        setErrors({...errors, qualification: 'Enter qualification'});
+        qualificationRef?.current?.focus();
+      } else if (speciality == '') {
+        setErrors({...errors, speciality: 'Enter speciality'});
+        specialityRef?.current?.focus();
+      } else if (gender == '') {
+        setErrors({...errors, gender: 'Enter gender'});
+        genderRef?.current?.focus();
+      } else {
+        setErrors({
+          ...errors,
+          message: '',
+          fullName: '',
+          email: '',
+          mobileNumber: '',
+          password: '',
+          date: '',
+          country: '',
+          state: '',
+          city: '',
+          qualification: '',
+          speciality: '',
+          gender: '',
+        });
+        dispatch(setAuthenticated(true));
+      }
     } else {
-      setErrors({
-        ...errors,
-        message: '',
-        fullName: '',
-        email: '',
-        mobileNumber: '',
-        password: '',
-        date: '',
-        country: '',
-        state: '',
-        city: '',
-        height: '',
-        weight: '',
-        gender: '',
-      });
+      if (fullName == '') {
+        setErrors({...errors, fullName: 'Enter full name'});
+        fullNameRef?.current?.focus();
+      } else if (email == '') {
+        setErrors({...errors, email: 'Enter email'});
+        emailRef?.current?.focus();
+      } else if (!emailRegex.test(email)) {
+        setErrors({...errors, email: 'Enter valid email id'});
+        emailRef?.current?.focus();
+      } else if (mobileNumber == '') {
+        setErrors({...errors, mobileNumber: 'Enter mobile number'});
+        mobileNumberRef?.current?.focus();
+      } else if (password == '') {
+        setErrors({...errors, password: 'Enter password'});
+        passwordRef?.current?.focus();
+      } else if (date == '') {
+        setErrors({...errors, date: 'Enter date'});
+        dateRef?.current?.focus();
+      } else if (gender == '') {
+        setErrors({...errors, gender: 'Enter gender'});
+        genderRef?.current?.focus();
+      } else {
+        setErrors({
+          ...errors,
+          message: '',
+          fullName: '',
+          email: '',
+          mobileNumber: '',
+          password: '',
+          date: '',
+          country: '',
+          state: '',
+          city: '',
+          height: '',
+          weight: '',
+          gender: '',
+        });
+        dispatch(setAuthenticated(true));
+      }
     }
   };
 
@@ -219,20 +272,8 @@ const Signup = ({navigation}) => {
 
   const handleConfirm = data => {
     setDate(FormatDate(data));
-    // saveDetails(FormatDate(data), dateIndex);
-    console.log(FormatDate(data));
-    // setDateValue(FormatDate(data));
     setDateModal(false);
     setErrors({...errors, date: ''});
-  };
-
-  const handleSearchCountry = async text => {
-    const result = countries?.filter(value => {
-      if (value?.name?.toLowerCase() == text?.toLowerCase()) {
-        return value;
-      }
-    });
-    setCountries(result);
   };
 
   //--------------------------------------------------------------------------------------
@@ -252,11 +293,10 @@ const Signup = ({navigation}) => {
       <View
         style={{
           ...styles.signUpTopTab,
-          // marginBottom: 10,
-          // backgroundColor: 'green',
         }}>
         <TouchableOpacity
           onPress={() => {
+            dispatch(setUserType(1));
             setUser('patient');
           }}
           style={{
@@ -276,6 +316,7 @@ const Signup = ({navigation}) => {
         <TouchableOpacity
           onPress={() => {
             setUser('doctor');
+            dispatch(setUserType(2));
           }}
           style={{
             ...styles.userButton,
@@ -293,7 +334,7 @@ const Signup = ({navigation}) => {
         </TouchableOpacity>
       </View>
 
-      {/* ----------------------------Input-------------------------------------------- */}
+      {/* ------------------------------------------------------------------------------------ */}
       <ScrollView
         keyboardShouldPersistTaps={'handled'}
         style={styles.scrollView}
@@ -304,7 +345,7 @@ const Signup = ({navigation}) => {
         {/* ------------------------------------DOCTOR----------------------------------- */}
         {user == 'doctor' ? (
           <View style={{width: '100%', alignItems: 'center'}}>
-            {/* ---------------------------------------------------------------------------- */}
+            {/* --------------------------------doctor full name-------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Full Name <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -332,7 +373,7 @@ const Signup = ({navigation}) => {
                 {errors.fullName}
               </Text>
             )}
-            {/* ------------------------------------------------------------------------------- */}
+            {/* ---------------------------------dotor email---------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Email <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -360,7 +401,7 @@ const Signup = ({navigation}) => {
                 {errors.email}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            {/* --------------------------------doctor mobile number------------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Mobile Number <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -389,7 +430,7 @@ const Signup = ({navigation}) => {
                 {errors.mobileNumber}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            {/* ------------------------------------dotor password--------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Password <Text style={{color: COLORS.error}}>*</Text>
@@ -433,7 +474,7 @@ const Signup = ({navigation}) => {
                 {errors.password}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            {/* --------------------------------------doctor dob------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Date of Birth <Text style={{color: COLORS.error}}>*</Text>
@@ -448,7 +489,7 @@ const Signup = ({navigation}) => {
                 onPress={() => {
                   // showDatePicker();
                   setDateModal(true);
-                  console.log('open modal');
+                  // console.log('open modal');
                 }}>
                 <Input
                   placeholder={'Date of Birth'}
@@ -479,7 +520,7 @@ const Signup = ({navigation}) => {
                 style={{position: 'absolute', right: 20}}
               />
             </View>
-            {/* --------------------------------------------------------------------------------------- */}
+            {/* --------------------------------------doctor country------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Country <Text style={{color: COLORS.error}}>*</Text>
@@ -506,7 +547,63 @@ const Signup = ({navigation}) => {
                 {errors.country}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            <Actionsheet
+              hideDragIndicator
+              isOpen={countrySheet}
+              onClose={() => {
+                setSearchTerm('');
+                setFilteredCountries(countries);
+                setCountrySheet(false);
+              }}>
+              <Actionsheet.Content h={DIMENSIONS.height - 200}>
+                <View style={{height: 20}} />
+                <Input
+                  placeholder={'Search country name'}
+                  onChangeText={text => {
+                    if (text) {
+                      const newData = countries?.filter(item => {
+                        const itemData = item?.name
+                          ? item?.name?.toUpperCase()
+                          : ''.toUpperCase();
+                        const textData = text?.toUpperCase();
+                        return itemData.indexOf(textData) > -1;
+                      });
+                      setFilteredCountries(newData);
+                      setSearchTerm(text);
+                    }
+                  }}
+                />
+                <View style={{height: 20}} />
+                <FlatList
+                  data={filteredCountries}
+                  keyExtractor={item => item?.id}
+                  renderItem={({item, index}) => {
+                    return (
+                      <TouchableOpacity
+                        style={{
+                          width: DIMENSIONS?.width - 60,
+                          padding: 8,
+                          flexDirection: 'row',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                        onPress={() => {
+                          setCountry(item);
+                          setCountrySheet(false);
+                          setErrors({...errors, country: ''});
+                          setState('');
+                          setCity('');
+                          getState(item?.iso2);
+                        }}>
+                        <Text style={{...FONT?.title}}>{item?.name}</Text>
+                        <Text style={{...FONT?.title}}>{item?.iso2}</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </Actionsheet.Content>
+            </Actionsheet>
+            {/* -------------------------------------doctor state-------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               State <Text style={{color: COLORS.error}}>*</Text>
@@ -533,7 +630,54 @@ const Signup = ({navigation}) => {
                 {errors.state}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            <Actionsheet
+              isOpen={stateSheet}
+              onClose={() => {
+                setStateSheet(false);
+                setFilteredStates(states);
+                setSearchTerm('');
+              }}>
+              <Actionsheet.Content h={DIMENSIONS.height - 200}>
+                <View style={{height: 20}} />
+                <Input
+                  placeholder={'Search state name'}
+                  onChangeText={text => {
+                    if (text) {
+                      const newData = states?.filter(item => {
+                        const itemData = item?.name
+                          ? item?.name?.toUpperCase()
+                          : ''.toUpperCase();
+                        const textData = text?.toUpperCase();
+                        return itemData.indexOf(textData) > -1;
+                      });
+                      setFilteredStates(newData);
+                      setSearchTerm(text);
+                    }
+                  }}
+                />
+                <View style={{height: 20}} />
+                <FlatList
+                  data={filteredStates}
+                  keyExtractor={item => item?.id}
+                  renderItem={({item, index}) => {
+                    return (
+                      <TouchableOpacity
+                        style={{width: DIMENSIONS?.width - 40, padding: 5}}
+                        onPress={() => {
+                          setState(item);
+                          setStateSheet(false);
+                          setErrors({...errors, state: ''});
+                          setCity('');
+                          getCity(item?.iso2);
+                        }}>
+                        <Text style={{...FONT?.title}}>{item?.name}</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </Actionsheet.Content>
+            </Actionsheet>
+            {/* ------------------------------------doctor city--------------------------------------------------- */}
 
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               City <Text style={{color: COLORS.error}}>*</Text>
@@ -560,7 +704,52 @@ const Signup = ({navigation}) => {
                 {errors.city}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            <Actionsheet
+              isOpen={citySheet}
+              onClose={() => {
+                setCitySheet(false);
+                setFilteredCities(cities);
+                setSearchTerm('');
+              }}>
+              <Actionsheet.Content h={DIMENSIONS.height - 200}>
+                <View style={{height: 20}} />
+                <Input
+                  placeholder={'Search city name'}
+                  onChangeText={text => {
+                    if (text) {
+                      const newData = cities?.filter(item => {
+                        const itemData = item?.name
+                          ? item?.name?.toUpperCase()
+                          : ''.toUpperCase();
+                        const textData = text?.toUpperCase();
+                        return itemData.indexOf(textData) > -1;
+                      });
+                      setFilteredCities(newData);
+                      setSearchTerm(text);
+                    }
+                  }}
+                />
+                <View style={{height: 20}} />
+                <FlatList
+                  data={filteredCities}
+                  keyExtractor={item => item?.id}
+                  renderItem={({item, index}) => {
+                    return (
+                      <TouchableOpacity
+                        style={{width: DIMENSIONS?.width - 40, padding: 5}}
+                        onPress={() => {
+                          setCity(item);
+                          setCitySheet(false);
+                          setErrors({...errors, city: ''});
+                        }}>
+                        <Text style={{...FONT?.title}}>{item?.name}</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </Actionsheet.Content>
+            </Actionsheet>
+            {/* --------------------------------------doctor qualification------------------------------------------------- */}
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Qualification <Text style={{color: COLORS.error}}>*</Text>
             </Text>
@@ -570,7 +759,7 @@ const Signup = ({navigation}) => {
                 setQualificationSheet(true);
               }}
               value={qualification}
-              placeholder={'Select Qualification'}
+              placeholder={'Select qualification'}
               err={errors?.qualification}
             />
 
@@ -586,9 +775,359 @@ const Signup = ({navigation}) => {
                 {errors.qualification}
               </Text>
             )}
-            {/* --------------------------------------------------------------------------------------- */}
+            <Actionsheet
+              isOpen={qualificationSheet}
+              onClose={() => {
+                setQualificationSheet(false);
+                setFilteredQualificationsList(qualifications);
+                setSearchTerm('');
+              }}>
+              <Actionsheet.Content h={DIMENSIONS.height - 200}>
+                <View style={{height: 20}} />
+                <Input
+                  placeholder={'Search qualification'}
+                  onChangeText={text => {
+                    if (text) {
+                      const newData = qualificationsList?.filter(item => {
+                        const itemData = item
+                          ? item?.toUpperCase()
+                          : ''.toUpperCase();
+                        const textData = text?.toUpperCase();
+                        return itemData.indexOf(textData) > -1;
+                      });
+                      setFilteredQualificationsList(newData);
+                      setSearchTerm(text);
+                    }
+                  }}
+                />
+                <View style={{height: 20}} />
+                <FlatList
+                  data={filteredQualificationsList}
+                  keyExtractor={item => item}
+                  renderItem={({item, index}) => {
+                    return (
+                      <TouchableOpacity
+                        style={{width: DIMENSIONS?.width - 40, padding: 5}}
+                        onPress={() => {
+                          setQualification(item);
+                          setQualificationSheet(false);
+                          setErrors({...errors, qualification: ''});
+                        }}>
+                        <Text style={{...FONT?.title}}>{item}</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </Actionsheet.Content>
+            </Actionsheet>
+            {/* ------------------------------------------doctor speciality--------------------------------------------- */}
+            <Text
+              style={{
+                ...FONT.subTitle,
+                ...styles.placeholderText,
+                // marginLeft: 60,
+              }}>
+              Speciality <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
 
-            {/* <View style={styles.heightWeight}>
+            <DropDown
+              onPress={() => {
+                setSpecialitySheet(true);
+              }}
+              value={speciality}
+              placeholder={'Select speciality'}
+              err={errors?.speciality}
+            />
+            {errors?.speciality && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.speciality}
+              </Text>
+            )}
+            <Actionsheet
+              isOpen={specialitySheet}
+              onClose={() => {
+                setSpecialitySheet(false);
+                setFilteredSpecialities(specialities);
+                setSearchTerm('');
+              }}>
+              <Actionsheet.Content h={DIMENSIONS.height - 200}>
+                <View style={{height: 20}} />
+                <Input
+                  placeholder={'Search specialty'}
+                  onChangeText={text => {
+                    if (text) {
+                      const newData = specialitiesList?.filter(item => {
+                        const itemData = item
+                          ? item?.toUpperCase()
+                          : ''.toUpperCase();
+                        const textData = text?.toUpperCase();
+                        return itemData.indexOf(textData) > -1;
+                      });
+                      setFilteredSpecialities(newData);
+                      setSearchTerm(text);
+                    }
+                  }}
+                />
+                <View style={{height: 20}} />
+                <FlatList
+                  data={filteredSpecialities}
+                  keyExtractor={item => item}
+                  renderItem={({item, index}) => {
+                    return (
+                      <TouchableOpacity
+                        style={{width: DIMENSIONS?.width - 40, padding: 5}}
+                        onPress={() => {
+                          setSpeciality(item);
+                          setSpecialitySheet(false);
+                          setErrors({...errors, speciality: ''});
+                        }}>
+                        <Text style={{...FONT?.title}}>{item}</Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                />
+              </Actionsheet.Content>
+            </Actionsheet>
+
+            {/* ------------------------------------------doctor gender--------------------------------------------- */}
+
+            <Text
+              style={{
+                ...FONT.subTitle,
+                ...styles.placeholderText,
+                // marginLeft: 60,
+              }}>
+              Gender <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+
+            <DropDown
+              onPress={() => {
+                setGenderSheet(true);
+              }}
+              value={gender}
+              placeholder={'Select gender'}
+              err={errors?.gender}
+            />
+            {errors?.gender && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.gender}
+              </Text>
+            )}
+            <Actionsheet
+              isOpen={genderSheet}
+              onClose={() => setGenderSheet(false)}>
+              <Actionsheet.Content>
+                {['Male', 'Female', 'Other'].map(item => {
+                  return (
+                    <TouchableOpacity
+                      style={{width: DIMENSIONS?.width - 40, padding: 5}}
+                      onPress={() => {
+                        setGenderSheet(false);
+                        setGender(item);
+                        setErrors({...errors, gender: ''});
+                      }}
+                      key={item}>
+                      <Text style={{...FONT?.title}}>{item}</Text>
+                    </TouchableOpacity>
+                  );
+                })}
+              </Actionsheet.Content>
+            </Actionsheet>
+          </View>
+        ) : (
+          // ----------------------------------------------PATIENT------------------------------------------------
+
+          <View style={{width: '100%', alignItems: 'center'}}>
+            {/* ---------------------------------patient full name------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Full Name <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Full Name'}
+              onChangeText={text => {
+                setFullName(text);
+                setErrors({...errors, fullName: ''});
+              }}
+              value={fullName}
+              props={{
+                ref: fullNameRef,
+              }}
+              err={errors.fullName}
+            />
+            {errors?.fullName && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.fullName}
+              </Text>
+            )}
+            {/* -------------------------------patient email------------------------------------------------ */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Email <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Email'}
+              onChangeText={text => {
+                setEmail(text);
+                setErrors({...errors, email: ''});
+              }}
+              value={email}
+              props={{
+                ref: emailRef,
+              }}
+              err={errors.email}
+            />
+            {errors?.email && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.email}
+              </Text>
+            )}
+            {/* ----------------------------patient mobile number----------------------------------------------------------- */}
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Mobile Number <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'Mobile Number'}
+              onChangeText={text => {
+                setMobileNumber(text);
+                setErrors({...errors, mobileNumber: ''});
+              }}
+              value={mobileNumber}
+              keyboardType="numeric"
+              props={{
+                ref: mobileNumberRef,
+              }}
+              err={errors.mobileNumber}
+            />
+            {errors?.mobileNumber && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.mobileNumber}
+              </Text>
+            )}
+            {/* ----------------------------patient password----------------------------------------------------------- */}
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Password <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <View
+              style={{
+                // width: '100%',
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <Input
+                placeholder={'Password'}
+                secureTextEntry={secure}
+                onChangeText={text => {
+                  setPassword(text);
+                  setErrors({...errors, password: ''});
+                }}
+                value={password}
+                props={{
+                  ref: passwordRef,
+                }}
+                err={errors.password}
+              />
+              <Entypo
+                name={secure ? 'eye-with-line' : 'eye'}
+                size={20}
+                color="grey"
+                onPress={() => setSecure(!secure)}
+                style={{right: 10, position: 'absolute', padding: 10}}
+              />
+            </View>
+            {errors?.password && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.password}
+              </Text>
+            )}
+            {/* ----------------------------patient dob----------------------------------------------------------- */}
+
+            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
+              Date of Birth <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                activeOpacity={0.7}
+                onPress={() => {
+                  setDateModal(true);
+                }}>
+                <Input
+                  placeholder={'Date of Birth'}
+                  value={date}
+                  editable={false}
+                  props={{
+                    ref: dateRef,
+                  }}
+                  err={errors.date}
+                />
+                {errors?.date && (
+                  <Text
+                    style={{
+                      ...FONT.subTitle,
+                      color: COLORS.error,
+                      textAlign: 'left',
+                      marginTop: 5,
+                      width: DIMENSIONS.width - 60,
+                    }}>
+                    {errors.date}
+                  </Text>
+                )}
+              </TouchableOpacity>
+              <FontAwesome5
+                name="calendar-alt"
+                size={20}
+                color="grey"
+                style={{position: 'absolute', right: 20}}
+              />
+            </View>
+
+            {/* -----------------------------------patient height---------------------------------------------------- */}
+            <View style={styles.heightWeight}>
               <View style={{marginRight: 10}}>
                 <Text
                   style={{
@@ -633,394 +1172,8 @@ const Signup = ({navigation}) => {
                   value={weight}
                 />
               </View>
-            </View> */}
-
-            {/* --------------------------------------------------------------------------------------- */}
-
-            <Text
-              style={{
-                ...FONT.subTitle,
-                ...styles.placeholderText,
-                // marginLeft: 60,
-              }}>
-              Gender <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-
-            {/* <View style={styles.wrapperButton}>
-              {['Male', 'Female'].map(gender => {
-                return (
-                  <View
-                    key={gender}
-                    style={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      marginLeft: 20,
-                    }}>
-                    <Text
-                      style={{
-                        ...styles.radioText,
-                        ...FONT.title,
-                      }}>
-                      {gender}
-                    </Text>
-                    <TouchableOpacity
-                      style={styles.outerButton}
-                      onPress={() => {
-                        setRadioGender(gender);
-                      }}>
-                      {radioGender == gender && (
-                        <View style={styles.innerButton} />
-                      )}
-                    </TouchableOpacity>
-                  </View>
-                );
-              })}
             </View>
-            {errors?.gender && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: COLORS.error,
-                  textAlign: 'left',
-                  marginTop: 5,
-                  width: DIMENSIONS.width - 60,
-                }}>
-                {errors.gender}
-              </Text>
-            )} */}
-            <DropDown
-              onPress={() => {
-                setGenderSheet(true);
-              }}
-              value={gender}
-              placeholder={'Select gender'}
-              err={errors?.gender}
-            />
-            {errors?.gender && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: COLORS.error,
-                  textAlign: 'left',
-                  marginTop: 5,
-                  width: DIMENSIONS.width - 60,
-                }}>
-                {errors.gender}
-              </Text>
-            )}
-          </View>
-        ) : (
-          // ----------------------------------------------PATIENT------------------------------------------------
-          // <View style={{width: '100%', alignItems: 'center'}}>
-          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          //     Full Name <Text style={{color: COLORS.error}}>*</Text>
-          //   </Text>
-          //   <Input
-          //     placeholder={'Full Name'}
-          //     onChangeText={text => {
-          //       setFullName(text);
-          //       setErrors({...errors, message: ''});
-          //     }}
-          //     value={fullName}
-          //   />
-          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          //     Email <Text style={{color: COLORS.error}}>*</Text>
-          //   </Text>
-          //   <Input
-          //     placeholder={'Email'}
-          //     onChangeText={text => {
-          //       setEmail(text);
-          //       setErrors({...errors, message: ''});
-          //     }}
-          //     value={email}
-          //   />
-          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          //     Mobile Number <Text style={{color: COLORS.error}}>*</Text>
-          //   </Text>
-          //   <Input
-          //     placeholder={'Mobile Number'}
-          //     onChangeText={text => {
-          //       setMobileNumber(text);
-          //       setErrors({...errors, message: ''});
-          //     }}
-          //     value={mobileNumber}
-          //     keyboardType="numeric"
-          //   />
-          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          //     Password <Text style={{color: COLORS.error}}>*</Text>
-          //   </Text>
-          //   <Input
-          //     placeholder={'Password'}
-          //     onChangeText={text => {
-          //       setPassword(text);
-          //       setErrors({...errors, message: ''});
-          //     }}
-          //     value={password}
-          //   />
-          //   <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-          //     Date of Birth <Text style={{color: COLORS.error}}>*</Text>
-          //   </Text>
-
-          //   <TouchableOpacity
-          //     activeOpacity={0.7}
-          //     onPress={() => {
-          //       setDateModal(true);
-          //       console.log('open modal');
-          //     }}>
-          //     <Input
-          //       placeholder={'Date of Birth'}
-          //       value={date}
-          //       editable={false}
-          //     />
-          //   </TouchableOpacity>
-
-          //   <View style={styles.heightWeight}>
-          //     <View style={{marginRight: 10}}>
-          //       <Text
-          //         style={{
-          //           ...FONT.subTitle,
-          //           ...styles.heightWeightText,
-          //         }}>
-          //         Height <Text style={{color: COLORS.error}}>*</Text>
-          //       </Text>
-          //       <Input
-          //         width={DIMENSIONS.width / 2 - 40}
-          //         keyboardType={'numeric'}
-          //         placeholder={'Enter height'}
-          //       />
-          //     </View>
-          //     <View style={{marginLeft: 10}}>
-          //       <Text
-          //         style={{
-          //           ...FONT.subTitle,
-          //           ...styles.heightWeightText,
-          //         }}>
-          //         Weight <Text style={{color: COLORS.error}}>*</Text>
-          //       </Text>
-          //       <Input
-          //         width={DIMENSIONS.width / 2 - 40}
-          //         keyboardType={'numeric'}
-          //         placeholder={'Enter weight'}
-          //       />
-          //     </View>
-          //   </View>
-
-          //   <Text
-          //     style={{
-          //       ...FONT.subTitle,
-          //       ...styles.placeholderText,
-          //     }}>
-          //     Gender <Text style={{color: COLORS.error}}>*</Text>
-          //   </Text>
-
-          //   <View style={styles.wrapperButton}>
-          //     {['Male', 'Female'].map(gender => {
-          //       return (
-          //         <View
-          //           key={gender}
-          //           style={{
-          //             flexDirection: 'row',
-          //             alignItems: 'center',
-          //             marginLeft: 20,
-          //           }}>
-          //           <Text
-          //             style={{
-          //               ...styles.radioText,
-          //               ...FONT.title,
-          //             }}>
-          //             {gender}
-          //           </Text>
-          //           <TouchableOpacity
-          //             style={styles.outerButton}
-          //             onPress={() => {
-          //               setRadioGender(gender);
-          //             }}>
-          //             {radioGender == gender && (
-          //               <View style={styles.innerButton} />
-          //             )}
-          //           </TouchableOpacity>
-          //         </View>
-          //       );
-          //     })}
-          //   </View>
-          // </View>
-          <View style={{width: '100%', alignItems: 'center'}}>
-            {/* ---------------------------------------------------------------------------- */}
-            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-              Full Name <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <Input
-              placeholder={'Full Name'}
-              onChangeText={text => {
-                setFullName(text);
-                setErrors({...errors, fullName: ''});
-              }}
-              value={fullName}
-              props={{
-                ref: fullNameRef,
-              }}
-              err={errors.fullName}
-            />
-            {errors?.fullName && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: COLORS.error,
-                  textAlign: 'left',
-                  marginTop: 5,
-                  width: DIMENSIONS.width - 60,
-                }}>
-                {errors.fullName}
-              </Text>
-            )}
-            {/* ------------------------------------------------------------------------------- */}
-            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-              Email <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <Input
-              placeholder={'Email'}
-              onChangeText={text => {
-                setEmail(text);
-                setErrors({...errors, email: ''});
-              }}
-              value={email}
-              props={{
-                ref: emailRef,
-              }}
-              err={errors.email}
-            />
-            {errors?.email && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: COLORS.error,
-                  textAlign: 'left',
-                  marginTop: 5,
-                  width: DIMENSIONS.width - 60,
-                }}>
-                {errors.email}
-              </Text>
-            )}
-            {/* --------------------------------------------------------------------------------------- */}
-            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-              Mobile Number <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <Input
-              placeholder={'Mobile Number'}
-              onChangeText={text => {
-                setMobileNumber(text);
-                setErrors({...errors, mobileNumber: ''});
-              }}
-              value={mobileNumber}
-              keyboardType="numeric"
-              props={{
-                ref: mobileNumberRef,
-              }}
-              err={errors.mobileNumber}
-            />
-            {errors?.mobileNumber && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: COLORS.error,
-                  textAlign: 'left',
-                  marginTop: 5,
-                  width: DIMENSIONS.width - 60,
-                }}>
-                {errors.mobileNumber}
-              </Text>
-            )}
-            {/* --------------------------------------------------------------------------------------- */}
-
-            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-              Password <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <View
-              style={{
-                // width: '100%',
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <Input
-                placeholder={'Password'}
-                secureTextEntry={secure}
-                onChangeText={text => {
-                  setPassword(text);
-                  setErrors({...errors, password: ''});
-                }}
-                value={password}
-                props={{
-                  ref: passwordRef,
-                }}
-                err={errors.password}
-              />
-              <Entypo
-                name={secure ? 'eye-with-line' : 'eye'}
-                size={20}
-                color="grey"
-                onPress={() => setSecure(!secure)}
-                style={{right: 10, position: 'absolute', padding: 10}}
-              />
-            </View>
-            {errors?.password && (
-              <Text
-                style={{
-                  ...FONT.subTitle,
-                  color: COLORS.error,
-                  textAlign: 'left',
-                  marginTop: 5,
-                  width: DIMENSIONS.width - 60,
-                }}>
-                {errors.password}
-              </Text>
-            )}
-            {/* --------------------------------------------------------------------------------------- */}
-
-            <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
-              Date of Birth <Text style={{color: COLORS.error}}>*</Text>
-            </Text>
-            <View
-              style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                activeOpacity={0.7}
-                onPress={() => {
-                  // showDatePicker();
-                  setDateModal(true);
-                  console.log('open modal');
-                }}>
-                <Input
-                  placeholder={'Date of Birth'}
-                  value={date}
-                  editable={false}
-                  props={{
-                    ref: dateRef,
-                  }}
-                  err={errors.date}
-                />
-                {errors?.date && (
-                  <Text
-                    style={{
-                      ...FONT.subTitle,
-                      color: COLORS.error,
-                      textAlign: 'left',
-                      marginTop: 5,
-                      width: DIMENSIONS.width - 60,
-                    }}>
-                    {errors.date}
-                  </Text>
-                )}
-              </TouchableOpacity>
-              <FontAwesome5
-                name="calendar-alt"
-                size={20}
-                color="grey"
-                style={{position: 'absolute', right: 20}}
-              />
-            </View>
-            {/* --------------------------------------------------------------------------------------- */}
+            {/* -----------------------------------patient gender---------------------------------------------------- */}
 
             <Text
               style={{
@@ -1066,14 +1219,9 @@ const Signup = ({navigation}) => {
             onPress={() => {
               navigation.navigate(ROUTES.login);
             }}>
-            <Text style={{...FONT.subTitle, fontWeight: '800'}}>Login</Text>
+            <Text style={{...FONT.header, fontSize: 14, bottom: 3}}>Login</Text>
           </TouchableOpacity>
         </View>
-        <Text style={{color: 'grey', marginTop: 20}}>Or</Text>
-        <TouchableOpacity style={styles.googleView}>
-          <AntDesign name="google" size={24} color="black" />
-          <Text style={styles.googleText}>Signin with Google</Text>
-        </TouchableOpacity>
       </ScrollView>
 
       {/* ---------------------------------------------DateTimePicker-------------------------------------- */}
@@ -1084,144 +1232,6 @@ const Signup = ({navigation}) => {
         onConfirm={handleConfirm}
         onCancel={() => setDateModal(false)}
       />
-      {/* ---------------------------------------------------ActionSheet----------------------------------------------- */}
-      <Actionsheet
-        hideDragIndicator
-        isOpen={countrySheet}
-        onClose={() => setCountrySheet(false)}>
-        <Actionsheet.Content h={DIMENSIONS.height - 200}>
-          <View style={{height: 20}} />
-          <Input
-            placeholder={'Search country name'}
-            onChangeText={text => {
-              if (text) {
-                const newData = countries?.filter(item => {
-                  const itemData = item?.name
-                    ? item?.name?.toUpperCase()
-                    : ''.toUpperCase();
-                  const textData = text?.toUpperCase();
-                  return itemData.indexOf(textData) > -1;
-                });
-                setCountries(newData);
-                setSearchTerm(text);
-              }
-            }}
-          />
-          <View style={{height: 20}} />
-          <FlatList
-            data={countries}
-            keyExtractor={item => item?.id}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  style={{
-                    width: DIMENSIONS?.width - 60,
-                    padding: 8,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'space-between',
-                  }}
-                  onPress={() => {
-                    setCountry(item);
-                    setCountrySheet(false);
-                    setErrors({...errors, country: ''});
-                    setState('');
-                    setCity('');
-                    getState(item?.iso2);
-                  }}>
-                  <Text style={{...FONT?.title}}>{item?.name}</Text>
-                  <Text style={{...FONT?.title}}>{item?.iso2}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </Actionsheet.Content>
-      </Actionsheet>
-
-      <Actionsheet isOpen={stateSheet} onClose={() => setStateSheet(false)}>
-        <Actionsheet.Content h={DIMENSIONS.height - 200}>
-          <FlatList
-            data={states}
-            keyExtractor={item => item?.id}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setState(item);
-                    setStateSheet(false);
-                    setErrors({...errors, state: ''});
-                    setCity('');
-                    getCity(item?.iso2);
-                  }}>
-                  <Text>{item?.name}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </Actionsheet.Content>
-      </Actionsheet>
-
-      <Actionsheet isOpen={citySheet} onClose={() => setCitySheet(false)}>
-        <Actionsheet.Content h={DIMENSIONS.height - 200}>
-          <FlatList
-            data={cities}
-            keyExtractor={item => item?.id}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setCity(item);
-                    setCitySheet(false);
-                    setErrors({...errors, city: ''});
-                  }}>
-                  <Text>{item?.name}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </Actionsheet.Content>
-      </Actionsheet>
-
-      <Actionsheet isOpen={genderSheet} onClose={() => setGenderSheet(false)}>
-        <Actionsheet.Content>
-          {['Male', 'Female', 'Other'].map(item => {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  setGenderSheet(false);
-                  setGender(item);
-                  setErrors({...errors, gender: ''});
-                }}
-                key={item}>
-                <Text>{item}</Text>
-              </TouchableOpacity>
-            );
-          })}
-        </Actionsheet.Content>
-      </Actionsheet>
-
-      <Actionsheet
-        isOpen={qualificationSheet}
-        onClose={() => setQualificationSheet(false)}>
-        <Actionsheet.Content>
-          <FlatList
-            data={qualifications}
-            keyExtractor={item => item}
-            renderItem={({item, index}) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    setQualification(item);
-                    setQualificationSheet(false);
-                    setErrors({...errors, qualification: ''});
-                  }}>
-                  <Text>{item}</Text>
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </Actionsheet.Content>
-      </Actionsheet>
 
       <KeyboardAvoidingView />
     </Container>
@@ -1243,23 +1253,9 @@ const styles = StyleSheet.create({
   signInView: {
     flexDirection: 'row',
     marginTop: 5,
+    marginBottom: 30,
   },
-  googleView: {
-    backgroundColor: 'lightgrey',
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 10,
-    width: DIMENSIONS.width - 60,
-    marginTop: 30,
-    justifyContent: 'center',
-    height: 52,
-    marginBottom: 70,
-  },
-  googleText: {
-    ...FONT.subTitle,
-    marginLeft: 10,
-    color: COLORS.light_black,
-  },
+
   signUpTopTab: {
     flexDirection: 'row',
     backgroundColor: '#fff',
@@ -1280,53 +1276,10 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
   },
-  outerButton: {
-    width: 15,
-    height: 15,
-    borderWidth: 1,
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: 'grey',
-  },
-  innerButton: {
-    width: 10,
-    height: 10,
-    borderRadius: 10,
-    backgroundColor: COLORS.blue,
-  },
-  wrapperButton: {
-    flexDirection: 'row',
-    width: DIMENSIONS.width - 40,
-  },
-  radioText: {
-    marginRight: 5,
-    top: 2,
-    color: 'grey',
-  },
+
   heightWeight: {
     flexDirection: 'row',
     width: '100%',
     justifyContent: 'center',
-  },
-  SelectedStyle: {
-    height: 50,
-    width: DIMENSIONS.width - 60,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 10,
-    fontSize: 12,
-    borderWidth: 0,
-    borderColor: COLORS.error,
-    ...FONT.title,
-    elevation: 0,
-    shadowColor: `${COLORS.blue}cc`,
-  },
-  heightWeightText: {
-    alignSelf: 'flex-start',
-    marginTop: 20,
-    marginBottom: 5,
-    width: '100%',
-    marginLeft: 5,
   },
 });

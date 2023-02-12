@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Verticledots from 'react-native-vector-icons/Entypo';
@@ -10,8 +10,9 @@ import Feather from 'react-native-vector-icons/Feather';
 import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
 import Share from 'react-native-share';
+import {Menu} from 'native-base';
 
-const ArticleCard = ({item, index, length}) => {
+const ArticleCard = ({item, index, length, saved}) => {
   const [like, setLike] = useState(false);
   const [bookmark, setBookmark] = useState(false);
   const [readMore, setReadMore] = useState(false);
@@ -71,11 +72,31 @@ const ArticleCard = ({item, index, length}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Verticledots
-            name="dots-three-vertical"
-            size={21}
-            color={COLORS.grey}
-          />
+          <Menu
+            mr={5}
+            marginTop={50}
+            w="100"
+            borderRadius={10}
+            style={{elevation: 20, shadowColor: COLORS?.blue}}
+            backgroundColor={'#fff'}
+            trigger={triggerProps => {
+              return (
+                <Pressable
+                  accessibilityLabel="More options menu"
+                  {...triggerProps}>
+                  <Verticledots
+                    name="dots-three-vertical"
+                    size={21}
+                    color={COLORS.grey}
+                  />
+                </Pressable>
+              );
+            }}>
+            <Menu.Item
+              style={{right: 0, backgroundColor: '#fff', ...FONT?.title}}>
+              Report
+            </Menu.Item>
+          </Menu>
         </TouchableOpacity>
       </View>
       {item?.img ? (
@@ -163,21 +184,31 @@ const ArticleCard = ({item, index, length}) => {
             />
           </TouchableOpacity>
         </View>
-        <View style={{}}>
-          <TouchableOpacity
-            onPress={() => {
-              setBookmark(!bookmark);
-            }}>
-            {bookmark ? (
+        <View style={{width: '10%'}}>
+          {saved ? (
+            <View>
               <Bookmark name="bookmark" size={21} color={COLORS.light_black} />
-            ) : (
-              <NotBookmark
-                name="bookmark-o"
-                size={21}
-                color={COLORS.light_black}
-              />
-            )}
-          </TouchableOpacity>
+            </View>
+          ) : (
+            <TouchableOpacity
+              onPress={() => {
+                setBookmark(!bookmark);
+              }}>
+              {bookmark ? (
+                <Bookmark
+                  name="bookmark"
+                  size={21}
+                  color={COLORS.light_black}
+                />
+              ) : (
+                <NotBookmark
+                  name="bookmark-o"
+                  size={21}
+                  color={COLORS.light_black}
+                />
+              )}
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </View>

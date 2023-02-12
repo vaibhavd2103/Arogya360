@@ -44,7 +44,7 @@ const SplashScreen = ({navigation}) => {
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent backgroundColor="transparent" />
+      <StatusBar backgroundColor={COLORS?.blue} />
       <Animated.Image
         source={require('../assets/logo.png')}
         style={{
