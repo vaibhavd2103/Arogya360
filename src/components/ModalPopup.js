@@ -30,34 +30,38 @@ const ModalPopup = ({heading, title, subtitle, error, onPress, source}) => {
         <MaterialCommunityIcons
           name="check-decagram"
           size={100}
-          color="#41C788"
+          color={COLORS.green}
           style={{
             elevation: 20,
-            shadowColor: `#41C788cc`,
+            shadowColor: `${COLORS.green}cc`,
             shadowOpacity: 0.2,
           }}
         />
       ) : null}
 
-      <Text color={error ? '#C9234A' : '#41C788'} fontSize={20} mt={6}>
+      <Text color={error ? COLORS.red : COLORS.green} fontSize={20} mt={6}>
         {heading}
       </Text>
-      <Text
-        color={error ? '#C9234A' : '#41C788'}
-        fontSize={20}
-        maxW={'90%'}
-        textAlign="center"
-        mt={1}>
-        {title}
-      </Text>
-      <Text
-        color="#6D7A9B"
-        fontSize={15}
-        maxW={'100%'}
-        textAlign="center"
-        mt={5}>
-        {subtitle}
-      </Text>
+      {title ? (
+        <Text
+          color={error ? COLORS.red : COLORS.green}
+          fontSize={20}
+          maxW={'90%'}
+          textAlign="center"
+          mt={1}>
+          {title}
+        </Text>
+      ) : null}
+      {subtitle ? (
+        <Text
+          color="#6D7A9B"
+          fontSize={15}
+          maxW={'100%'}
+          textAlign="center"
+          mt={1}>
+          {subtitle}
+        </Text>
+      ) : null}
       <Button
         title={error ? 'Back' : 'Continue'}
         style={{width: '50%', marginTop: 15}}

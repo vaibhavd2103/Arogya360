@@ -12,6 +12,7 @@ const Input = ({
   secureTextEntry,
   keyboardType,
   editable,
+  style,
   props,
 }) => {
   return (
@@ -30,6 +31,7 @@ const Input = ({
           ...FONT.title,
           elevation: 20,
           shadowColor: err ? `${COLORS.error}` : `${COLORS.blue}cc`,
+          ...style,
         }}
         placeholderTextColor={'grey'}
         onChangeText={onChangeText}
