@@ -32,9 +32,11 @@ const Login = ({navigation}) => {
 
   // --------------------------------------------Validation----------------------------------------------
   const login = () => {
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email === '') {
       setErr({...err, email: 'Email cannot be empty'});
-      // console.log(err);
+    } else if (!emailRegex?.test(email)) {
+      setErr({...err, email: 'Enter valid email id'});
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
@@ -65,7 +67,7 @@ const Login = ({navigation}) => {
           Sign In
         </Text>
 
-        <Text
+        {/* <Text
           style={{
             ...FONT.subTitle,
             marginBottom: 10,
@@ -107,7 +109,7 @@ const Login = ({navigation}) => {
               Doctor
             </Text>
           </TouchableOpacity>
-        </View>
+        </View> */}
         {/* ------------------------------------------DOCTOR----------------------------------------------------------- */}
         <>
           <Text
@@ -154,7 +156,6 @@ const Login = ({navigation}) => {
               alignItems: 'center',
             }}>
             <Input
-              // value={fields.password}
               secureTextEntry={secure}
               onChangeText={text => {
                 setPassword(text);
@@ -202,6 +203,8 @@ const Login = ({navigation}) => {
             <Text style={{...FONT.subTitle}}>Don't have an account? </Text>
             <TouchableOpacity
               onPress={() => {
+                setEmail('');
+                setPassword('');
                 navigation.navigate(ROUTES.signup);
               }}>
               <Text style={{...FONT.header, fontSize: 14, bottom: 3}}>
@@ -211,13 +214,13 @@ const Login = ({navigation}) => {
           </View>
         </>
         {/* -----------------------------------------Google SignIn--------------------------------------------------- */}
-        <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
+        {/* <Text style={{color: 'grey', marginTop: 30}}>Or</Text>
         <TouchableOpacity
           style={styles.googleView}
           onPress={() => dispatch(setAuthenticated(true))}>
           <AntDesign name="google" size={24} color={COLORS.blue} />
           <Text style={styles.googleText}>Signin with Google</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </Container>
     </ScrollView>
   );
@@ -230,6 +233,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 30,
+    marginTop: DIMENSIONS.height / 9,
   },
   signUpView: {
     flexDirection: 'row',
@@ -248,7 +252,6 @@ const styles = StyleSheet.create({
   },
   googleText: {
     ...FONT.subTitle,
-    // marginRight: 30,
     color: COLORS.light_black,
     marginLeft: 10,
   },
