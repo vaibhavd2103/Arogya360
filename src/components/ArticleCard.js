@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Verticledots from 'react-native-vector-icons/Entypo';
@@ -9,6 +9,7 @@ import Notlike from 'react-native-vector-icons/AntDesign';
 import Share from 'react-native-vector-icons/Feather';
 import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
+import {Menu} from 'native-base';
 
 const ArticleCard = ({item, index, length}) => {
   const [like, setLike] = useState(false);
@@ -49,11 +50,23 @@ const ArticleCard = ({item, index, length}) => {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Verticledots
-            name="dots-three-vertical"
-            size={21}
-            color={COLORS.grey}
-          />
+          <Menu
+            w="150"
+            trigger={triggerProps => {
+              return (
+                <Pressable
+                  accessibilityLabel="More options menu"
+                  {...triggerProps}>
+                  <Verticledots
+                    name="dots-three-vertical"
+                    size={21}
+                    color={COLORS.grey}
+                  />
+                </Pressable>
+              );
+            }}>
+            <Menu.Item>Report</Menu.Item>
+          </Menu>
         </TouchableOpacity>
       </View>
       {item?.img ? (
