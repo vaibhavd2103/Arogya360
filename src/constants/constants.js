@@ -62,6 +62,7 @@ export const ROUTES = {
   createReport: 'createReport',
   bookAppointment: 'bookAppointment',
   savedArticles: 'savedArticles',
+  appInfo: 'appInfo',
 };
 
 export const USERS = {

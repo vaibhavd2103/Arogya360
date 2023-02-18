@@ -20,6 +20,7 @@ import BMIChecker from '../screens/BMIChecker';
 import DoctorsProfile from '../screens/DoctorsProfile';
 import CreateReport from '../screens/CreateReport';
 import BookAppointment from '../screens/BookAppointment';
+import AppInfo from '../screens/AppInfo';
 
 const Drawer = createDrawerNavigator();
 
@@ -137,6 +138,16 @@ const DrawerNavigator = props => {
           headerShown: true,
           header: stackHeaderProps => (
             <CustomHeader {...stackHeaderProps} title="Book Appointment" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={ROUTES.appInfo}
+        component={AppInfo}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="App Information" />
           ),
         }}
       />

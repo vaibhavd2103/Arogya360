@@ -56,6 +56,14 @@ const SlideMenu = ({navigation}) => {
       icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
       navigation: ROUTES.createReport,
     },
+    {
+      id: '9',
+      name: 'App Info',
+      icon: (
+        <Ionicons name="information-circle" size={24} color={COLORS.blue} />
+      ),
+      navigation: ROUTES.appInfo,
+    },
   ];
 
   const userType = useSelector(state => state?.userType);
@@ -120,7 +128,7 @@ const SlideMenu = ({navigation}) => {
                 }}
                 style={{
                   flexDirection: 'row',
-                  marginVertical: 10,
+                  marginVertical: 6,
                   alignItems: 'center',
                   height: 50,
                   borderRadius: 10,
