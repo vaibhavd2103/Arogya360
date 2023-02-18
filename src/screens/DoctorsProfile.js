@@ -130,7 +130,7 @@ const DoctorsProfile = ({navigation, route}) => {
             'Details like how many years of experience the doctors have, how many patients the doctors have consulted, and how many patients the doctors consult on a weekly basis..'
           }
         />
-        <TitleSubTitle
+        {/* <TitleSubTitle
           title="Academic Details"
           subTitle={
             'Details like how many years of experience the doctors have, how many patients the doctors have consulted, and how many patients the doctors consult on a weekly basis..'
@@ -149,7 +149,7 @@ const DoctorsProfile = ({navigation, route}) => {
           subTitle={
             'Doctors should mention the known languages here. English is a common language for all the doctors, so it will be a default setting in the consulting language field. Apart from English, doctors need to set their native speaking languages and known languages. Doctors can add multiple languages in this field.'
           }
-        />
+        /> */}
 
         <View style={{height: 90}} />
       </ScrollView>

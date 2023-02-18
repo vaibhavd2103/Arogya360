@@ -8,15 +8,17 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Foundation from 'react-native-vector-icons/Foundation';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import {Button} from './Buttons';
+import {setAuthenticated} from '../redux/actions';
 
 const SlideMenu = ({navigation}) => {
+  const dispatch = useDispatch();
   const options = [
     {
       id: '1',
-      name: 'Appointment',
+      name: 'My Appointments',
       icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
       navigation: ROUTES.appointment,
     },
@@ -77,7 +79,8 @@ const SlideMenu = ({navigation}) => {
           alignItems: 'center',
         }}
         activeOpacity={0.7}
-        onPress={() => navigation.navigate(ROUTES.profile)}>
+        // onPress={() => navigation.navigate(ROUTES.profile)}
+      >
         <Image
           source={{
             uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
@@ -191,6 +194,7 @@ const SlideMenu = ({navigation}) => {
           <Button
             title={'Logout'}
             style={{width: '90%', alignSelf: 'center'}}
+            onPress={() => dispatch(setAuthenticated(false))}
           />
         </View>
       </View>

@@ -10,7 +10,7 @@ import {
 import React, {useState, useEffect} from 'react';
 import Container from '../components/Container';
 import CalendarStrip from 'react-native-calendar-strip';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import {Calendar} from 'react-native-calendars';
 import moment from 'moment';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
@@ -170,13 +170,21 @@ const BookAppointment = ({navigation, route}) => {
               selectedDate={selectedDate}
               highlightDateNameStyle={{color: COLORS.green}}
               highlightDateNumberStyle={{color: COLORS.green}}
-              onDateSelected={val => setSelectedDate(val)}
+              onDateSelected={val => {
+                setSelectedDate(moment(val).format('YYYY-MM-DD'));
+                console.log(moment(val).format('YYYY-MM-DD'));
+              }}
             />
           </View>
         ) : (
           <View style={{marginTop: 15}}>
             <Calendar
-              onDayPress={day => setSelectedDate(new Date(day.dateString))}
+              initialDate={selectedDate}
+              // onDayPress={day => setSelectedDate(new Date(day.dateString))}
+              onDayPress={day => {
+                setSelectedDate(day?.dateString);
+                console.log(day?.dateString);
+              }}
               // current={new Date()}
               horizontal={true}
               markingType={'custom'}
@@ -200,8 +208,9 @@ const BookAppointment = ({navigation, route}) => {
           }}>
           Select Schedule Time
         </Text>
-        <View style={{height: 180}}>
-          <FlatList
+        <View
+          style={{height: 180, flexWrap: 'wrap', width: DIMENSIONS.width - 60}}>
+          {/* <FlatList
             data={Time}
             numColumns={3}
             scrollEnabled={false}
@@ -238,12 +247,45 @@ const BookAppointment = ({navigation, route}) => {
                 </TouchableOpacity>
               );
             }}
-          />
+          /> */}
+          {Time?.reverse()?.map(item => {
+            return (
+              <TouchableOpacity
+                key={item?.id}
+                style={{
+                  ...styles.timeCard,
+                  backgroundColor: item?.booked
+                    ? `${COLORS?.error}aa`
+                    : selectedTime == item?.time
+                    ? COLORS.green
+                    : COLORS.yellow,
+                  elevation: selectedTime === item.time ? 10 : 0,
+                  shadowColor: item?.booked
+                    ? `${COLORS?.error}`
+                    : selectedTime == item?.time
+                    ? COLORS.green
+                    : COLORS.yellow,
+                }}
+                disabled={item?.booked}
+                onPress={() => setSelectedTime(item.time)}>
+                <Text
+                  style={{
+                    ...FONT.title,
+                  }}>
+                  {item?.booked ? 'Booked' : item?.time}
+                </Text>
+              </TouchableOpacity>
+            );
+          })}
         </View>
 
         {selectedTime ? (
           <Text style={{...FONT.title}}>
-            {`You have selected time ${selectedTime} on date ${selectedDate} please confirm your booking`}
+            You have selected time{' '}
+            <Text style={{...FONT.header, fontSize: 14}}> {selectedTime}</Text>{' '}
+            on date
+            <Text style={{...FONT.header, fontSize: 14}}> {selectedDate}</Text>
+            please confirm your booking
           </Text>
         ) : null}
         <Button
@@ -260,12 +302,12 @@ const BookAppointment = ({navigation, route}) => {
           <ModalPopup
             // source={require('../assets/images/success.png')}
             error={false}
-            heading={'Congratulations!'}
+            heading={'Appointment Booked Successful'}
             // title="Successful"
-            subtitle={'Your Appointment is Booked'}
+            subtitle={'Doctor will contact you soon...'}
             onPress={() => {
               setSuccessModal(false);
-              // navigation.goBack();
+              navigation.goBack();
             }}
           />
         </Modal>

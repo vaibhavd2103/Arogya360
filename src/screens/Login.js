@@ -151,7 +151,7 @@ const Login = ({navigation}) => {
           </Text>
           <View
             style={{
-              width: '100%',
+              width: DIMENSIONS.width - 60,
               flexDirection: 'row',
               alignItems: 'center',
             }}>
@@ -167,13 +167,12 @@ const Login = ({navigation}) => {
               placeholderTextColor="#9098AC"
               style={{
                 color: '#000',
-                width: '50%',
               }}
             />
             <Entypo
               name={secure ? 'eye-with-line' : 'eye'}
               size={20}
-              color="black"
+              color="grey"
               onPress={() => setSecure(!secure)}
               style={{right: 10, position: 'absolute', padding: 10}}
             />
