@@ -47,6 +47,7 @@ const Signup = ({navigation}) => {
   const [weight, setWeight] = useState('');
   const [qualification, setQualification] = useState('');
   const [speciality, setSpeciality] = useState('');
+  const [mci, setMci] = useState('');
   const [secure, setSecure] = useState(true);
   const [errors, setErrors] = useState({
     message: '',
@@ -61,6 +62,7 @@ const Signup = ({navigation}) => {
     height: '',
     weight: '',
     gender: '',
+    mci: '',
   });
   const [countrySheet, setCountrySheet] = useState(false);
   const [countries, setCountries] = useState([]);
@@ -95,6 +97,7 @@ const Signup = ({navigation}) => {
   const genderRef = useRef(null);
   const qualificationRef = useRef(null);
   const specialityRef = useRef(null);
+  const mciRef = useRef(null);
 
   //---------------------------------------API------------------------------------------
 
@@ -193,6 +196,9 @@ const Signup = ({navigation}) => {
       } else if (speciality == '') {
         setErrors({...errors, speciality: 'Enter speciality'});
         specialityRef?.current?.focus();
+      } else if (mci == '') {
+        setErrors({...errors, mci: 'Enter MCI Registration Number'});
+        mciRef?.current?.focus();
       } else if (gender == '') {
         setErrors({...errors, gender: 'Enter gender'});
         genderRef?.current?.focus();
@@ -895,7 +901,41 @@ const Signup = ({navigation}) => {
                 />
               </Actionsheet.Content>
             </Actionsheet>
-
+            {/* ------------------------------------------doctor Mci--------------------------------------------- */}
+            <Text
+              style={{
+                ...FONT.subTitle,
+                ...styles.placeholderText,
+                // marginLeft: 60,
+              }}>
+              MCI Registration Number{' '}
+              <Text style={{color: COLORS.error}}>*</Text>
+            </Text>
+            <Input
+              placeholder={'MCI Registration Number'}
+              onChangeText={text => {
+                setMci(text);
+                setErrors({...errors, mci: ''});
+              }}
+              value={mci}
+              props={{
+                ref: mciRef,
+              }}
+              keyboardType="numeric"
+              err={errors.mci}
+            />
+            {errors?.mci && (
+              <Text
+                style={{
+                  ...FONT.subTitle,
+                  color: COLORS.error,
+                  textAlign: 'left',
+                  marginTop: 5,
+                  width: DIMENSIONS.width - 60,
+                }}>
+                {errors.mci}
+              </Text>
+            )}
             {/* ------------------------------------------doctor gender--------------------------------------------- */}
 
             <Text
