@@ -63,6 +63,7 @@ const Bmi = () => {
         <Text style={{...FONT.title, paddingRight: 15}}>Height:*</Text>
         <TextInput
           placeholder="Enter your Height"
+          placeholderTextColor={'grey'}
           style={{
             height: 45,
             width: DIMENSIONS.width - 250,
@@ -105,6 +106,7 @@ const Bmi = () => {
         <Text style={{...FONT.title, paddingRight: 10}}>Weight:*</Text>
         <TextInput
           placeholder="Enter your Weight"
+          placeholderTextColor={'grey'}
           style={{
             height: 45,
             width: DIMENSIONS.width - 250,

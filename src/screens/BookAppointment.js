@@ -179,7 +179,7 @@ const BookAppointment = ({navigation, route}) => {
         ) : (
           <View style={{marginTop: 15}}>
             <Calendar
-              initialDate={selectedDate}
+              initialDate={selectedDate.toString()}
               // onDayPress={day => setSelectedDate(new Date(day.dateString))}
               onDayPress={day => {
                 setSelectedDate(day?.dateString);
