@@ -15,60 +15,62 @@ import {setAuthenticated} from '../redux/actions';
 
 const SlideMenu = ({navigation}) => {
   const dispatch = useDispatch();
-  const options = [
-    {
-      id: '1',
-      name: 'My Appointments',
-      icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
-      navigation: ROUTES.appointment,
-    },
-    {
-      id: '2',
-      name: 'Medicine Tracker',
-      icon: <FontAwesome5 name="capsules" size={24} color={COLORS?.blue} />,
-      navigation: ROUTES.medicinetracker,
-    },
-    {
-      id: '3',
-      name: 'Phone Directory',
-      icon: <FontAwesome name="phone" size={24} color={COLORS?.blue} />,
-      navigation: ROUTES.phonedirectory,
-    },
-    {
-      id: '4',
-      name: 'Find a Doctor',
-      icon: <Fontisto name="doctor" size={24} color={COLORS?.blue} />,
-      navigation: ROUTES.finddoctor,
-    },
-    {
-      id: '5',
-      name: 'Settings',
-      icon: <Ionicons name="settings" size={24} color={COLORS?.blue} />,
-      navigation: ROUTES.settings,
-    },
-    {
-      id: '8',
-      name: 'BMI Checker',
-      icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
-      navigation: ROUTES.bmichecker,
-    },
-    {
-      id: '6',
-      name: 'Create Report',
-      icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
-      navigation: ROUTES.createReport,
-    },
-    {
-      id: '9',
-      name: 'App Info',
-      icon: (
-        <Ionicons name="information-circle" size={24} color={COLORS.blue} />
-      ),
-      navigation: ROUTES.appInfo,
-    },
-  ];
+    const userType = useSelector(state => state?.userType);
+    console.log(userType);
 
-  const userType = useSelector(state => state?.userType);
+    const options = [
+      {
+        id: '1',
+        name: 'My Appointments',
+        icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
+        navigation: userType == 2 ? ROUTES.drAppoitments : ROUTES.appointment,
+      },
+      {
+        id: '2',
+        name: 'Medicine Tracker',
+        icon: <FontAwesome5 name="capsules" size={24} color={COLORS?.blue} />,
+        navigation: ROUTES.medicinetracker,
+      },
+      {
+        id: '3',
+        name: 'Phone Directory',
+        icon: <FontAwesome name="phone" size={24} color={COLORS?.blue} />,
+        navigation: ROUTES.phonedirectory,
+      },
+      {
+        id: '4',
+        name: 'Find a Doctor',
+        icon: <Fontisto name="doctor" size={24} color={COLORS?.blue} />,
+        navigation: ROUTES.finddoctor,
+      },
+      {
+        id: '5',
+        name: 'Settings',
+        icon: <Ionicons name="settings" size={24} color={COLORS?.blue} />,
+        navigation: ROUTES.settings,
+      },
+      {
+        id: '8',
+        name: 'BMI Checker',
+        icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
+        navigation: ROUTES.bmichecker,
+      },
+      {
+        id: '6',
+        name: 'Create Report',
+        icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
+        navigation: ROUTES.createReport,
+      },
+      {
+        id: '9',
+        name: 'App Info',
+        icon: (
+          <Ionicons name="information-circle" size={24} color={COLORS.blue} />
+        ),
+        navigation: ROUTES.appInfo,
+      },
+    ];
+
 
   return (
     <View style={{flex: 1}}>
