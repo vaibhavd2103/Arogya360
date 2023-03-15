@@ -3,7 +3,8 @@ import React from 'react';
 import Container from '../components/Container';
 import CustomHeader from '../components/CustomHeader';
 import Search from 'react-native-vector-icons/Feather';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import MessageComponent from '../components/MessageComponent';
 
 data = [
@@ -40,10 +41,18 @@ data = [
       'https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg',
   },
 ];
-const Message = () => {
+const Message = ({navigation}) => {
   return (
     <Container>
-      <CustomHeader title={'Messages'} />
+      <CustomHeader
+        title={'Messages'}
+        RightIcon={() => {
+          return <FontAwesome5 name="robot" size={24} color={COLORS.blue} />;
+        }}
+        onRightIconPress={() => {
+          navigation.navigate(ROUTES.chattingBot);
+        }}
+      />
       <View style={styles.searchView}>
         <TextInput
           style={styles.searchInput}
