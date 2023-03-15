@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import Container from '../components/Container';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import HomeAppointmentCard from '../components/HomeAppointmentCard';
-import MyAppointmentCard from '../components/MyAppointmentCard';
+import {MyAppointmentCard} from '../components/MyAppointmentCard';
 
 const Appointment = () => {
   // --------------------------------------useState-----------------------------------------

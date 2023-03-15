@@ -22,6 +22,7 @@ import CreateReport from '../screens/CreateReport';
 import BookAppointment from '../screens/BookAppointment';
 import AppInfo from '../screens/AppInfo';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import DrAppoitments from '../screens/DrAppoitments';
 
 const Drawer = createDrawerNavigator();
 
@@ -404,6 +405,16 @@ const DrawerNavigator = props => {
           headerShown: true,
           header: stackHeaderProps => (
             <CustomHeader {...stackHeaderProps} title="App Information" />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name={ROUTES.drAppoitments}
+        component={DrAppoitments}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="My Appoitments" />
           ),
         }}
       />

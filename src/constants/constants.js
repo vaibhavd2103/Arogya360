@@ -20,6 +20,7 @@ export const COLORS = {
   lead: '#3d3d3d',
   white: '#ffffff',
   grey: '#555555',
+  lightRed: '#F76F72',
 };
 
 export const FONT = {
@@ -63,6 +64,7 @@ export const ROUTES = {
   bookAppointment: 'bookAppointment',
   savedArticles: 'savedArticles',
   appInfo: 'appInfo',
+  drAppoitments: 'drAppoitments',
 };
 
 export const USERS = {
