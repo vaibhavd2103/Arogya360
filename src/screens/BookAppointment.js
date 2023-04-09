@@ -20,7 +20,9 @@ import {Modal} from 'native-base';
 
 const BookAppointment = ({navigation, route}) => {
   const [calType, setCalType] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    moment(new Date()).format('YYYY-MM-DD'),
+  );
   const item = route.params.item;
   // console.log(item);
   const [selectedTime, setSelectedTime] = useState('');
@@ -172,7 +174,10 @@ const BookAppointment = ({navigation, route}) => {
               highlightDateNumberStyle={{color: COLORS.green}}
               onDateSelected={val => {
                 setSelectedDate(moment(val).format('YYYY-MM-DD'));
-                console.log(moment(val).format('YYYY-MM-DD'));
+                // console.log(moment(val).format('YYYY-MM-DD'));
+                console.log(val);
+                const date = new Date();
+                console.log(JSON.stringify(date));
               }}
             />
           </View>
