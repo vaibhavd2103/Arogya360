@@ -950,6 +950,7 @@ const Signup = ({navigation}) => {
             <DropDown
               onPress={() => {
                 setGenderSheet(true);
+                console.log('open gener');
               }}
               value={gender}
               placeholder={'Select gender'}

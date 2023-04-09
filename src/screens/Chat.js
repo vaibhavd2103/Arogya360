@@ -114,7 +114,7 @@ const Chat = props => {
   return (
     <Container>
       <GiftedChat
-        wrapInSafeArea={true}
+        wrapInSafeArea={false}
         messages={messages}
         inverted={true}
         renderInputToolbar={renderInputToolbar}
