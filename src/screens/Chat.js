@@ -11,16 +11,42 @@ import {GiftedChat} from 'react-native-gifted-chat';
 import DocumentPicker from 'react-native-document-picker';
 //------------------------------components/constants----------------------------------------
 import Container from '../components/Container';
-import {COLORS, DIMENSIONS} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 //------------------------------------icons--------------------------------------------------
 import Send from 'react-native-vector-icons/Ionicons';
 import Attachment from 'react-native-vector-icons/Entypo';
+import axios from 'axios';
+import {NetworkInfo} from 'react-native-network-info';
+import io from 'socket.io-client';
+import {ip} from '../axios/instance';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
+
+  const getMessages = async () => {
+    const hostname = window?.location?.hostname;
+    console.log(hostname);
+    // const port = window.location.port;
+    const localhost = `http://${hostname}:5000`;
+    await axios
+      .get(`${localhost}/getAllArticles`)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  const socket = io(`http://${ip}:5000`);
+
   useEffect(() => {
+    // NetworkInfo.getIPAddress(ip => {
+    //   console.log('IPv4 address:', ip);
+    // });
+    // getMessages();
     // setMessages([
     //   {
     //     _id: 1,
@@ -33,6 +59,10 @@ const Chat = props => {
     //     },
     //   },
     // ]);
+    console.log('useeffect');
+    socket.on('connection', data => {
+      console.log(`Received data: ${data}`);
+    });
   }, []);
   //------------------------------file Picker------------------------------------------------
   const openFilePicker = async () => {
@@ -59,6 +89,7 @@ const Chat = props => {
           }}
           style={styles.textInput}
           placeholder="Enter message"
+          placeholderTextColor={COLORS?.grey}
         />
         <TouchableOpacity
           onPress={() => {
@@ -109,12 +140,14 @@ const Chat = props => {
     setMessages(arr);
     setText('');
     // console.log(arr);
+    console.log('walla');
+    socket?.emit('send_message', {message: 'hello'});
   };
   //-----------------------------------------------------------------------
   return (
     <Container>
       <GiftedChat
-        wrapInSafeArea={true}
+        wrapInSafeArea={false}
         messages={messages}
         inverted={true}
         renderInputToolbar={renderInputToolbar}
@@ -143,9 +176,11 @@ const styles = StyleSheet.create({
     // shadowColor: COLORS.blue,
   },
   textInput: {
-    backgroundColor: '#5ff',
+    // backgroundColor: '#5ff',
     width: DIMENSIONS.width - 80,
     padding: 10,
     borderRadius: 10,
+    ...FONT?.title,
+    // color: '#000',
   },
 });

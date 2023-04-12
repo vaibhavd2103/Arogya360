@@ -5,6 +5,7 @@ const initialState = {
   user_id: '',
   token: '',
   userType: null,
+  user: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -29,6 +30,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         userType: action.payload,
       };
+    case types.USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case types.RESET:
+      return initialState;
+
     default:
       return state;
   }

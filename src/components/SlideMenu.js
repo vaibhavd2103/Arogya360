@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
+import React, {useEffect} from 'react';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Fontisto from 'react-native-vector-icons/Fontisto';
@@ -11,66 +11,69 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useSelector, useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import {Button} from './Buttons';
-import {setAuthenticated} from '../redux/actions';
+import {resetRedux, setAuthenticated} from '../redux/actions';
 
 const SlideMenu = ({navigation}) => {
   const dispatch = useDispatch();
-    const userType = useSelector(state => state?.userType);
-    console.log(userType);
+  const userType = useSelector(state => state?.userType);
+  // console.log(userType);
 
-    const options = [
-      {
-        id: '1',
-        name: 'My Appointments',
-        icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
-        navigation: userType == 2 ? ROUTES.drAppoitments : ROUTES.appointment,
-      },
-      {
-        id: '2',
-        name: 'Medicine Tracker',
-        icon: <FontAwesome5 name="capsules" size={24} color={COLORS?.blue} />,
-        navigation: ROUTES.medicinetracker,
-      },
-      {
-        id: '3',
-        name: 'Phone Directory',
-        icon: <FontAwesome name="phone" size={24} color={COLORS?.blue} />,
-        navigation: ROUTES.phonedirectory,
-      },
-      {
-        id: '4',
-        name: 'Find a Doctor',
-        icon: <Fontisto name="doctor" size={24} color={COLORS?.blue} />,
-        navigation: ROUTES.finddoctor,
-      },
-      {
-        id: '5',
-        name: 'Settings',
-        icon: <Ionicons name="settings" size={24} color={COLORS?.blue} />,
-        navigation: ROUTES.settings,
-      },
-      {
-        id: '8',
-        name: 'BMI Checker',
-        icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
-        navigation: ROUTES.bmichecker,
-      },
-      {
-        id: '6',
-        name: 'Create Report',
-        icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
-        navigation: ROUTES.createReport,
-      },
-      {
-        id: '9',
-        name: 'App Info',
-        icon: (
-          <Ionicons name="information-circle" size={24} color={COLORS.blue} />
-        ),
-        navigation: ROUTES.appInfo,
-      },
-    ];
+  const options = [
+    {
+      id: '1',
+      name: 'My Appointments',
+      icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
+      navigation: userType == '2' ? ROUTES.drAppoitments : ROUTES.appointment,
+    },
+    {
+      id: '2',
+      name: 'Medicine Tracker',
+      icon: <FontAwesome5 name="capsules" size={24} color={COLORS?.blue} />,
+      navigation: ROUTES.medicinetracker,
+    },
+    {
+      id: '3',
+      name: 'Phone Directory',
+      icon: <FontAwesome name="phone" size={24} color={COLORS?.blue} />,
+      navigation: ROUTES.phonedirectory,
+    },
+    {
+      id: '4',
+      name: 'Find a Doctor',
+      icon: <Fontisto name="doctor" size={24} color={COLORS?.blue} />,
+      navigation: ROUTES.finddoctor,
+    },
+    {
+      id: '5',
+      name: 'Settings',
+      icon: <Ionicons name="settings" size={24} color={COLORS?.blue} />,
+      navigation: ROUTES.settings,
+    },
+    {
+      id: '6',
+      name: 'BMI Checker',
+      icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
+      navigation: ROUTES.bmichecker,
+    },
+    {
+      id: '7',
+      name: 'Create Report',
+      icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
+      navigation: ROUTES.createReport,
+    },
+    {
+      id: '8',
+      name: 'App Info',
+      icon: (
+        <Ionicons name="information-circle" size={24} color={COLORS.blue} />
+      ),
+      navigation: ROUTES.appInfo,
+    },
+  ];
 
+  const userData = useSelector(state => state?.user);
+
+  useEffect(() => {}, []);
 
   return (
     <View style={{flex: 1}}>
@@ -81,8 +84,7 @@ const SlideMenu = ({navigation}) => {
           alignItems: 'center',
         }}
         activeOpacity={0.7}
-        // onPress={() => navigation.navigate(ROUTES.profile)}
-      >
+        onPress={() => navigation.navigate(ROUTES.profile)}>
         <Image
           source={{
             uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
@@ -109,21 +111,62 @@ const SlideMenu = ({navigation}) => {
               fontSize: 18,
               color: '#fff',
             }}>
-            Dr. John Doe
+            Dr. {userData?.name}
           </Text>
           <Text
             style={{
               ...FONT?.title,
               color: '#fff',
             }}>
-            ENT Surgeon
+            {userData?.specialty}
           </Text>
         </LinearGradient>
       </TouchableOpacity>
       <View style={{alignItems: 'center', paddingTop: 10}}>
         {options.map(item => {
-          if (item?.id == '7' && userType != 1) {
+          if (item?.id == '7' && userType == '1') {
             return null;
+          } else if (userType == '2') {
+            if (item?.id == '2' || item?.id == '4') {
+              return null;
+            } else {
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => {
+                    navigation.navigate(item.navigation);
+                  }}
+                  style={{
+                    flexDirection: 'row',
+                    marginVertical: 6,
+                    alignItems: 'center',
+                    height: 50,
+                    borderRadius: 10,
+                    width: '90%',
+                    backgroundColor: '#fff',
+                    paddingLeft: 15,
+                    elevation: 20,
+                    shadowColor: `${COLORS?.blue}88`,
+                  }}
+                  activeOpacity={0.7}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginLeft: 10,
+                    }}>
+                    {item.icon}
+                  </View>
+                  <Text
+                    style={{
+                      ...FONT?.title,
+                      marginLeft: 20,
+                      color: COLORS.blue,
+                    }}>
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
           } else {
             return (
               <TouchableOpacity
@@ -196,7 +239,7 @@ const SlideMenu = ({navigation}) => {
           <Button
             title={'Logout'}
             style={{width: '90%', alignSelf: 'center'}}
-            onPress={() => dispatch(setAuthenticated(false))}
+            onPress={() => dispatch(resetRedux())}
           />
         </View>
       </View>

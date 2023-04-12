@@ -6,6 +6,10 @@ import Search from 'react-native-vector-icons/Feather';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import MessageComponent from '../components/MessageComponent';
+import {useSelector} from 'react-redux';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import API from '../axios/api';
 
 data = [
   {
@@ -41,7 +45,29 @@ data = [
       'https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg',
   },
 ];
-const Message = ({navigation}) => {
+
+const Message = () => {
+  // =================useState==============================
+
+  const [myChatRooms, setMyChatRooms] = useState([]);
+  const userType = useSelector(state => state?.userType);
+  const userId = useSelector(state => state?.user_id);
+
+  const getChatRooms = async () => {
+    await API.getMyChatRooms(userId, 2)
+      .then(res => {
+        // console.log('----------------->', res?.data);
+        setMyChatRooms(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getChatRooms();
+  }, []);
+
   return (
     <Container>
       <CustomHeader
@@ -68,8 +94,8 @@ const Message = ({navigation}) => {
       </View>
       <View style={{marginTop: 10, height: '100%'}}>
         <FlatList
-          data={data}
-          keyExtractor={item => item?.id}
+          data={myChatRooms}
+          keyExtractor={item => item?._id}
           renderItem={({item, index}) => {
             return (
               <View>

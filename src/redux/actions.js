@@ -16,3 +16,11 @@ export const setUserType = data => ({
   type: types.USER_TYPE,
   payload: data,
 });
+export const setUserData = data => ({
+  type: types.USER,
+  payload: data,
+});
+export const resetRedux = data => ({
+  type: types.RESET,
+  payload: data,
+});

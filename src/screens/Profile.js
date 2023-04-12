@@ -31,7 +31,7 @@ const Profile = ({navigation}) => {
         },
       }}
       keyboardDismissMode="on-drag">
-      {userType == 1 ? (
+      {userType == '2' ? (
         <>
           <Tab.Screen name={'About'} component={DoctorsAbout} />
           <Tab.Screen name={'My Articles'} component={DoctorsArticles} />

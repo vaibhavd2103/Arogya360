@@ -17,10 +17,13 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import {Button, RoundedButton} from '../components/Buttons';
 import ModalPopup from '../components/ModalPopup';
 import {Modal} from 'native-base';
+import axios from 'axios';
 
 const BookAppointment = ({navigation, route}) => {
   const [calType, setCalType] = useState(true);
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(
+    moment(new Date()).format('YYYY-MM-DD'),
+  );
   const item = route.params.item;
   // console.log(item);
   const [selectedTime, setSelectedTime] = useState('');
@@ -68,6 +71,40 @@ const BookAppointment = ({navigation, route}) => {
       booked: true,
     },
   ];
+
+  const [bookedAppointments, setBookedAppointments] = useState([]);
+
+  const getMyAppointments = async () => {
+    await axios
+      .get(
+        `http://192.168.0.225:5000/getMyAppointments?userId=64227c2038228156c05b8f96&userType=2`,
+      )
+      .then(res => {
+        console.log(res?.data);
+        setBookedAppointments(res?.data?.appointments);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getMyAppointments();
+  }, [selectedDate]);
+
+  const checker = (data, item) => {
+    let booked =
+      bookedAppointments?.findIndex(
+        data =>
+          data?.appointmentTime == item?.time &&
+          data?.appointmentDate == selectedDate,
+      ) > -1;
+    if (booked) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <ScrollView
@@ -172,7 +209,10 @@ const BookAppointment = ({navigation, route}) => {
               highlightDateNumberStyle={{color: COLORS.green}}
               onDateSelected={val => {
                 setSelectedDate(moment(val).format('YYYY-MM-DD'));
-                console.log(moment(val).format('YYYY-MM-DD'));
+                // console.log(moment(val).format('YYYY-MM-DD'));
+                console.log(typeof `${moment(val).format('YYYY-MM-DD')}`);
+                const date = new Date();
+                // console.log(JSON.stringify(date));
               }}
             />
           </View>
@@ -210,69 +250,37 @@ const BookAppointment = ({navigation, route}) => {
         </Text>
         <View
           style={{height: 180, flexWrap: 'wrap', width: DIMENSIONS.width - 60}}>
-          {/* <FlatList
-            data={Time}
-            numColumns={3}
-            scrollEnabled={false}
-            // contentContainerStyle={{
-            //   flexDirection: 'row',
-            //   flexWrap: 'wrap',
-            // }}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => {
-              return (
-                <TouchableOpacity
-                  style={{
-                    ...styles.timeCard,
-                    backgroundColor: item?.booked
-                      ? `${COLORS?.error}aa`
-                      : selectedTime == item?.time
-                      ? COLORS.green
-                      : COLORS.yellow,
-                    elevation: selectedTime === item.time ? 10 : 0,
-                    shadowColor: item?.booked
-                      ? `${COLORS?.error}`
-                      : selectedTime == item?.time
-                      ? COLORS.green
-                      : COLORS.yellow,
-                  }}
-                  disabled={item?.booked}
-                  onPress={() => setSelectedTime(item.time)}>
-                  <Text
-                    style={{
-                      ...FONT.title,
-                    }}>
-                    {item?.booked ? 'Booked' : item?.time}
-                  </Text>
-                </TouchableOpacity>
-              );
-            }}
-          /> */}
           {Time?.reverse()?.map(item => {
+            let booked =
+              bookedAppointments?.findIndex(
+                data =>
+                  data?.appointmentTime == item?.time &&
+                  data?.appointmentDate == selectedDate,
+              ) > -1;
             return (
               <TouchableOpacity
                 key={item?.id}
                 style={{
                   ...styles.timeCard,
-                  backgroundColor: item?.booked
+                  backgroundColor: booked
                     ? `${COLORS?.error}aa`
-                    : selectedTime == item?.time
-                    ? COLORS.green
-                    : COLORS.yellow,
+                    : selectedTime === item.time
+                    ? `${COLORS?.green}aa`
+                    : `${COLORS?.yellow}aa`,
                   elevation: selectedTime === item.time ? 10 : 0,
-                  shadowColor: item?.booked
+                  shadowColor: booked
                     ? `${COLORS?.error}`
                     : selectedTime == item?.time
                     ? COLORS.green
                     : COLORS.yellow,
                 }}
-                disabled={item?.booked}
+                disabled={booked}
                 onPress={() => setSelectedTime(item.time)}>
                 <Text
                   style={{
                     ...FONT.title,
                   }}>
-                  {item?.booked ? 'Booked' : item?.time}
+                  {booked ? 'Booked' : item?.time}
                 </Text>
               </TouchableOpacity>
             );
