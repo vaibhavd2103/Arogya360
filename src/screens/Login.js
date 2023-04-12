@@ -7,7 +7,12 @@ import {
 } from 'react-native';
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {setAuthenticated, setUserType} from '../redux/actions';
+import {
+  setAuthenticated,
+  setUserData,
+  setUserId,
+  setUserType,
+} from '../redux/actions';
 // ------------------------------COmponents and Constants----------------------------------------
 import Container from '../components/Container';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
@@ -16,6 +21,8 @@ import {Button} from '../components/Buttons';
 // --------------------------------------Icons--------------------------------------------------------
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Entypo from 'react-native-vector-icons/Entypo';
+import API from '../axios/api';
+import ModalLoader from '../components/ModalLoader';
 
 // ---------------------------------------------------------------------------------------------------
 const Login = ({navigation}) => {
@@ -26,11 +33,41 @@ const Login = ({navigation}) => {
   const [err, setErr] = useState({
     email: '',
     password: '',
+    msg: '',
   });
-  const [user, setUser] = useState('patient');
+  const [user, setUser] = useState('1');
   const [secure, setSecure] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   // --------------------------------------------Validation----------------------------------------------
+  const signIn = async () => {
+    setLoading(true);
+    const data = {
+      email: email,
+      password: password,
+      userType: user,
+    };
+
+    await API.login(data)
+      .then(res => {
+        console.log(res?.data);
+
+        if (res?.data?.token) {
+          dispatch(setUserId(res?.data?.user?._id));
+          dispatch(setUserData(res?.data?.user));
+          dispatch(setUserType(res?.data?.user?.userType));
+          dispatch(setAuthenticated(true));
+        }
+        // setErr({...err, msg: res?.data?.error});
+        setLoading(false);
+      })
+      .catch(err => {
+        setLoading(false);
+        console.log(err?.response?.data);
+        setErr({...err, msg: err?.response?.data?.title});
+        // setErr({...err, msg: res?.data?.error});
+      });
+  };
   const login = () => {
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     if (email === '') {
@@ -40,18 +77,19 @@ const Login = ({navigation}) => {
     } else if (password === '') {
       setErr({...err, password: 'Password cannot be empty'});
     } else {
-      dispatch(setAuthenticated(true));
+      signIn();
       setErr({...err, email: '', password: ''});
     }
   };
+
   // -------------------------------------------------------------------------------------------------------
 
   return (
     <ScrollView
       style={{
         width: '100%',
-        height: '100%',
-        backgroundColor: COLORS?.background,
+        height: DIMENSIONS?.height,
+        // backgroundColor: COLORS?.yellow,
       }}
       keyboardShouldPersistTaps={'handled'}
       contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}>
@@ -61,55 +99,46 @@ const Login = ({navigation}) => {
           style={{
             ...FONT.header,
             marginBottom: 20,
-            marginTop: DIMENSIONS.height / 8,
             fontSize: 20,
           }}>
           Sign In
         </Text>
-
-        {/* <Text
-          style={{
-            ...FONT.subTitle,
-            marginBottom: 10,
-          }}>
-          Sign in as :
-        </Text>
         <View style={styles.toptabuser}>
           <TouchableOpacity
             onPress={() => {
-              setUser('patient');
-              dispatch(setUserType(2));
+              setUser('1');
+              // dispatch(setUserType('1'));
             }}
             style={{
               ...styles.userbutton,
-              backgroundColor: user === 'patient' ? COLORS.blue : '#fff',
+              backgroundColor: user === '1' ? COLORS.blue : '#fff',
             }}>
             <Text
               style={{
                 ...FONT?.title,
-                color: user === 'patient' ? '#fff' : COLORS.light_black,
+                color: user === '1' ? '#fff' : COLORS.light_black,
               }}>
               Patient
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              setUser('doctor');
-              dispatch(setUserType(1));
+              setUser('2');
+              // dispatch(setUserType('2'));
             }}
             style={{
               ...styles.userbutton,
-              backgroundColor: user === 'doctor' ? COLORS.blue : '#fff',
+              backgroundColor: user === '2' ? COLORS.blue : '#fff',
             }}>
             <Text
               style={{
                 ...FONT?.title,
-                color: user === 'doctor' ? '#fff' : COLORS.light_black,
+                color: user === '2' ? '#fff' : COLORS.light_black,
               }}>
               Doctor
             </Text>
           </TouchableOpacity>
-        </View> */}
+        </View>
         {/* ------------------------------------------DOCTOR----------------------------------------------------------- */}
         <>
           <Text
@@ -124,7 +153,7 @@ const Login = ({navigation}) => {
             placeholder={'Enter email'}
             onChangeText={text => {
               setEmail(text);
-              setErr({...err, email: ''});
+              setErr({...err, email: '', msg: ''});
             }}
             value={email}
             err={err?.email}
@@ -159,7 +188,7 @@ const Login = ({navigation}) => {
               secureTextEntry={secure}
               onChangeText={text => {
                 setPassword(text);
-                setErr({...err, password: ''});
+                setErr({...err, password: '', msg: ''});
               }}
               value={password}
               err={err?.password}
@@ -186,6 +215,17 @@ const Login = ({navigation}) => {
                 paddingTop: 10,
               }}>
               {err?.password}
+            </Text>
+          )}
+          {err?.msg && (
+            <Text
+              style={{
+                ...FONT.subTitle,
+                color: COLORS.error,
+                fontSize: 12,
+                paddingTop: 10,
+              }}>
+              {err?.msg}
             </Text>
           )}
           {/* ----------------------------------LOGIN BUTTON------------------------------------------------- */}
@@ -221,6 +261,7 @@ const Login = ({navigation}) => {
           <Text style={styles.googleText}>Signin with Google</Text>
         </TouchableOpacity> */}
       </Container>
+      <ModalLoader loading={loading} />
     </ScrollView>
   );
 };
@@ -232,7 +273,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 30,
-    marginTop: DIMENSIONS.height / 9,
+    height: DIMENSIONS?.height,
+    width: '100%',
   },
   signUpView: {
     flexDirection: 'row',

@@ -14,15 +14,17 @@ const MessageComponent = ({item}) => {
       }}>
       <View style={{flexDirection: 'row'}}>
         <Image
-          source={{uri: item?.profilePhoto}}
+          source={{
+            uri: 'https://blog.hootsuite.com/wp-content/uploads/2021/07/free-stock-photos-03-scaled.jpeg',
+          }}
           style={{height: 60, width: 60, borderRadius: 60}}
         />
         <View style={{marginLeft: 10}}>
-          <Text style={{...FONT.title}}>{item?.userName}</Text>
+          <Text style={{...FONT.title}}>{item?.user?.name}</Text>
           <Text style={{...FONT.subTitle}}>{item?.lastMessage}</Text>
         </View>
       </View>
-      <Text style={{...FONT.subTitle, fontSize: 10}}>{item?.time}</Text>
+      <Text style={{...FONT.subTitle, fontSize: 10}}>{item?.createdAt}</Text>
     </TouchableOpacity>
   );
 };

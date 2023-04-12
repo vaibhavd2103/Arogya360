@@ -2,9 +2,10 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {RoundedButton} from './Buttons';
+import {Button, RoundedButton} from './Buttons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
+import API from '../axios/api';
 
 const MyAppointmentCard = ({item, index, length}) => {
   return (
@@ -87,7 +88,22 @@ const MyAppointmentCard = ({item, index, length}) => {
   );
 };
 
-const DrMyAppointmentCard = ({item, index, length, type}) => {
+const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
+  const createChatRoom = async () => {
+    const data = {
+      doctorId: userId,
+      patientId: item?.user?._id,
+      createdAt: new Date(),
+    };
+    await API?.createChatRoom(data)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <View style={styles.cardView}>
       <View
@@ -97,35 +113,16 @@ const DrMyAppointmentCard = ({item, index, length, type}) => {
           // backgroundColor: 'pink',
         }}>
         <View>
-          <Image source={{uri: item?.profile_photo}} style={styles.cardImage} />
-          <Text style={styles.cardText}>{item?.doctor}</Text>
+          <Image
+            source={{
+              uri: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+            }}
+            style={styles.cardImage}
+          />
+          <Text style={styles.cardText}>{item?.user?.name}</Text>
+          {/* {console.log('-->', typeof item?.user)} */}
         </View>
         <View style={{marginLeft: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <AntDesign
-              name="checksquareo"
-              size={18}
-              color={COLORS.light_black}
-              style={{marginRight: 0, top: 2}}
-            />
-            <Text
-              style={{
-                ...FONT?.title,
-                color: COLORS.light_black,
-                marginBottom: 0,
-              }}>
-              {' - '}
-            </Text>
-            <Text
-              style={{
-                ...FONT?.title,
-                color: COLORS.light_black,
-                maxWidth: DIMENSIONS?.width - 220,
-                marginBottom: 5,
-              }}>
-              {item?.reason}
-            </Text>
-          </View>
           <Text
             style={{
               ...FONT?.title,
@@ -139,7 +136,7 @@ const DrMyAppointmentCard = ({item, index, length, type}) => {
               style={{marginRight: 10, top: 2}}
             />
             {' - '}
-            {item?.date}
+            {item?.appointmentDate}
           </Text>
           <Text
             style={{
@@ -154,7 +151,7 @@ const DrMyAppointmentCard = ({item, index, length, type}) => {
               style={{marginRight: 10, top: 2}}
             />
             {' - '}
-            {item?.time}
+            {item?.appointmentTime}
           </Text>
         </View>
       </View>
@@ -163,31 +160,19 @@ const DrMyAppointmentCard = ({item, index, length, type}) => {
         <View
           style={{
             flexDirection: 'row',
-            justifyContent: 'flex-end',
+            justifyContent: 'center',
             marginLeft: 15,
             // backgroundColor: 'pink',
             width: '100%',
           }}>
-          <RoundedButton
-            icon={<Entypo name="cross" size={24} color={COLORS.grey} />}
-            // onPress={onCancel}
-            style={{
-              alignSelf: 'flex-end',
-              marginTop: 10,
-              borderRadius: 5,
-              backgroundColor: 'white',
-              elevation: 5,
+          <Button
+            title={'Message'}
+            onPress={() => {
+              createChatRoom();
             }}
-          />
-          <RoundedButton
-            icon={<Feather name="check" size={24} color={COLORS.background} />}
-            // onPress={onAccept}
             style={{
-              alignSelf: 'flex-end',
-              marginTop: 10,
-              borderRadius: 5,
-              backgroundColor: COLORS.blue,
-              elevation: 5,
+              width: DIMENSIONS?.width - 100,
+              marginLeft: 0,
             }}
           />
         </View>
@@ -267,10 +252,11 @@ const styles = StyleSheet.create({
   },
   cardDetails: {
     flexDirection: 'row',
-    width: DIMENSIONS?.width - 30,
+    width: '100%',
     padding: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    // backgroundColor: '#ff0',
   },
   cardImage: {
     height: 80,

@@ -35,7 +35,7 @@ const HomeNews = ({data, navigation}) => {
       <FlatList
         horizontal
         pagingEnabled
-        snapToInterval={DIMENSIONS?.width - 29.88}
+        snapToInterval={DIMENSIONS?.width - 50}
         data={data}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({item, index}) => {
