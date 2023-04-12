@@ -44,7 +44,7 @@ const Upcomming = () => {
 
   const getMyAppointments = async () => {
     console.log('getMyAppointments');
-    await API?.getMyAppointments(userId, 2)
+    await API?.getMyAppointments(userId, parseInt(userType))
       .then(res => {
         console.log(res?.data);
         setAppointments(res?.data);

@@ -17,53 +17,119 @@ import Send from 'react-native-vector-icons/Ionicons';
 import Attachment from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 import {NetworkInfo} from 'react-native-network-info';
-import io from 'socket.io-client';
+import {io} from 'socket.io-client';
 import {ip} from '../axios/instance';
+import {useRef} from 'react';
+import {useSelector} from 'react-redux';
+import API from '../axios/api';
+import Loader from '../components/Loader';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState('');
 
+  const userId = useSelector(state => state?.user_id);
+  const params = props?.route?.params;
+  const [loading, setLoading] = useState(true);
+  // console.log(params);
+
   const getMessages = async () => {
-    const hostname = window?.location?.hostname;
-    console.log(hostname);
-    // const port = window.location.port;
-    const localhost = `http://${hostname}:5000`;
-    await axios
-      .get(`${localhost}/getAllArticles`)
+    await API.getMessage(params?._id)
       .then(res => {
-        console.log(res?.data);
+        // console.log(res?.data);
+        let giftedChatMessages = res?.data?.messages?.map(chatMessage => {
+          let gcm = {
+            _id: chatMessage?._id,
+            text: chatMessage?.message,
+            createdAt: chatMessage?.createdAt,
+            video:
+              chatMessage?.type == 4
+                ? `${baseURL}/chat/${chatMessage?.message}`
+                : null,
+            image:
+              chatMessage?.type == 3 || chatMessage?.type == 2
+                ? `${baseURL}/chat/${chatMessage?.message}`
+                : null,
+            document:
+              chatMessage?.type == 2
+                ? `https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg`
+                : null,
+            user: {
+              _id: chatMessage?.senderId,
+              name: chatMessage?.full_name,
+            },
+          };
+          return gcm;
+        });
+        setMessages(giftedChatMessages);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  const socket = io(`http://${ip}:5000`);
+  const sendMessage = async () => {
+    const data = {
+      senderId: userId,
+      receiverId: params?.user?._id,
+      chatRoomId: params?._id,
+      createdAt: new Date(),
+      messageType: 1,
+      message: text,
+    };
+    await API.sendMessage(data)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    await socket.current.emit('send_message', data);
+  };
+  // const socket = io(`http://${ip}:5000`);
+  // const socket = io(`http://${ip}:5000`, {
+  //   transports: ['websocket'],
+  //   jsonp: false,
+  //   forceNew: true,
+  // });
+
+  const socket = useRef();
 
   useEffect(() => {
-    // NetworkInfo.getIPAddress(ip => {
-    //   console.log('IPv4 address:', ip);
-    // });
-    // getMessages();
-    // setMessages([
-    //   {
-    //     _id: 1,
-    //     text: 'Hello developer',
-    //     createdAt: new Date(),
-    //     user: {
-    //       _id: 2,
-    //       name: 'React Native',
-    //       avatar: 'https://placeimg.com/140/140/any',
-    //     },
-    //   },
-    // ]);
+    socket.current = io(`http://${ip}:5000`);
     console.log('useeffect');
-    socket.on('connection', data => {
-      console.log(`Received data: ${data}`);
+
+    socket.current.emit(
+      'join_room',
+      123,
+      // params?.user?._id
+    );
+
+    socket.current.on('receive_message', msg => {
+      console.log('message received from socket', msg);
     });
-  }, []);
+
+    // socket.on('connection', data => {
+    //   console.log(`Received data: ${data}`);
+    // });
+
+    // socket.emit('join_room', {
+    //   chatRoomId: params?._id,
+    //   otherUserId: params?.user?._id,
+    // });
+
+    // socket.on('receive_message', data => {
+    //   console.log('message received from socket', data);
+    // });
+    getMessages();
+    return () => {
+      socket?.current?.disconnect();
+    };
+  }, [socket]);
   //------------------------------file Picker------------------------------------------------
   const openFilePicker = async () => {
     try {
@@ -104,7 +170,8 @@ const Chat = props => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            onSend();
+            // onSend();
+            sendMessage();
           }}>
           <Send
             name="md-send"
@@ -117,35 +184,14 @@ const Chat = props => {
     );
   };
   //--------------------------------send function----------------------------------------
-  // const onSend = useCallback((messages = []) => {
-  //   setMessages(previousMessages =>
-  //     GiftedChat.append(previousMessages, messages),
-  //   );
-  // }, []);
 
-  const onSend = async () => {
-    const data = {
-      _id: Math.random(),
-      text: text,
-      createdAt: new Date(),
-      user: {
-        _id: 1,
-        name: 'React Native',
-        avatar: 'https://placeimg.com/140/140/any',
-      },
-    };
-
-    let arr = messages;
-    arr.unshift(data);
-    setMessages(arr);
-    setText('');
-    // console.log(arr);
-    console.log('walla');
-    socket?.emit('send_message', {message: 'hello'});
-  };
   //-----------------------------------------------------------------------
   return (
     <Container>
+      <Loader
+        loading={loading}
+        uri={require('../assets/Lottie/messagesLoader.json')}
+      />
       <GiftedChat
         wrapInSafeArea={false}
         messages={messages}
@@ -153,7 +199,7 @@ const Chat = props => {
         renderInputToolbar={renderInputToolbar}
         // onSend={messages => onSend(messages)}
         user={{
-          _id: 2,
+          _id: userId,
         }}
       />
     </Container>

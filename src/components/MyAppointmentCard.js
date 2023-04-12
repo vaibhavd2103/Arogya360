@@ -7,40 +7,50 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import API from '../axios/api';
 
-const MyAppointmentCard = ({item, index, length}) => {
+const MyAppointmentCard = ({
+  item,
+  index,
+  length,
+  reloader,
+  setReloader,
+  deleteLoader,
+  setDeleteLoader,
+}) => {
+  const cancelAppointment = async () => {
+    setDeleteLoader(true);
+    const data = {
+      appointmentId: item?._id,
+    };
+    await API?.deleteAppointment(data)
+      .then(res => {
+        setDeleteLoader(false);
+        setReloader(!reloader);
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <View style={styles.cardView}>
-      <View style={styles.cardDetails}>
+      <View
+        style={{
+          ...styles.cardDetails,
+          marginBottom: 0,
+          // backgroundColor: 'pink',
+        }}>
         <View>
-          <Image source={{uri: item?.profile_photo}} style={styles.cardImage} />
-          <Text style={styles.cardText}>{item?.doctor}</Text>
+          <Image
+            source={{
+              uri: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+            }}
+            style={styles.cardImage}
+          />
+          <Text style={styles.cardText}>{item?.user?.name}</Text>
+          {/* {console.log('-->', typeof item?.user)} */}
         </View>
         <View style={{marginLeft: 20}}>
-          <View style={{flexDirection: 'row'}}>
-            <AntDesign
-              name="checksquareo"
-              size={18}
-              color={COLORS.light_black}
-              style={{marginRight: 0, top: 2}}
-            />
-            <Text
-              style={{
-                ...FONT?.title,
-                color: COLORS.light_black,
-                marginBottom: 0,
-              }}>
-              {' - '}
-            </Text>
-            <Text
-              style={{
-                ...FONT?.title,
-                color: COLORS.light_black,
-                maxWidth: DIMENSIONS?.width - 220,
-                marginBottom: 5,
-              }}>
-              {item?.reason}
-            </Text>
-          </View>
           <Text
             style={{
               ...FONT?.title,
@@ -54,7 +64,7 @@ const MyAppointmentCard = ({item, index, length}) => {
               style={{marginRight: 10, top: 2}}
             />
             {' - '}
-            {item?.date}
+            {item?.appointmentDate}
           </Text>
           <Text
             style={{
@@ -69,12 +79,13 @@ const MyAppointmentCard = ({item, index, length}) => {
               style={{marginRight: 10, top: 2}}
             />
             {' - '}
-            {item?.time}
+            {item?.appointmentTime}
           </Text>
         </View>
       </View>
       <View style={styles.buttonView}>
         <TouchableOpacity
+          onPress={cancelAppointment}
           style={{...styles.button, backgroundColor: '#E9E8F1'}}>
           <Text style={{...styles.buttonText, color: COLORS.light_black}}>
             Cancel
@@ -254,7 +265,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     width: '100%',
     padding: 10,
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
     // backgroundColor: '#ff0',
   },

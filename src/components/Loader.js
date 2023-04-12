@@ -3,7 +3,7 @@ import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import AnimatedLottieView from 'lottie-react-native';
 
-const Loader = ({loading}) => {
+const Loader = ({loading, uri}) => {
   if (loading) {
     return (
       <View
@@ -20,7 +20,7 @@ const Loader = ({loading}) => {
             height: DIMENSIONS?.width - 100,
             width: DIMENSIONS?.width - 100,
           }}
-          source={require('../assets/loading.json')}
+          source={uri ? uri : require('../assets/loading.json')}
           autoPlay={true}
         />
       </View>

@@ -4,6 +4,11 @@ import Container from '../components/Container';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import HomeAppointmentCard from '../components/HomeAppointmentCard';
 import {MyAppointmentCard} from '../components/MyAppointmentCard';
+import API from '../axios/api';
+import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
+import Loader from '../components/Loader';
+import ModalLoader from '../components/ModalLoader';
 
 const Appointment = () => {
   // --------------------------------------useState-----------------------------------------
@@ -47,8 +52,35 @@ const Appointment = () => {
     },
   ]);
 
+  const userType = useSelector(state => state?.userType);
+  const userId = useSelector(state => state?.user_id);
+  const [loading, setLoading] = useState(true);
+
+  const getMyAppointments = async () => {
+    console.log('getMyAppointments patient');
+    await API?.getMyAppointments(userId, parseInt(userType))
+      .then(res => {
+        // console.log(res?.data);
+        setAppointments(res?.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
+      })
+      .catch(err => {
+        console.log(err?.data?.message);
+      });
+  };
+
+  const [reloader, setReloader] = useState(false);
+
+  useEffect(() => {
+    getMyAppointments();
+  }, [reloader]);
+
+  const [deleteLoader, setDeleteLoader] = useState(false);
+
   return (
-    <Container style={{marginTop: 10}}>
+    <Container style={{marginTop: 0}}>
       {/* ----------------------------------------------------topTab--------------------------------------------------- */}
       <View style={styles.appointmentTopTab}>
         <TouchableOpacity
@@ -107,19 +139,31 @@ const Appointment = () => {
         </TouchableOpacity>
       </View>
       {/* --------------------------------------------------card-------------------------------------------------------- */}
+      <Loader
+        loading={loading}
+        uri={require('../assets/Lottie/chatLoader.json')}
+      />
+
       <FlatList
         data={appointments}
-        keyExtractor={item => item?.id}
+        keyExtractor={item => item?._id}
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) => {
           return (
             <>
-              <MyAppointmentCard item={item} />
+              <MyAppointmentCard
+                item={item}
+                reloader={reloader}
+                setReloader={setReloader}
+                deleteLoader={deleteLoader}
+                setDeleteLoader={setDeleteLoader}
+              />
             </>
           );
         }}
       />
       <View style={{height: 100}}></View>
+      <ModalLoader loading={deleteLoader} />
     </Container>
   );
 };
@@ -133,7 +177,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    width: DIMENSIONS.width - 5,
+    width: DIMENSIONS.width - 20,
     alignSelf: 'center',
     elevation: 5,
     shadowColor: COLORS.blue,
@@ -142,7 +186,7 @@ const styles = StyleSheet.create({
   },
   appointmentTypeButton: {
     padding: 10,
-    width: '33.5%',
+    width: (DIMENSIONS?.width - 20) / 3,
     borderRadius: 5,
     alignItems: 'center',
   },

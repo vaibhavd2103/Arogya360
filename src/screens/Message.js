@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import API from '../axios/api';
+import Loader from '../components/Loader';
 
 data = [
   {
@@ -51,12 +52,16 @@ const Message = () => {
   const [myChatRooms, setMyChatRooms] = useState([]);
   const userType = useSelector(state => state?.userType);
   const userId = useSelector(state => state?.user_id);
+  const [loading, setLoading] = useState(true);
 
   const getChatRooms = async () => {
-    await API.getMyChatRooms(userId, 2)
+    await API.getMyChatRooms(userId, parseInt(userType))
       .then(res => {
         // console.log('----------------->', res?.data);
         setMyChatRooms(res?.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       })
       .catch(err => {
         console.log(err);
@@ -70,6 +75,10 @@ const Message = () => {
   return (
     <Container>
       <CustomHeader title={'Messages'} />
+      <Loader
+        loading={loading}
+        uri={require('../assets/Lottie/chatLoader.json')}
+      />
       <View style={styles.searchView}>
         <TextInput
           style={styles.searchInput}
