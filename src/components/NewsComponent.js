@@ -6,7 +6,7 @@ const NewsComponent = ({item, index, length}) => {
   return (
     <View
       style={{
-        marginHorizontal: 10,
+        // marginHorizontal: 10,
         padding: 10,
         borderRadius: 10,
         backgroundColor: COLORS?.white,
