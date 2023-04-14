@@ -21,11 +21,15 @@ import {COUNTRY_API_KEY} from '../../config';
 import {Actionsheet} from 'native-base';
 import {qualifications} from '../constants/data';
 import DropDown from '../components/DropDown';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import API from '../axios/api';
+import {setUserData as reduxUserData} from './../redux/actions';
 
 const EditProfile = ({navigation}) => {
+  const dispatch = useDispatch();
   const userType = useSelector(state => state?.userType);
-  // const [userType, setUserType] = useState(1);
+  const userId = useSelector(state => state?.user_id);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
   const [userData, setUserData] = useState({
     name: '',
@@ -88,30 +92,6 @@ const EditProfile = ({navigation}) => {
     });
   };
 
-  //   const editprofile = async () => {
-  //   setLoading(true);
-  //   const data = {
-  //     // userId: x,
-  //     // userType:,
-  //     mobile: userData?.mobile,
-  //     // avatar_url: ,
-  //     height: userData?.height,
-  //     weight: userData?.weight,
-  //     bloodGroup:userData?.bloodGroup ,
-  //   };
-
-  //   await API.editProfile(data, headers)
-  //     .then(res => {
-  //       console.log(res?.data);
-
-  //       fetchUser();
-  //       //  setAllUser(res?.data);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       setLoading(false);
-  //     });
-  // };
   ////////////////////////////////////DOctors SIDE USESTATES
   const [docData, setDocData] = useState({
     name: '',
@@ -196,6 +176,60 @@ const EditProfile = ({navigation}) => {
   useEffect(() => {
     getCountry();
   }, []);
+
+  const fetchUser = async () => {
+    await API.getUserDetails(userId, userType)
+      .then(res => {
+        // console.log('MY details fetched', res.data);
+        // setProfileData(res?.data?.user);
+        dispatch(reduxUserData(res?.data?.user));
+        // dispatch(setUserId(res?.data?.userId));
+      })
+      .catch(error => {
+        console.error(
+          'Error fetching user',
+          error?.response?.data?.status_message ?? error?.message,
+        );
+      });
+  };
+
+  const edit_Profile = async () => {
+    setLoading(true);
+    const patientData = {
+      userId: userId,
+      userType: userType,
+      mobile: userData?.mobile,
+      // avatar_url: ,
+      height: userData?.height,
+      weight: userData?.weight,
+      bloodGroup: userData?.bloodGroup,
+    };
+
+    const doctorData = {
+      userId: userId,
+      userType: userType,
+      mobile: docData?.mobile,
+      //  avatar_url: avatar_url,
+      country: docData?.country,
+      state: docData?.state,
+      city: docData?.city,
+    };
+
+    let data = userType == 1 ? patientData : doctorData;
+
+    await API.editProfile(data)
+      .then(res => {
+        console.log(res?.data);
+
+        fetchUser();
+        setLoading(false);
+        //  setAllUser(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
 
   return (
     <Container>
@@ -534,7 +568,7 @@ const EditProfile = ({navigation}) => {
                 alignSelf: 'center',
               }}
               onPress={() => {
-                editprofile();
+                edit_Profile();
                 // Alert.alert('Updating');
                 // navigation.goBack();
               }}
