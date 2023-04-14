@@ -18,56 +18,60 @@ import {Button, RoundedButton} from '../components/Buttons';
 import ModalPopup from '../components/ModalPopup';
 import {Modal} from 'native-base';
 import axios from 'axios';
+import API from '../axios/api';
+import {useSelector} from 'react-redux';
 
 const BookAppointment = ({navigation, route}) => {
   const [calType, setCalType] = useState(true);
   const [selectedDate, setSelectedDate] = useState(
     moment(new Date()).format('YYYY-MM-DD'),
   );
-  const item = route.params.item;
+  const item = route?.params?.item;
   // console.log(item);
   const [selectedTime, setSelectedTime] = useState('');
   const [successModal, setSuccessModal] = useState(false);
+  const userType = useSelector(state => state?.userType);
+  const userId = useSelector(state => state?.user_id);
 
   const Time = [
     {
       id: '1',
-      time: '6 PM - 5 PM',
+      time: '5 PM - 6 PM',
       booked: true,
     },
     {
       id: '2',
-      time: '5 PM - 4 PM',
+      time: '4 PM - 5 PM',
       booked: false,
     },
     {
       id: '3',
-      time: '4 PM - 3 PM',
+      time: '3 PM - 4 PM',
       booked: false,
     },
     {
       id: '4',
-      time: '3 PM - 2 PM',
+      time: '2 PM - 3 PM',
       booked: true,
     },
     {
       id: '5',
-      time: '2 PM - 1 PM',
+      time: '1 PM - 2 PM',
       booked: false,
     },
     {
       id: '6',
-      time: '1 PM - 12 PM',
+      time: '12 PM - 1 PM',
       booked: false,
     },
     {
       id: '7',
-      time: '12 PM - 11 PM',
+      time: '11 PM - 12 PM',
       booked: false,
     },
     {
       id: '8',
-      time: '11 PM - 10 PM',
+      time: '10 PM - 11 PM',
       booked: true,
     },
   ];
@@ -75,13 +79,10 @@ const BookAppointment = ({navigation, route}) => {
   const [bookedAppointments, setBookedAppointments] = useState([]);
 
   const getMyAppointments = async () => {
-    await axios
-      .get(
-        `http://192.168.0.225:5000/getMyAppointments?userId=64227c2038228156c05b8f96&userType=2`,
-      )
+    await API.getBookedAppointments(item?._id)
       .then(res => {
-        console.log(res?.data);
-        setBookedAppointments(res?.data?.appointments);
+        console.log('---------------->', item?._id, 2, res?.data);
+        setBookedAppointments(res?.data?.data);
       })
       .catch(err => {
         console.log(err);
@@ -89,21 +90,35 @@ const BookAppointment = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    getMyAppointments();
-  }, [selectedDate]);
+    navigation.addListener('focus', () => {
+      console.log(
+        'userId',
+        userId,
+        'doctorId',
+        item?._id,
+        selectedTime,
+        selectedDate,
+      );
+      setSelectedTime('');
+      setSelectedDate(moment(new Date()).format('YYYY-MM-DD'));
+      getMyAppointments();
+    });
+  }, [selectedDate, navigation]);
 
-  const checker = (data, item) => {
-    let booked =
-      bookedAppointments?.findIndex(
-        data =>
-          data?.appointmentTime == item?.time &&
-          data?.appointmentDate == selectedDate,
-      ) > -1;
-    if (booked) {
-      return true;
-    } else {
-      return false;
-    }
+  const bookAppointment = async () => {
+    const data = {
+      doctorId: item?._id,
+      patientId: userId,
+      appointmentDate: selectedDate,
+      appointmentTime: selectedTime,
+    };
+    await API.bookAppointment(data)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   return (
@@ -119,8 +134,6 @@ const BookAppointment = ({navigation, route}) => {
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white',
-            //   height: 160,
             backgroundColor: `#ECDCBC`,
             padding: 10,
             borderRadius: 10,
@@ -161,7 +174,7 @@ const BookAppointment = ({navigation, route}) => {
               style={{
                 ...FONT.subTitle,
               }}>
-              Consultant. Psychiatry
+              Specialty : {item?.specialty}
             </Text>
 
             <Text
@@ -170,7 +183,7 @@ const BookAppointment = ({navigation, route}) => {
 
                 paddingVertical: 2,
               }}>
-              Clients : 50+
+              Gender : {item?.gender}
             </Text>
           </View>
         </View>
@@ -262,11 +275,17 @@ const BookAppointment = ({navigation, route}) => {
                 key={item?.id}
                 style={{
                   ...styles.timeCard,
-                  backgroundColor: booked
-                    ? `${COLORS?.error}aa`
-                    : selectedTime === item.time
-                    ? `${COLORS?.green}aa`
-                    : `${COLORS?.yellow}aa`,
+                  backgroundColor:
+                    booked &&
+                    bookedAppointments?.findIndex(
+                      data => data?.patientId == userId,
+                    ) > -1
+                      ? `${COLORS?.green}aa`
+                      : booked
+                      ? `${COLORS?.error}aa`
+                      : selectedTime === item.time
+                      ? `${COLORS?.green}aa`
+                      : `${COLORS?.yellow}aa`,
                   elevation: selectedTime === item.time ? 10 : 0,
                   shadowColor: booked
                     ? `${COLORS?.error}`
@@ -299,9 +318,17 @@ const BookAppointment = ({navigation, route}) => {
         <Button
           disabled={selectedTime ? false : true}
           title={'Confirm Booking'}
-          onPress={() => setSuccessModal(true)}
+          onPress={() => {
+            bookAppointment();
+            setSuccessModal(true);
+          }}
           style={{marginTop: 15}}
         />
+
+        {bookedAppointments?.findIndex(data => data?.patientId == userId) >
+          -1 && (
+          <Text style={{...FONT?.header}}>You have booked Appointment</Text>
+        )}
 
         <Modal
           isOpen={successModal}
@@ -315,6 +342,8 @@ const BookAppointment = ({navigation, route}) => {
             subtitle={'Doctor will contact you soon...'}
             onPress={() => {
               setSuccessModal(false);
+              setSelectedDate(moment(new Date()).format('YYYY-MM-DD'));
+              setSelectedTime('');
               navigation.goBack();
             }}
           />

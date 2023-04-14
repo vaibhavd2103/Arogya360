@@ -88,9 +88,30 @@ const EditProfile = ({navigation}) => {
     });
   };
 
-  const editprofile = () => {
-    Alert.alert('Saving');
-  };
+  //   const editprofile = async () => {
+  //   setLoading(true);
+  //   const data = {
+  //     // userId: x,
+  //     // userType:,
+  //     mobile: userData?.mobile,
+  //     // avatar_url: ,
+  //     height: userData?.height,
+  //     weight: userData?.weight,
+  //     bloodGroup:userData?.bloodGroup ,
+  //   };
+
+  //   await API.editProfile(data, headers)
+  //     .then(res => {
+  //       console.log(res?.data);
+
+  //       fetchUser();
+  //       //  setAllUser(res?.data);
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       setLoading(false);
+  //     });
+  // };
   ////////////////////////////////////DOctors SIDE USESTATES
   const [docData, setDocData] = useState({
     name: '',

@@ -55,12 +55,12 @@ const SlideMenu = ({navigation}) => {
       icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.bmichecker,
     },
-    {
-      id: '7',
-      name: 'Create Report',
-      icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
-      navigation: ROUTES.createReport,
-    },
+    // {
+    //   id: '7',
+    //   name: 'Create Report',
+    //   icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
+    //   navigation: ROUTES.createReport,
+    // },
     {
       id: '8',
       name: 'App Info',
@@ -111,7 +111,7 @@ const SlideMenu = ({navigation}) => {
               fontSize: 18,
               color: '#fff',
             }}>
-            Dr. {userData?.name}
+            {userType == '2' ? 'Dr.' : null} {userData?.name}
           </Text>
           <Text
             style={{
@@ -215,31 +215,13 @@ const SlideMenu = ({navigation}) => {
             // borderTopWidth: 1,
             borderTopColor: COLORS?.blue,
           }}>
-          {/* <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              marginVertical: 10,
-              alignItems: 'center',
-              borderRadius: 20,
-              justifyContent: 'center',
-              height: 45,
-              borderColor: COLORS?.blue,
-              borderWidth: 1,
-              marginLeft: 10,
-              marginRight: 10,
-            }}>
-            <Text
-              style={{
-                ...FONT.header,
-                color: COLORS.blue,
-              }}>
-              Sign Out
-            </Text>
-          </TouchableOpacity> */}
           <Button
             title={'Logout'}
             style={{width: '90%', alignSelf: 'center'}}
-            onPress={() => dispatch(resetRedux())}
+            onPress={() => {
+              navigation?.closeDrawer();
+              dispatch(resetRedux());
+            }}
           />
         </View>
       </View>

@@ -14,6 +14,7 @@ const CustomHeader = props => {
     onRightIconPress,
     onRightIcon2Press,
     bgColor,
+    style,
   } = props;
   const navigation = useNavigation();
 
@@ -29,6 +30,7 @@ const CustomHeader = props => {
         backgroundColor: bgColor ? bgColor : COLORS.background,
         elevation: 10,
         width: DIMENSIONS.width,
+        ...style,
       }}>
       <View
         style={{

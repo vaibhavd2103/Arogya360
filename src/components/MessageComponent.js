@@ -10,7 +10,7 @@ const MessageComponent = ({item}) => {
       key={item.id}
       style={styles.MessageComponentCard}
       onPress={() => {
-        navigation.navigate(ROUTES.chat);
+        navigation.navigate(ROUTES.chat, item);
       }}>
       <View style={{flexDirection: 'row'}}>
         <Image

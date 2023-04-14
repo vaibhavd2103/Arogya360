@@ -9,28 +9,29 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-// import {useSelector} from 'react-redux';
-// import API from '../axios/api';
+import {useSelector} from 'react-redux';
+import API from '../axios/api';
 
 const About = () => {
-  // const userType = useSelector(state => state?.userType);
-  // const userId = useSelector(state => state?.user_id);
-  // const [userData, setUserData] = useState([]);
-  // const [loading, setLoading] = useState(false)
-  // const fetchUser = async () => {
-  //   await API.getUserDetails(id,userType)
-  //     .then(res => {
-  //       console.log('MY details fetched', res.data);
-  //       dispatch(setUser(res?.data));
-  //       dispatch(setUserId(res?.data?.userId));
-  //     })
-  //     .catch(error => {
-  //       console.error(
-  //         'Error fetching user',
-  //         error?.response?.data?.status_message ?? error?.message,
-  //       );
-  //     });
-  // };
+  const userType = useSelector(state => state?.userType);
+  const userId = useSelector(state => state?.user_id);
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchUser = async () => {
+    await API.getUserDetails(id, userType)
+      .then(res => {
+        console.log('MY details fetched', res.data);
+        // dispatch(setUser(res?.data));
+        // dispatch(setUserId(res?.data?.userId));
+      })
+      .catch(error => {
+        console.error(
+          'Error fetching user',
+          error?.response?.data?.status_message ?? error?.message,
+        );
+      });
+  };
 
   return (
     <Container style={{padding: 25}}>
