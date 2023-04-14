@@ -46,7 +46,7 @@ const DoctorsProfile = ({navigation, route}) => {
               ...FONT.header,
               fontSize: 16,
             }}>
-            Dr. {item.name.replace('Dr ' || 'DR. ', '')}
+            Dr. {item?.name.replace('Dr ' || 'DR. ', '')}
           </Text>
           <Text
             style={{
@@ -60,7 +60,7 @@ const DoctorsProfile = ({navigation, route}) => {
             style={{
               ...FONT.subTitle,
             }}>
-            Consultant. Psychiatry
+            Specialty : {item?.specialty}
           </Text>
 
           <Text
@@ -69,7 +69,7 @@ const DoctorsProfile = ({navigation, route}) => {
 
               paddingVertical: 2,
             }}>
-            Clients : 50+
+            Gender : {item?.gender}
           </Text>
         </View>
       </View>
@@ -117,19 +117,19 @@ const DoctorsProfile = ({navigation, route}) => {
           //   height: DIMENSIONS.height > 700 ? '100%' : null,
           paddingHorizontal: 24,
         }}>
-        <TitleSubTitle title={'QUALIFICATION'} subTitle={'MBBS, MD'} />
-        <TitleSubTitle
+        <TitleSubTitle title={'QUALIFICATION'} subTitle={item?.qualification} />
+        {/* <TitleSubTitle
           title="EXPERTISE"
           subTitle={
             'Each doctor will have their own expertise. They can mention those treatments in this field. If doctors have many years of experience and treated well in any specialty, they can mention that multiple specialties here.'
           }
-        />
-        <TitleSubTitle
+        /> */}
+        {/* <TitleSubTitle
           title="EXPERIENCE"
           subTitle={
             'Details like how many years of experience the doctors have, how many patients the doctors have consulted, and how many patients the doctors consult on a weekly basis..'
           }
-        />
+        /> */}
         {/* <TitleSubTitle
           title="Academic Details"
           subTitle={

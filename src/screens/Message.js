@@ -10,6 +10,9 @@ import {useSelector} from 'react-redux';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import API from '../axios/api';
+import Loader from '../components/Loader';
+import {useIsFocused} from '@react-navigation/native';
+import axios from 'axios';
 
 data = [
   {
@@ -52,32 +55,37 @@ const Message = () => {
   const [myChatRooms, setMyChatRooms] = useState([]);
   const userType = useSelector(state => state?.userType);
   const userId = useSelector(state => state?.user_id);
+  console.log('--------------> userId', userId, userType);
+  const [loading, setLoading] = useState(true);
 
   const getChatRooms = async () => {
-    await API.getMyChatRooms(userId, 2)
+    await API.getMyChatRooms(userId, parseInt(userType))
       .then(res => {
         // console.log('----------------->', res?.data);
         setMyChatRooms(res?.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1500);
       })
       .catch(err => {
-        console.log(err);
+        console.log(err?.data);
       });
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    getChatRooms();
-  }, []);
+    if (isFocused) {
+      getChatRooms();
+    }
+  }, [isFocused]);
 
   return (
     <Container>
-      <CustomHeader
-        title={'Messages'}
-        RightIcon={() => {
-          return <FontAwesome5 name="robot" size={24} color={COLORS.blue} />;
-        }}
-        onRightIconPress={() => {
-          navigation.navigate(ROUTES.chattingBot);
-        }}
+      <CustomHeader title={'Messages'} />
+      <Loader
+        loading={loading}
+        uri={require('../assets/Lottie/chatLoader.json')}
       />
       <View style={styles.searchView}>
         <TextInput
@@ -97,11 +105,20 @@ const Message = () => {
           data={myChatRooms}
           keyExtractor={item => item?._id}
           renderItem={({item, index}) => {
-            return (
-              <View>
-                <MessageComponent item={item} />
-              </View>
-            );
+            if (userId == item?.patientId || userId == item?.doctorId) {
+              return (
+                <View>
+                  <MessageComponent item={item} />
+                </View>
+              );
+            } else {
+              return null;
+            }
+            // return (
+            //   <View>
+            //     <MessageComponent item={item} />
+            //   </View>
+            // );
           }}
           ListFooterComponent={() => {
             return <View style={{height: 20}}></View>;

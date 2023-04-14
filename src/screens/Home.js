@@ -21,10 +21,13 @@ import {COLORS, USERS} from '../constants/constants';
 import {BackHandler} from 'react-native';
 import {Alert} from 'react-native';
 import {useFocusEffect} from '@react-navigation/native';
-
+import {RecomendedPrecaution} from '../constants/data';
 const Home = props => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [random, setRandom] = useState(
+    Math.floor(Math.random() * (50 - 3 + 1)) + 3,
+  );
 
   const getNews = async () => {
     await axios
@@ -46,6 +49,7 @@ const Home = props => {
 
   useEffect(() => {
     getNews();
+    console.log(RecomendedPrecaution[random]);
   }, []);
 
   // useFocusEffect(
@@ -141,7 +145,8 @@ const Home = props => {
         }}>
         <View style={{marginVertical: 20}}>
           <PrecautionCard
-            precaution={`Avoid physical contact like handshakes, hand holding or hugs. Avoid touching surfaces such as table tops, chairs, door handles etc. b) Practice good hygiene Wash your hands frequently using soap and water`}
+            precaution={RecomendedPrecaution[random].precaution}
+            title={RecomendedPrecaution[random].topic}
           />
         </View>
         <View style={{marginBottom: 0, marginTop: 10}}>

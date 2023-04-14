@@ -4,6 +4,9 @@ import Container from '../components/Container';
 import {COLORS, FONT} from '../constants/constants';
 import {HStack} from 'native-base';
 import {useState} from 'react';
+import API from '../axios/api';
+import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 
 const MedicineTracker = () => {
   const data = [
@@ -83,6 +86,25 @@ const MedicineTracker = () => {
 
   const [notification, setNotification] = useState(true);
 
+  const userId = useSelector(state => state?.user_id);
+
+  const [medicines, setMedicines] = useState([]);
+
+  const getMyReport = async () => {
+    await API.getMyReport(userId)
+      .then(res => {
+        console.log(res?.data?.data?.medicines);
+        setMedicines(res?.data?.data?.medicines);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  useEffect(() => {
+    getMyReport();
+  }, []);
+
   return (
     <Container>
       <ScrollView
@@ -144,18 +166,8 @@ const MedicineTracker = () => {
                   }}>
                   Medicine name
                 </Text>
-                <Text
-                  style={{
-                    ...FONT?.title,
-                    color: COLORS?.green,
-                    marginBottom: 10,
-                    // marginLeft: 20,
-                    flex: 0.5,
-                    fontSize: 14,
-                  }}>
-                  Count
-                </Text>
-                <Text
+
+                {/* <Text
                   style={{
                     ...FONT?.title,
                     color: COLORS?.green,
@@ -165,34 +177,28 @@ const MedicineTracker = () => {
                     fontSize: 14,
                   }}>
                   Time
-                </Text>
+                </Text> */}
               </View>
-              {item?.medicines?.map(med => {
+              {medicines?.map(med => {
                 return (
                   <View
-                    key={med?.id}
+                    key={med?.medicineName}
                     style={{flexDirection: 'row', width: '100%'}}>
-                    <Text
-                      style={{
-                        ...FONT?.subTitle,
-                        color: COLORS?.grey,
-                        marginBottom: 10,
-                        // marginLeft: 20,
-                        flex: 1.5,
-                      }}>
-                      {med?.name}
-                    </Text>
-                    <Text
-                      style={{
-                        ...FONT?.subTitle,
-                        color: COLORS?.grey,
-                        marginBottom: 10,
-                        // marginLeft: 20,
-                        flex: 0.5,
-                      }}>
-                      {med?.count}
-                    </Text>
-                    <Text
+                    {med?.medicineTime?.findIndex(time => time == item?.time) >
+                      -1 && (
+                      <Text
+                        style={{
+                          ...FONT?.title,
+                          color: COLORS?.grey,
+                          marginBottom: 10,
+                          // marginLeft: 20,
+                          flex: 1.5,
+                        }}>
+                        {med?.medicineName}
+                      </Text>
+                    )}
+
+                    {/* <Text
                       style={{
                         ...FONT?.subTitle,
                         color: COLORS?.grey,
@@ -200,8 +206,8 @@ const MedicineTracker = () => {
                         // marginLeft: 20,
                         flex: 1,
                       }}>
-                      {med?.time}
-                    </Text>
+                      {med?.medicineTime}
+                    </Text> */}
                   </View>
                 );
               })}

@@ -27,7 +27,7 @@ const StackNavigator = () => {
         name={ROUTES.chat}
         component={Chat}
         options={{
-          headerShown: true,
+          headerShown: false,
           header: stackHeaderProps => (
             <CustomHeader {...stackHeaderProps} title="Chat" />
           ),

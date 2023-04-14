@@ -2,7 +2,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 
-const PrecautionCard = ({precaution}) => {
+const PrecautionCard = ({precaution, title}) => {
   return (
     <View
       style={{
@@ -17,13 +17,28 @@ const PrecautionCard = ({precaution}) => {
       <Text
         style={{
           ...FONT?.header,
-          textAlign: 'center',
+          // textAlign: 'center',
           marginBottom: 5,
           color: '#fff',
         }}>
         Precaution Recommendation
       </Text>
-      <Text style={{...FONT?.subTitle, color: '#fff', elevation: 10}}>
+      <Text
+        style={{
+          ...FONT?.title,
+          elevation: 10,
+          marginBottom: 5,
+          color: '#fff',
+        }}>
+        {title}
+      </Text>
+      <Text
+        style={{
+          ...FONT?.subTitle,
+          elevation: 10,
+          marginBottom: 5,
+          color: '#fff',
+        }}>
         {precaution}
       </Text>
     </View>
