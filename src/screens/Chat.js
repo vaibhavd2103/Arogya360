@@ -28,6 +28,7 @@ import Loader from '../components/Loader';
 import CustomHeader from '../components/CustomHeader';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID} from '../../config';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
@@ -119,6 +120,34 @@ const Chat = props => {
 
   const navigation = useNavigation();
 
+  const sendNotification = async () => {
+    var myHeaders = new Headers();
+    myHeaders.append('Content-Type', 'application/json');
+    myHeaders.append('Authorization', `Basic ${ONESIGNAL_API_KEY}`);
+    myHeaders.append(
+      'Cookie',
+      '__cf_bm=bdqS8ErB69aUdLzaYoVpaeg_oahFuelmup5mdcq77Ks-1681462163-0-ARCUV2u5fo8eJFtgQBme3gk37ZYVgz607LDktKkGkLh7TAceBiXLaFrn1PlFwG8XVvqD3QmI0RU6+CVeGcGcnVE=',
+    );
+
+    var raw = {
+      app_id: ONESIGNAL_APP_ID,
+      data: {foo: 'bar'},
+      contents: {en: text},
+      include_external_user_ids: [params?.user?._id],
+    };
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: JSON.stringify(raw),
+      redirect: 'follow',
+    };
+
+    fetch('https://onesignal.com/api/v1/notifications', requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  };
+
   const sendMessage = async () => {
     const data = {
       senderId: userId,
@@ -133,6 +162,7 @@ const Chat = props => {
       .then(res => {
         console.log(res?.data);
         setText('');
+        sendNotification();
         getMessages();
       })
       .catch(err => {
