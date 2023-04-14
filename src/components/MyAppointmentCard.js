@@ -1,11 +1,12 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {Button, RoundedButton} from './Buttons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import API from '../axios/api';
+import {useNavigation} from '@react-navigation/native';
 
 const MyAppointmentCard = ({
   item,
@@ -100,6 +101,7 @@ const MyAppointmentCard = ({
 };
 
 const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
+  let navigation = useNavigation();
   const createChatRoom = async () => {
     const data = {
       doctorId: userId,
@@ -108,7 +110,16 @@ const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
     };
     await API?.createChatRoom(data)
       .then(res => {
-        console.log(res?.data);
+        console.log('------------->', res?.data);
+        const item = {
+          __v: 0,
+          _id: res?.data?.data?._id,
+          user: {
+            _id: res?.data?.data?.patientId,
+          },
+        };
+
+        navigation.navigate(ROUTES?.chat, item);
       })
       .catch(err => {
         console.log(err);

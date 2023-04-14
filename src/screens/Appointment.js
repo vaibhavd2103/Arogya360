@@ -143,7 +143,6 @@ const Appointment = () => {
         loading={loading}
         uri={require('../assets/Lottie/chatLoader.json')}
       />
-
       <FlatList
         data={appointments}
         keyExtractor={item => item?._id}
@@ -151,13 +150,15 @@ const Appointment = () => {
         renderItem={({item, index}) => {
           return (
             <>
-              <MyAppointmentCard
-                item={item}
-                reloader={reloader}
-                setReloader={setReloader}
-                deleteLoader={deleteLoader}
-                setDeleteLoader={setDeleteLoader}
-              />
+              {userId == item?.patientId && (
+                <MyAppointmentCard
+                  item={item}
+                  reloader={reloader}
+                  setReloader={setReloader}
+                  deleteLoader={deleteLoader}
+                  setDeleteLoader={setDeleteLoader}
+                />
+              )}
             </>
           );
         }}

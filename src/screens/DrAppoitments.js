@@ -11,6 +11,8 @@ import {useSelector} from 'react-redux';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import API from '../axios/api';
 import {useEffect} from 'react';
+import Loader from '../components/Loader';
+import {useIsFocused} from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -48,29 +50,46 @@ const Upcomming = () => {
       .then(res => {
         console.log(res?.data);
         setAppointments(res?.data);
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })
       .catch(err => {
         console.log(err?.data?.message);
       });
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    getMyAppointments();
-  }, []);
+    if (isFocused) {
+      getMyAppointments();
+    }
+  }, [isFocused]);
+
   const [appointments, setAppointments] = useState([]);
+  const [loading, setLoading] = useState(true);
   return (
     <Container>
+      <Loader
+        loading={loading}
+        uri={require('../assets/Lottie/chatLoader.json')}
+      />
       <FlatList
         data={appointments}
         keyExtractor={item => item?._id}
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) => {
           return (
-            <DrMyAppointmentCard
-              item={item}
-              type={'upcomming'}
-              userId={userId}
-            />
+            <>
+              {userId == item?.doctorId && (
+                <DrMyAppointmentCard
+                  item={item}
+                  type={'upcomming'}
+                  userId={userId}
+                />
+              )}
+            </>
           );
         }}
       />

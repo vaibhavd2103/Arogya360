@@ -4,14 +4,16 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  SafeAreaView,
+  Image,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 //---------------------packages-----------------------------------------------------------
-import {GiftedChat} from 'react-native-gifted-chat';
+import {Bubble, GiftedChat} from 'react-native-gifted-chat';
 import DocumentPicker from 'react-native-document-picker';
 //------------------------------components/constants----------------------------------------
 import Container from '../components/Container';
-import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 //------------------------------------icons--------------------------------------------------
 import Send from 'react-native-vector-icons/Ionicons';
 import Attachment from 'react-native-vector-icons/Entypo';
@@ -23,6 +25,9 @@ import {useRef} from 'react';
 import {useSelector} from 'react-redux';
 import API from '../axios/api';
 import Loader from '../components/Loader';
+import CustomHeader from '../components/CustomHeader';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
+import Back from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
@@ -30,6 +35,7 @@ const Chat = props => {
   const [text, setText] = useState('');
 
   const userId = useSelector(state => state?.user_id);
+  const userType = useSelector(state => state?.userType);
   const params = props?.route?.params;
   const [loading, setLoading] = useState(true);
   // console.log(params);
@@ -72,24 +78,6 @@ const Chat = props => {
       });
   };
 
-  const sendMessage = async () => {
-    const data = {
-      senderId: userId,
-      receiverId: params?.user?._id,
-      chatRoomId: params?._id,
-      createdAt: new Date(),
-      messageType: 1,
-      message: text,
-    };
-    await API.sendMessage(data)
-      .then(res => {
-        console.log(res?.data);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    await socket.current.emit('send_message', data);
-  };
   // const socket = io(`http://${ip}:5000`);
   // const socket = io(`http://${ip}:5000`, {
   //   transports: ['websocket'],
@@ -99,37 +87,60 @@ const Chat = props => {
 
   const socket = useRef();
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    socket.current = io(`http://${ip}:5000`);
-    console.log('useeffect');
+    if (isFocused) {
+      socket.current = io(`http://${ip}:5000`);
 
-    socket.current.emit(
-      'join_room',
-      123,
-      // params?.user?._id
-    );
+      socket.current.emit(
+        'join_room',
+        params?._id,
+        // 123,
+      );
 
-    socket.current.on('receive_message', msg => {
-      console.log('message received from socket', msg);
-    });
+      socket.current.on('connected', data => {
+        console.log(data);
+      });
 
-    // socket.on('connection', data => {
-    //   console.log(`Received data: ${data}`);
-    // });
-
-    // socket.emit('join_room', {
-    //   chatRoomId: params?._id,
-    //   otherUserId: params?.user?._id,
-    // });
-
-    // socket.on('receive_message', data => {
-    //   console.log('message received from socket', data);
-    // });
-    getMessages();
+      socket.current.on('receive_message', msg => {
+        console.log('message received from socket', msg);
+        getMessages();
+        // if (msg) {
+        //   setMessages([...messages, msg]);
+        // }
+      });
+      getMessages();
+    }
     return () => {
       socket?.current?.disconnect();
     };
-  }, [socket]);
+  }, [socket, isFocused]);
+
+  const navigation = useNavigation();
+
+  const sendMessage = async () => {
+    const data = {
+      senderId: userId,
+      receiverId: params?.user?._id,
+      chatRoomId: params?._id,
+      // chatRoomId: 123,
+      createdAt: new Date(),
+      messageType: 1,
+      message: text,
+    };
+    await API.sendMessage(data)
+      .then(res => {
+        console.log(res?.data);
+        setText('');
+        getMessages();
+      })
+      .catch(err => {
+        console.log(err?.data?.error);
+      });
+    await socket.current.emit('send_message', data);
+  };
+
   //------------------------------file Picker------------------------------------------------
   const openFilePicker = async () => {
     try {
@@ -183,11 +194,146 @@ const Chat = props => {
       </View>
     );
   };
-  //--------------------------------send function----------------------------------------
+
+  const renderBubble = props => {
+    return (
+      <Bubble
+        {...props}
+        textStyle={{
+          right: {
+            ...FONT?.title,
+            color: '#fff',
+          },
+          left: {
+            ...FONT?.title,
+            color: '#fff',
+          },
+        }}
+        wrapperStyle={{
+          right: {
+            backgroundColor: COLORS?.blue,
+            maxWidth: DIMENSIONS?.width - 100,
+            elevation: 10,
+            marginRight: 10,
+          },
+          left: {
+            backgroundColor: `${COLORS?.grey}`,
+            maxWidth: DIMENSIONS?.width - 100,
+            elevation: 10,
+          },
+        }}
+      />
+    );
+  };
 
   //-----------------------------------------------------------------------
   return (
-    <Container>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      {/* <CustomHeader
+        style={{}}
+        title={params?.user?.name}
+        RightIcon={() => {
+          if (userType == 2) {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate(ROUTES?.createReport, {
+                    patient: params?.user,
+                    chatRoomId: params?._id,
+                  });
+                }}
+                style={{
+                  backgroundColor: COLORS?.blue,
+                  padding: 8,
+                  paddingHorizontal: 15,
+                  borderRadius: 10,
+                  paddingBottom: 10,
+                }}
+                activeOpacity={0.8}>
+                <Text style={{...FONT?.title, color: '#fff'}}>
+                  Create Report
+                </Text>
+              </TouchableOpacity>
+            );
+          }
+        }}
+      /> */}
+      <View
+        style={{
+          flexDirection: 'row',
+          padding: 10,
+          height: 70,
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          backgroundColor: COLORS.background,
+          elevation: 10,
+          width: DIMENSIONS.width,
+          // position: 'absolute',
+          // top: 0,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            //   backgroundColor: COLORS.blue,
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            style={{
+              width: 40,
+              height: 40,
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderRadius: 40,
+              // backgroundColor: COLORS?.blue,
+              // marginHorizontal: 10,
+              // marginRight: 10,
+            }}
+            activeOpacity={0.8}
+            onPress={() => navigation.goBack()}>
+            <Back name={'chevron-left'} size={40} color={COLORS.blue} />
+          </TouchableOpacity>
+          <Image
+            source={{
+              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+            }}
+            style={{
+              height: 45,
+              width: 45,
+              borderRadius: 50,
+            }}
+          />
+          <Text
+            numberOfLines={1}
+            style={{
+              ...FONT.header,
+              marginLeft: 10,
+              fontSize: 18,
+              maxWidth: DIMENSIONS.width - 200,
+            }}>
+            {params?.user?.name}
+          </Text>
+        </View>
+        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate(ROUTES?.createReport, {
+                patient: params?.user,
+                chatRoomId: params?._id,
+              });
+            }}
+            style={{
+              backgroundColor: COLORS?.blue,
+              padding: 8,
+              borderRadius: 10,
+              // paddingHorizontal: 15,
+            }}
+            activeOpacity={0.8}>
+            <Text style={{...FONT?.subTitle, color: '#fff'}}>
+              Create Report
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       <Loader
         loading={loading}
         uri={require('../assets/Lottie/messagesLoader.json')}
@@ -197,12 +343,19 @@ const Chat = props => {
         messages={messages}
         inverted={true}
         renderInputToolbar={renderInputToolbar}
+        renderBubble={renderBubble}
+        showAvatarForEveryMessage={true}
+        renderAvatar={() => null}
+        messagesContainerStyle={{
+          backgroundColor: '#fff',
+          marginTop: 0,
+        }}
         // onSend={messages => onSend(messages)}
         user={{
           _id: userId,
         }}
       />
-    </Container>
+    </SafeAreaView>
   );
 };
 

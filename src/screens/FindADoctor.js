@@ -16,48 +16,23 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Input from '../components/TextInput';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import API from '../axios/api';
+import {useNavigation} from '@react-navigation/native';
 
 const FindADoctor = ({navigation, route}) => {
-  const Types = [
-    {
-      id: '1',
-      type: 'Family physicians',
-      icon: <Fontisto name="doctor" size={24} color={COLORS.background} />,
-      // onPress :
-    },
-    {
-      id: '2',
-      type: 'Gynecologists',
-      icon: (
-        <FontAwesome5
-          name="baby-carriage"
-          size={24}
-          color={COLORS.background}
-        />
-      ),
-      // onPress :
-    },
-    {
-      id: '3',
-      type: 'Neurologists',
-      icon: <FontAwesome5 name="brain" size={24} color={COLORS.background} />,
-      // onPress :
-    },
-    {
-      id: '4',
-      type: 'Cardiologists',
-      icon: (
-        <FontAwesome5 name="heartbeat" size={24} color={COLORS.background} />
-      ),
-      // onPress :
-    },
-    {
-      id: '5',
-      type: 'Dentist',
-      icon: <FontAwesome5 name="tooth" size={24} color={COLORS.background} />,
-      // onPress :
-    },
-  ];
+  const [doctors, setDoctors] = useState([]);
+
+  const getAllDoctors = async () => {
+    await API.getAllDoctors().then(res => {
+      // console.log(res?.data);
+      setDoctors(res?.data?.doctors);
+    });
+  };
+
+  useEffect(() => {
+    getAllDoctors();
+  }, []);
+
   const [search, setSearch] = useState('');
 
   return (
@@ -87,90 +62,24 @@ const FindADoctor = ({navigation, route}) => {
         <Ionicons name="search" size={24} color={COLORS.blue} />
       </View>
       <FlatList
-        data={Types}
-        keyExtractor={item => item?.id}
+        data={doctors}
+        numColumns={2}
+        keyExtractor={item => item?._id}
         keyboardShouldPersistTaps="handled"
         ListFooterComponent={() => {
           return <View style={{height: 120}}></View>;
         }}
         renderItem={({item, index}) => {
-          return <TypeItem item={item} index={index} navigation={navigation} />;
+          return <DoctorCard item={item} />;
         }}
       />
     </Container>
   );
 };
 
-const TypeItem = ({item, index, navigation}) => {
-  const [DrListOpen, setDrListOpen] = useState(false);
-  const [id, setId] = useState('');
-  counsellor = [
-    {id: '1', name: 'Dr Sakshi', country: 'US'},
-    {id: '2', name: 'Tanya', country: 'UK'},
-    {id: '3', name: 'Tanisha', country: 'Uganda'},
-    {id: '4', name: 'Vaibhav', country: 'India'},
-  ];
-  return (
-    <>
-      <TouchableOpacity
-        style={styles.container}
-        onPressIn={() => setDrListOpen(!DrListOpen)}>
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            marginHorizontal: 10,
-          }}>
-          {item.icon}
-          <Text
-            style={{...FONT.header, color: COLORS.white, marginHorizontal: 10}}>
-            {item?.type}
-          </Text>
-        </View>
-
-        <MaterialIcons name="navigate-next" size={24} color="white" />
-      </TouchableOpacity>
-      {DrListOpen ? (
-        <View style={{flex: 1}}>
-          <FlatList
-            data={counsellor}
-            ListEmptyComponent={() => {
-              return (
-                <Text style={{...Font.title, color: COLORS.lead}}>
-                  Nothing found
-                </Text>
-              );
-            }}
-            style={{
-              width: '100%',
-              height: '100%',
-              // paddingTop: 60,
-              alignItems: 'center',
-            }}
-            // contentContainerStyle={{alignItems: 'center'}}
-            // ListHeaderComponent={flatListHeader}
-            numColumns={2}
-            keyExtractor={item => item.id}
-            renderItem={({item}) => {
-              return (
-                <CounsellorInfo
-                  navigation={navigation}
-                  item={item}
-                  id={id}
-                  setId={setId}
-                />
-              );
-            }}
-            // ListFooterComponent={<View style={{height: 70}}></View>}
-          />
-        </View>
-      ) : null}
-    </>
-  );
-};
-
-const CounsellorInfo = ({navigation, item, id, setId}) => {
+const DoctorCard = ({item, id, setId}) => {
   //   const [id, setId] = useState("");
+  const navigation = useNavigation();
   return (
     <TouchableOpacity
       style={{
@@ -199,7 +108,7 @@ const CounsellorInfo = ({navigation, item, id, setId}) => {
           color: COLORS.lead,
           fontSize: 16,
         }}>
-        Dr. {item.name.replace('Dr. ', '')}
+        Dr. {item?.name?.replace('Dr.', '')}
       </Text>
       <Text
         style={{
@@ -207,14 +116,14 @@ const CounsellorInfo = ({navigation, item, id, setId}) => {
           color: COLORS.lead,
           paddingVertical: 2,
         }}>
-        {item?.country ? item.country : 'Unknown'}
+        {item?.country ? item?.country : 'Unknown'}
       </Text>
       <Text
         style={{
           ...FONT.subTitle,
           color: COLORS.lead,
         }}>
-        MBBS
+        {item?.qualification}
       </Text>
 
       <Text
@@ -223,7 +132,7 @@ const CounsellorInfo = ({navigation, item, id, setId}) => {
           color: COLORS.lead,
           paddingVertical: 2,
         }}>
-        Clients 50+
+        {item?.specialty}
       </Text>
       <TouchableOpacity
         style={styles.viewDetailsButton}

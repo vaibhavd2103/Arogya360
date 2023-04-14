@@ -55,12 +55,12 @@ const SlideMenu = ({navigation}) => {
       icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.bmichecker,
     },
-    {
-      id: '7',
-      name: 'Create Report',
-      icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
-      navigation: ROUTES.createReport,
-    },
+    // {
+    //   id: '7',
+    //   name: 'Create Report',
+    //   icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
+    //   navigation: ROUTES.createReport,
+    // },
     {
       id: '8',
       name: 'App Info',
@@ -111,7 +111,7 @@ const SlideMenu = ({navigation}) => {
               fontSize: 18,
               color: '#fff',
             }}>
-            Dr. {userData?.name}
+            {userType == '2' ? 'Dr.' : null} {userData?.name}
           </Text>
           <Text
             style={{
@@ -218,7 +218,10 @@ const SlideMenu = ({navigation}) => {
           <Button
             title={'Logout'}
             style={{width: '90%', alignSelf: 'center'}}
-            onPress={() => dispatch(resetRedux())}
+            onPress={() => {
+              navigation?.closeDrawer();
+              dispatch(resetRedux());
+            }}
           />
         </View>
       </View>
