@@ -49,7 +49,7 @@ const Home = props => {
 
   useEffect(() => {
     getNews();
-    console.log(RecomendedPrecaution[random]);
+    // console.log(RecomendedPrecaution[random]);
   }, []);
 
   // useFocusEffect(

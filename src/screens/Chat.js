@@ -28,6 +28,7 @@ import Loader from '../components/Loader';
 import CustomHeader from '../components/CustomHeader';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/MaterialCommunityIcons';
+import {ONESIGNAL_APP_ID} from '../../config';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
@@ -119,6 +120,24 @@ const Chat = props => {
 
   const navigation = useNavigation();
 
+  const sendNotification = async () => {
+    const data = {
+      app_id: ONESIGNAL_APP_ID,
+      //   "included_segments": ["Subscribed Users"],
+      data: {foo: 'bar'},
+      contents: {en: text},
+      include_external_user_ids: [params?.user?._id],
+    };
+    await axios
+      .post(`https://onesignal.com/api/v1/notifications`, data)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   const sendMessage = async () => {
     const data = {
       senderId: userId,
@@ -133,6 +152,7 @@ const Chat = props => {
       .then(res => {
         console.log(res?.data);
         setText('');
+        sendNotification();
         getMessages();
       })
       .catch(err => {
