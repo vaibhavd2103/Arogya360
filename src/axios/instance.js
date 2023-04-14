@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {NetworkInfo} from 'react-native-network-info';
 
-export const ip = '192.168.0.225';
+// export const ip = '192.168.0.225';
 // export const ip = '192.168.204.47';
+export const ip = '192.168.1.104';
 
 // NetworkInfo.getIPV4Address().then(ipv4Address => {
 //   console.log(ipv4Address);
