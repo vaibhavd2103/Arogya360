@@ -12,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useSelector, useDispatch} from 'react-redux';
 import API from '../axios/api';
 import {setUserData} from './../redux/actions';
+import {useIsFocused} from '@react-navigation/core';
 
 const About = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const About = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchUser = async () => {
+    console.log(userId, userType);
     await API.getUserDetails(userId, userType)
       .then(res => {
         console.log('MY details fetched', res.data);
@@ -36,9 +38,13 @@ const About = () => {
       });
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    fetchUser();
-  }, [userId]);
+    if (isFocused) {
+      fetchUser();
+    }
+  }, [userId, isFocused]);
 
   return (
     <Container style={{padding: 25}}>
@@ -103,10 +109,10 @@ const About = () => {
               // justifyContent: 'center',
             }}>
             <Entypo name="dot-single" size={30} color={COLORS.blue} />
-            <Text style={{...FONT.subTitle, color: 'gray'}}>DOB</Text>
+            <Text style={{...FONT.subTitle, color: 'gray'}}>Gender</Text>
           </View>
           <Text style={{...FONT.header, fontSize: 18, paddingLeft: 30}}>
-            {profileData?.dob}
+            {profileData?.gender}
           </Text>
         </View>
       </View>
@@ -133,9 +139,13 @@ const About = () => {
         value={profileData?.dob}
       />
       <IconTitle
+        icon={<Entypo name="drop" size={20} color="red" />}
+        value={profileData?.bloodGroup}
+      />
+      {/* <IconTitle
         icon={<FontAwesome name="transgender" size={24} color="black" />}
         value={profileData?.gender}
-      />
+      /> */}
       {/* <IconTitle
         icon={<Entypo name="drop" size={20} color="red" />}
         value="A+"
