@@ -1,7 +1,7 @@
 import React from 'react';
 import Login from '../screens/Login';
 import Chat from '../screens/Chat';
-import {ROUTES} from '../constants/constants';
+import {COLORS, ROUTES} from '../constants/constants';
 import {createStackNavigator} from '@react-navigation/stack';
 import Signup from '../screens/Signup';
 import TabNavigator from './TabNavigator';
@@ -20,6 +20,11 @@ import BookAppointment from '../screens/BookAppointment';
 import AppInfo from '../screens/AppInfo';
 import DrAppoitments from '../screens/DrAppoitments';
 import CreateArticle from '../screens/CreateArticle';
+import EditProfile from '../screens/EditProfile';
+import {TouchableOpacity} from 'react-native';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 const Stack = createStackNavigator();
 
@@ -135,42 +140,42 @@ const StackNavigator = () => {
             <CustomHeader
               {...stackHeaderProps}
               title="Profile"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
-              // RightIcon={() => {
-              //   return <AntDesign name="edit" size={24} color="black" />;
-              // }}
-              // onRightIconPress={() => {
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.navigate(
-              //     ROUTES.editProfile,
-              //   );
-              //   // console.log(stackHeaderProps?.scene?.descriptor?.navigation);
-              // }}
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+              RightIcon={() => {
+                return <AntDesign name="edit" size={24} color="black" />;
+              }}
+              onRightIconPress={() => {
+                stackHeaderProps?.scene?.descriptor?.navigation?.navigate(
+                  ROUTES.editProfile,
+                );
+                // console.log(stackHeaderProps?.scene?.descriptor?.navigation);
+              }}
             />
           ),
         }}
