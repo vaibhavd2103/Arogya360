@@ -19,6 +19,7 @@ import CreateReport from '../screens/CreateReport';
 import BookAppointment from '../screens/BookAppointment';
 import AppInfo from '../screens/AppInfo';
 import DrAppoitments from '../screens/DrAppoitments';
+import CreateArticle from '../screens/CreateArticle';
 
 const Stack = createStackNavigator();
 
@@ -181,6 +182,16 @@ const StackNavigator = () => {
           headerShown: true,
           header: stackHeaderProps => (
             <CustomHeader {...stackHeaderProps} title="Edit Profile" />
+          ),
+        }}
+      />
+      <Stack.Screen
+        name={ROUTES.createArticle}
+        component={CreateArticle}
+        options={{
+          headerShown: true,
+          header: stackHeaderProps => (
+            <CustomHeader {...stackHeaderProps} title="Create Article" />
           ),
         }}
       />
