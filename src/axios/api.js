@@ -21,7 +21,7 @@ API.getAllDoctors = async () => AxiosInst.get('/getAllDoctors');
 
 //
 API.createArticle = async data => AxiosInst.post('/createArticle', data);
-API.getAllArticles = async data => AxiosInst.post('/getAllArticles', data);
+API.getAllArticles = async () => AxiosInst.get('/getAllArticles');
 API.getMyArticles = async data => AxiosInst.post('/getMyArticles', data);
 
 //

@@ -4,8 +4,36 @@ import Container from '../components/Container';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import {NormalInput} from './../components/TextInput';
 import {Button} from '../components/Buttons';
+import {useSelector} from 'react-redux';
+import API from '../axios/api';
 
-const CreateArticle = () => {
+const CreateArticle = ({navigation}) => {
+  const user = useSelector(state => state?.user);
+  const [loading, setLoading] = useState(false);
+  const postArticle = async () => {
+    setLoading(true);
+    const data = {
+      doctorId: user?._id,
+      createdAt: new Date(),
+      doctorName: user?.name,
+      doctorPhoto: user?.avtar_url,
+      description: articleData?.desc,
+      title: articleData?.title,
+      qualification: user?.qualification,
+    };
+    await API.createArticle(data)
+      .then(res => {
+        console.log(res?.data);
+        navigation.goBack();
+        // fetchUser();
+        setLoading(false);
+        //  setAllUser(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
   const [articleData, setArticleData] = useState({
     name: '',
     email: '',
@@ -78,7 +106,8 @@ const CreateArticle = () => {
         }}
         onPress={() => {
           // editprofile();
-          Alert.alert('Updating');
+          postArticle();
+          // Alert.alert('Updating');
           // navigation.goBack();
         }}
       />

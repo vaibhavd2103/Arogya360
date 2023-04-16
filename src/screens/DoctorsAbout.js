@@ -13,6 +13,7 @@ import {Title_SubTitle} from '../components/Components';
 import {useDispatch, useSelector} from 'react-redux';
 import {setUserData} from '../redux/actions';
 import API from './../axios/api';
+import {useIsFocused} from '@react-navigation/native';
 
 const DoctorsAbout = ({navigation}) => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const DoctorsAbout = ({navigation}) => {
   const [loading, setLoading] = useState(false);
 
   const fetchUser = async () => {
+    console.log(userId, userType);
     await API.getUserDetails(userId, userType)
       .then(res => {
         console.log('MY details fetched', res.data);
@@ -37,9 +39,13 @@ const DoctorsAbout = ({navigation}) => {
       });
   };
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    fetchUser();
-  }, [userId]);
+    if (isFocused) {
+      fetchUser();
+    }
+  }, [userId, isFocused]);
   return (
     <Container style={{paddingHorizontal: 25}}>
       <ScrollView
@@ -90,7 +96,7 @@ const DoctorsAbout = ({navigation}) => {
         />
         <IconTitle
           icon={<FontAwesome name="transgender" size={24} color="black" />}
-          value={profileData?.dob}
+          value={profileData?.gender}
         />
 
         <Title_SubTitle title="Country" subTitle={profileData?.country} />
