@@ -9,20 +9,25 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 import API from '../axios/api';
+import {setUserData} from './../redux/actions';
+import {useIsFocused} from '@react-navigation/core';
 
 const About = () => {
+  const dispatch = useDispatch();
   const userType = useSelector(state => state?.userType);
   const userId = useSelector(state => state?.user_id);
-  const [userData, setUserData] = useState([]);
+  const [profileData, setProfileData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const fetchUser = async () => {
-    await API.getUserDetails(id, userType)
+    console.log(userId, userType);
+    await API.getUserDetails(userId, userType)
       .then(res => {
         console.log('MY details fetched', res.data);
-        // dispatch(setUser(res?.data));
+        setProfileData(res?.data?.user);
+        dispatch(setUserData(res?.data?.user));
         // dispatch(setUserId(res?.data?.userId));
       })
       .catch(error => {
@@ -32,6 +37,14 @@ const About = () => {
         );
       });
   };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchUser();
+    }
+  }, [userId, isFocused]);
 
   return (
     <Container style={{padding: 25}}>
@@ -49,7 +62,7 @@ const About = () => {
           style={styles.profilePic}
         />
         <Text style={{...FONT.header, paddingVertical: 10}}>
-          Tanisha Thakur
+          {profileData?.name}
         </Text>
       </View>
       <View
@@ -71,7 +84,7 @@ const About = () => {
             <Text style={{...FONT.subTitle, color: 'gray'}}>Weight</Text>
           </View>
           <Text style={{...FONT.header, fontSize: 18, paddingLeft: 30}}>
-            55kg
+            {profileData?.weight}
           </Text>
         </View>
         <View style={styles.boxes}>
@@ -85,7 +98,7 @@ const About = () => {
             <Text style={{...FONT.subTitle, color: 'gray'}}>Height</Text>
           </View>
           <Text style={{...FONT.header, fontSize: 18, paddingLeft: 30}}>
-            170cm
+            {profileData?.height}
           </Text>
         </View>
         <View style={styles.boxes}>
@@ -96,10 +109,10 @@ const About = () => {
               // justifyContent: 'center',
             }}>
             <Entypo name="dot-single" size={30} color={COLORS.blue} />
-            <Text style={{...FONT.subTitle, color: 'gray'}}>Age</Text>
+            <Text style={{...FONT.subTitle, color: 'gray'}}>Gender</Text>
           </View>
           <Text style={{...FONT.header, fontSize: 18, paddingLeft: 30}}>
-            22
+            {profileData?.gender}
           </Text>
         </View>
       </View>
@@ -108,7 +121,7 @@ const About = () => {
         icon={<Feather name="phone-call" size={24} color="black" />}
       /> */}
       <IconTitle
-        value="+91 9175954524"
+        value={profileData?.mobile}
         icon={<Feather name="phone-call" size={24} color="black" />}
       />
       <IconTitle
@@ -119,17 +132,21 @@ const About = () => {
             color="black"
           />
         }
-        value="abc@gmail.com"
+        value={profileData?.email}
       />
       <IconTitle
         icon={<FontAwesome name="birthday-cake" size={24} color="black" />}
-        value="20/11/2001"
+        value={profileData?.dob}
       />
       <IconTitle
+        icon={<Entypo name="drop" size={20} color="red" />}
+        value={profileData?.bloodGroup}
+      />
+      {/* <IconTitle
         icon={<FontAwesome name="transgender" size={24} color="black" />}
-        value="Male"
-      />
-      <IconTitle
+        value={profileData?.gender}
+      /> */}
+      {/* <IconTitle
         icon={<Entypo name="drop" size={20} color="red" />}
         value="A+"
       />
@@ -146,7 +163,7 @@ const About = () => {
       <IconTitle
         icon={<Ionicons name="notifications-outline" size={24} color="black" />}
         value="Notifications On"
-      />
+      /> */}
     </Container>
   );
 };

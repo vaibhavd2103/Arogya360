@@ -6,7 +6,7 @@ API.doctorSignup = async data => AxiosInst.post('/doctorSignup', data);
 API.patientSignup = async data => AxiosInst.post('/patientSignup', data);
 API.login = async data => AxiosInst.post('/login', data);
 API.getUserDetails = async (id, userType) =>
-  AxiosInst.get(`/getProfile/${id}/${userType}`);
+  AxiosInst.get(`/getProfile?userId=${id}&userType=${userType}`);
 API.editProfile = async data => AxiosInst.post(`/editProfile`, data);
 
 //
@@ -21,7 +21,7 @@ API.getAllDoctors = async () => AxiosInst.get('/getAllDoctors');
 
 //
 API.createArticle = async data => AxiosInst.post('/createArticle', data);
-API.getAllArticles = async data => AxiosInst.post('/getAllArticles', data);
+API.getAllArticles = async () => AxiosInst.get('/getAllArticles');
 API.getMyArticles = async data => AxiosInst.post('/getMyArticles', data);
 
 //

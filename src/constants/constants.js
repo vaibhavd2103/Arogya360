@@ -65,6 +65,7 @@ export const ROUTES = {
   savedArticles: 'savedArticles',
   appInfo: 'appInfo',
   drAppoitments: 'drAppoitments',
+  createArticle: 'createArticle',
 };
 
 export const USERS = {

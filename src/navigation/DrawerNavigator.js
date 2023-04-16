@@ -39,7 +39,7 @@ const DrawerNavigator = props => {
       }}
       statusBarAnimation="fade">
       <Drawer.Screen name={ROUTES.stackNav} component={StackNavigator} />
-      <Drawer.Screen
+      {/* <Drawer.Screen
         name={ROUTES.finddoctor}
         component={FindADoctor}
         options={{
@@ -118,7 +118,7 @@ const DrawerNavigator = props => {
             />
           ),
         }}
-      />
+      /> 
       <Drawer.Screen
         name={ROUTES.profile}
         component={Profile}
@@ -417,7 +417,7 @@ const DrawerNavigator = props => {
             <CustomHeader {...stackHeaderProps} title="My Appoitments" />
           ),
         }}
-      />
+      />*/}
     </Drawer.Navigator>
   );
 };

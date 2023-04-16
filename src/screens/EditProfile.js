@@ -21,22 +21,27 @@ import {COUNTRY_API_KEY} from '../../config';
 import {Actionsheet} from 'native-base';
 import {qualifications} from '../constants/data';
 import DropDown from '../components/DropDown';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import API from '../axios/api';
+import {setUserData as reduxUserData} from './../redux/actions';
 
 const EditProfile = ({navigation}) => {
+  const dispatch = useDispatch();
   const userType = useSelector(state => state?.userType);
-  // const [userType, setUserType] = useState(1);
+  const userId = useSelector(state => state?.user_id);
+  const user = useSelector(state => state?.user);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
   const [userData, setUserData] = useState({
-    name: '',
-    email: '',
-    height: '',
-    weight: '',
-    mobile: '',
-    birthDate: '',
-    gender: '',
-    bloodGroup: '',
-    img: '',
+    name: user?.name,
+    email: user?.email,
+    mobile: user?.mobile,
+    height: user?.height,
+    weight: user?.weight,
+    birthDate: user?.dob,
+    gender: user?.gender,
+    bloodGroup: user?.bloodGroup,
+    avatar_url: user?.avatar_url,
   });
 
   const [err, setErr] = useState({
@@ -88,30 +93,6 @@ const EditProfile = ({navigation}) => {
     });
   };
 
-  //   const editprofile = async () => {
-  //   setLoading(true);
-  //   const data = {
-  //     // userId: x,
-  //     // userType:,
-  //     mobile: userData?.mobile,
-  //     // avatar_url: ,
-  //     height: userData?.height,
-  //     weight: userData?.weight,
-  //     bloodGroup:userData?.bloodGroup ,
-  //   };
-
-  //   await API.editProfile(data, headers)
-  //     .then(res => {
-  //       console.log(res?.data);
-
-  //       fetchUser();
-  //       //  setAllUser(res?.data);
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       setLoading(false);
-  //     });
-  // };
   ////////////////////////////////////DOctors SIDE USESTATES
   const [docData, setDocData] = useState({
     name: '',
@@ -197,6 +178,61 @@ const EditProfile = ({navigation}) => {
     getCountry();
   }, []);
 
+  // const fetchUser = async () => {
+  //   await API.getUserDetails(userId, userType)
+  //     .then(res => {
+  //       // console.log('MY details fetched', res.data);
+  //       // setProfileData(res?.data?.user);
+  //       dispatch(reduxUserData(res?.data?.user));
+  //       // dispatch(setUserId(res?.data?.userId));
+  //     })
+  //     .catch(error => {
+  //       console.error(
+  //         'Error fetching user',
+  //         error?.response?.data?.status_message ?? error?.message,
+  //       );
+  //     });
+  // };
+
+  const edit_Profile = async () => {
+    setLoading(true);
+    const patientData = {
+      userId: userId,
+      userType: userType,
+      mobile: userData?.mobile,
+      // avatar_url: ,
+      height: userData?.height,
+      weight: userData?.weight,
+      bloodGroup: userData?.bloodGroup,
+    };
+
+    const doctorData = {
+      userId: userId,
+      userType: userType,
+      mobile: docData?.mobile,
+      //  avatar_url: avatar_url,
+      country: docData?.country,
+      state: docData?.state,
+      city: docData?.city,
+    };
+
+    let data = userType == 1 ? patientData : doctorData;
+
+    await API.editProfile(data)
+      .then(res => {
+        console.log(res?.data);
+        dispatch(reduxUserData(res?.data?.response));
+        // fetchUser();
+        setLoading(false);
+        navigation?.goBack();
+        //  setAllUser(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  };
+
   return (
     <Container>
       <ScrollView
@@ -210,7 +246,7 @@ const EditProfile = ({navigation}) => {
           //   height: DIMENSIONS.height > 700 ? '100%' : null,
           padding: 24,
         }}>
-        {userType == 1 ? (
+        {userType == 2 ? (
           <>
             <View
               style={{
@@ -257,6 +293,7 @@ const EditProfile = ({navigation}) => {
               style={{width: '100%'}}
               err={err?.name}
               value={docData.name}
+              editable={false}
             />
             <NormalInput
               title={'Email'}
@@ -269,6 +306,7 @@ const EditProfile = ({navigation}) => {
               err={err?.email}
               value={docData.email}
               keyboardType="email"
+              editable={false}
             />
             <NormalInput
               title={'Mobile'}
@@ -293,6 +331,7 @@ const EditProfile = ({navigation}) => {
               style={{width: '100%'}}
               err={err?.gender}
               value={docData.gender}
+              editable={false}
             />
             <NormalInput
               title={'Date of Birth'}
@@ -304,6 +343,7 @@ const EditProfile = ({navigation}) => {
               style={{width: '100%'}}
               err={err?.birthDate}
               value={docData.birthDate}
+              editable={false}
             />
             <Text style={{...FONT.subTitle, ...styles.placeholderText}}>
               Country
@@ -389,7 +429,7 @@ const EditProfile = ({navigation}) => {
                 alignSelf: 'center',
               }}
               onPress={() => {
-                editprofile();
+                edit_Profile();
                 // Alert.alert('Updating');
                 // navigation.goBack();
               }}
@@ -442,6 +482,7 @@ const EditProfile = ({navigation}) => {
               style={{width: '100%'}}
               err={err?.name}
               value={userData.name}
+              editable={false}
             />
             <NormalInput
               title={'Email'}
@@ -454,6 +495,7 @@ const EditProfile = ({navigation}) => {
               err={err?.email}
               value={userData.email}
               keyboardType="email"
+              editable={false}
             />
             <NormalInput
               title={'Mobile'}
@@ -512,6 +554,7 @@ const EditProfile = ({navigation}) => {
               style={{width: '100%'}}
               err={err?.gender}
               value={userData.gender}
+              editable={false}
             />
             <NormalInput
               title={'Date of Birth'}
@@ -523,6 +566,7 @@ const EditProfile = ({navigation}) => {
               style={{width: '100%'}}
               err={err?.birthDate}
               value={userData.birthDate}
+              editable={false}
             />
             <Button
               title="Update"
@@ -534,7 +578,7 @@ const EditProfile = ({navigation}) => {
                 alignSelf: 'center',
               }}
               onPress={() => {
-                editprofile();
+                edit_Profile();
                 // Alert.alert('Updating');
                 // navigation.goBack();
               }}

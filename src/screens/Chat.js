@@ -39,7 +39,7 @@ const Chat = props => {
   const userType = useSelector(state => state?.userType);
   const params = props?.route?.params;
   const [loading, setLoading] = useState(true);
-  // console.log(params);
+  console.log(params);
 
   const getMessages = async () => {
     await API.getMessage(params?._id)

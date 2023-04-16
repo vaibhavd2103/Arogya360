@@ -10,10 +10,16 @@ import {
 import React, {useEffect} from 'react';
 
 import CustomHeader from '../components/CustomHeader';
-import {COLORS, FONT} from '../constants/constants';
+import {COLORS, FONT, ROUTES} from '../constants/constants';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import Feather from 'react-native-vector-icons/Feather';
 import Container from './../components/Container';
 import ArticleCard from '../components/ArticleCard';
+import {useSelector} from 'react-redux';
+import {RoundedButton} from '../components/Buttons';
+import {useIsFocused} from '@react-navigation/native';
+import API from '../axios/api';
+import {useState} from 'react';
 
 const Article = props => {
   const articleData = [
@@ -58,6 +64,29 @@ const Article = props => {
         'Jackie Stevens, Associate Director of strategic work programmes, at Hampshire and Isle of Wight Integrated Care System writes about work to make home the heart of inclusion health in one integrated care system.',
     },
   ];
+  const userType = useSelector(state => state?.userType);
+  const [articles, setArticles] = useState([]);
+  const getArticles = async () => {
+    await API.getAllArticles()
+      .then(res => {
+        console.log('MY details fetched', res.data);
+        setArticles(res?.data);
+      })
+      .catch(error => {
+        console.error(
+          'Error fetching user',
+          error?.response?.data?.status_message ?? error?.message,
+        );
+      });
+  };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getArticles();
+    }
+  }, [isFocused]);
   return (
     <Container>
       <CustomHeader
@@ -88,8 +117,8 @@ const Article = props => {
         onLeftIconPress={() => props.navigation.openDrawer()}
       />
       <FlatList
-        data={articleData}
-        keyExtractor={item => item?.id}
+        data={articles}
+        keyExtractor={item => item?._id}
         renderItem={({item}) => {
           return <ArticleCard item={item} />;
         }}
@@ -100,6 +129,25 @@ const Article = props => {
           return <View style={{height: 100}}></View>;
         }}
       />
+      {userType == '2' && (
+        <RoundedButton
+          icon={<Feather name="plus" size={30} color="white" />}
+          onPress={() => props.navigation.navigate(ROUTES.createArticle)}
+          // onPress={chooseFile}
+
+          style={{
+            position: 'absolute',
+            bottom: 120,
+            right: 20,
+            backgroundColor: COLORS.blue,
+            height: 60,
+            width: 60,
+            borderRadius: 50,
+            elevation: 10,
+            shadowColor: COLORS.blue,
+          }}
+        />
+      )}
     </Container>
   );
 };

@@ -52,7 +52,9 @@ const ArticleCard = ({item, index, length, saved}) => {
       <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <View style={{flexDirection: 'row'}}>
           <Image
-            source={{uri: item?.profilePic}}
+            source={{
+              uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+            }}
             style={{height: 50, width: 50, borderRadius: 12}}
           />
           <View
@@ -60,10 +62,10 @@ const ArticleCard = ({item, index, length, saved}) => {
               paddingLeft: 10,
             }}>
             <View style={{}}>
-              <Text style={{...FONT.header}}>{item?.docName}</Text>
+              <Text style={{...FONT.header}}>{item?.user?.name}</Text>
             </View>
             <View style={{paddingTop: 2}}>
-              <Text style={{...FONT.subTitle}}>{item?.speciality}</Text>
+              <Text style={{...FONT.subTitle}}>{item?.user?.specialty}</Text>
             </View>
           </View>
         </View>
@@ -113,9 +115,20 @@ const ArticleCard = ({item, index, length, saved}) => {
             textAlign: 'justify',
             justifyContent: 'center',
           }}
+          // numberOfLines={showMore ? null : 2}
+          onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
+          {item?.title}
+        </Text>
+        <Text
+          style={{
+            ...FONT.subTitle,
+            alignItems: 'center',
+            textAlign: 'justify',
+            justifyContent: 'center',
+          }}
           numberOfLines={showMore ? null : 2}
           onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
-          {item?.article}
+          {item?.description}
         </Text>
         {readMore && (
           <Text

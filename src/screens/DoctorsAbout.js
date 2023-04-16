@@ -1,5 +1,5 @@
 import {StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Container from './../components/Container';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,8 +10,42 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {Title_SubTitle} from '../components/Components';
+import {useDispatch, useSelector} from 'react-redux';
+import {setUserData} from '../redux/actions';
+import API from './../axios/api';
+import {useIsFocused} from '@react-navigation/native';
 
 const DoctorsAbout = ({navigation}) => {
+  const dispatch = useDispatch();
+  const userType = useSelector(state => state?.userType);
+  const userId = useSelector(state => state?.user_id);
+  const [profileData, setProfileData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const fetchUser = async () => {
+    console.log(userId, userType);
+    await API.getUserDetails(userId, userType)
+      .then(res => {
+        console.log('MY details fetched', res.data);
+        setProfileData(res?.data?.user);
+        dispatch(setUserData(res?.data?.user));
+        // dispatch(setUserId(res?.data?.userId));
+      })
+      .catch(error => {
+        console.error(
+          'Error fetching user',
+          error?.response?.data?.status_message ?? error?.message,
+        );
+      });
+  };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      fetchUser();
+    }
+  }, [userId, isFocused]);
   return (
     <Container style={{paddingHorizontal: 25}}>
       <ScrollView
@@ -34,7 +68,7 @@ const DoctorsAbout = ({navigation}) => {
             style={styles.profilePic}
           />
           <Text style={{...FONT.header, paddingVertical: 10}}>
-            Dr. Tanisha Thakur
+            Dr. {profileData?.name}
           </Text>
         </View>
 
@@ -43,7 +77,7 @@ const DoctorsAbout = ({navigation}) => {
         icon={<Feather name="phone-call" size={24} color="black" />}
       /> */}
         <IconTitle
-          value="+91 9175954524"
+          value={profileData?.mobile}
           icon={<Feather name="phone-call" size={24} color="black" />}
         />
         <IconTitle
@@ -54,23 +88,27 @@ const DoctorsAbout = ({navigation}) => {
               color="black"
             />
           }
-          value="abc@gmail.com"
+          value={profileData?.email}
         />
         <IconTitle
           icon={<FontAwesome name="birthday-cake" size={24} color="black" />}
-          value="20/11/2001"
+          value={profileData?.dob}
         />
         <IconTitle
           icon={<FontAwesome name="transgender" size={24} color="black" />}
-          value="Male"
+          value={profileData?.gender}
         />
 
-        <Title_SubTitle title="Country" subTitle={'India'} />
-        <Title_SubTitle title="State" subTitle={'Maharashtra'} />
-        <Title_SubTitle title="City" subTitle={'Pune'} />
-        <Title_SubTitle title="Qualification" subTitle={'MBBS'} />
-        <Title_SubTitle title="Expertise" subTitle={'Gynacologist'} />
-        <Title_SubTitle title="Qualification" subTitle={'MBBS'} />
+        <Title_SubTitle title="Country" subTitle={profileData?.country} />
+        <Title_SubTitle title="State" subTitle={profileData?.state} />
+        <Title_SubTitle title="City" subTitle={profileData?.city} />
+        <Title_SubTitle
+          title="Qualification"
+          subTitle={profileData?.qualification}
+        />
+        <Title_SubTitle title="Specialty" subTitle={profileData?.specialty} />
+        <Title_SubTitle title="MCI Number" subTitle={profileData?.mci_number} />
+        {/* <Title_SubTitle title="Qualification" subTitle={'MBBS'} />
         <Title_SubTitle
           title="EXPERIENCE"
           subTitle={
@@ -96,7 +134,7 @@ const DoctorsAbout = ({navigation}) => {
           subTitle={
             'Doctors should mention the known languages here. English is a common language for all the doctors, so it will be a default setting in the consulting language field. Apart from English, doctors need to set their native speaking languages and known languages. Doctors can add multiple languages in this field.'
           }
-        />
+        /> */}
         <View style={{height: 90}} />
       </ScrollView>
     </Container>
