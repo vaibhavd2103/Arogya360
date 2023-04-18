@@ -11,6 +11,9 @@ import store from './src/redux/store';
 import {COLORS} from './src/constants/constants';
 import OneSignal from 'react-native-onesignal';
 import {ONESIGNAL_APP_ID} from './config';
+import API from './src/axios/api';
+import axios from 'axios';
+import {baseUrl} from './src/axios/instance';
 
 const App = () => {
   const isAuthenticated = useSelector(state => state.isAuthenticated);
@@ -25,9 +28,25 @@ const App = () => {
     };
   }, []);
 
+  const scheduleWaterReminderTask = async () => {
+    // await  API.scheduleWaterReminder()
+    await axios
+      .post(`${baseUrl}/scheduleWaterReminder`)
+      .then(res => {
+        console.log(res.data);
+        console.log('Scheduled Successfully ');
+      })
+      .catch(err => {
+        console.log(err);
+        console.log('water reminder unsuccessfull');
+      });
+  };
+
   let externalUserId = useSelector(state => state?.user_id); // You will supply the external user id to the OneSignal SDK
+
   useEffect(() => {
     console.log('app.js line 27------>', isAuthenticated);
+    scheduleWaterReminderTask();
 
     // Setting External User Id with Callback Available in SDK Version 3.7.0+
     OneSignal.setExternalUserId(externalUserId, results => {

@@ -3,8 +3,9 @@ import {NetworkInfo} from 'react-native-network-info';
 
 // export const ip = '192.168.0.225'; //vaibhav
 // export const ip = '192.168.204.47'; // vaibhav phone
-// export const ip = '192.168.1.104'; //tanya
-export const ip = '192.168.1.103'; //tanisha
+export const ip = '192.168.1.104'; //tanya
+// export const ip = '192.168.1.103'; //tanisha
+export const baseUrl = `http://${ip}:5000`; //tanisha
 
 // NetworkInfo.getIPV4Address().then(ipv4Address => {
 //   console.log(ipv4Address);

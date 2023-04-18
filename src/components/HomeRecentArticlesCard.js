@@ -2,7 +2,7 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-
+import {AVATAR_KEY} from '../../config';
 const HomeRecentArticlesCard = ({item, index, length}) => {
   return (
     <View
@@ -24,7 +24,10 @@ const HomeRecentArticlesCard = ({item, index, length}) => {
       }}>
       <View>
         <Image
-          source={{uri: item?.profile_photo}}
+          source={{
+            //  uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+            uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.doctor}&background_color=003467&is_bold=true`,
+          }}
           style={{height: 80, width: 80, borderRadius: 10, marginBottom: 5}}
         />
         <Text
