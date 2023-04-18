@@ -1,3 +1,4 @@
+import {AVATAR_KEY} from '../../config';
 import AxiosInst from './instance';
 const API = {};
 
@@ -21,9 +22,10 @@ API.getAllDoctors = async () => AxiosInst.get('/getAllDoctors');
 
 //
 API.createArticle = async data => AxiosInst.post('/createArticle', data);
+API.likeArticle = async data => AxiosInst.post('/likeArticle', data);
 API.getAllArticles = async () => AxiosInst.get('/getAllArticles');
 API.getMyArticles = async data => AxiosInst.post('/getMyArticles', data);
-
+API.saveArticle = async data => AxiosInst.post('/saveArticle', data);
 //
 API.createChatRoom = async data => AxiosInst.post('/createChatRoom', data);
 API.getMyChatRooms = async (userId, userType) =>

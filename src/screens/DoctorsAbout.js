@@ -26,7 +26,7 @@ const DoctorsAbout = ({navigation}) => {
     console.log(userId, userType);
     await API.getUserDetails(userId, userType)
       .then(res => {
-        console.log('MY details fetched', res.data);
+        // console.log('MY details fetched', res.data);
         setProfileData(res?.data?.user);
         dispatch(setUserData(res?.data?.user));
         // dispatch(setUserId(res?.data?.userId));

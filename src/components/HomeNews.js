@@ -19,7 +19,7 @@ const HomeNews = ({data, navigation}) => {
           }}>
           News
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             navigation?.navigate(ROUTES?.article);
           }}>
@@ -30,7 +30,7 @@ const HomeNews = ({data, navigation}) => {
             }}>
             View all
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       <FlatList
         horizontal

@@ -81,7 +81,7 @@ const HomeRecentArticles = ({data}) => {
         horizontal={true}
         bounces={false}
         pagingEnabled
-        keyExtractor={item => item?.id}
+        keyExtractor={item => item?._id}
         renderItem={({item, index}) => {
           return (
             <>

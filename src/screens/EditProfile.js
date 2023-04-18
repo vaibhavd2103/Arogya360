@@ -220,7 +220,7 @@ const EditProfile = ({navigation}) => {
 
     await API.editProfile(data)
       .then(res => {
-        console.log(res?.data);
+        // console.log(res?.data);
         dispatch(reduxUserData(res?.data?.response));
         // fetchUser();
         setLoading(false);

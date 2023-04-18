@@ -11,9 +11,15 @@ import Bookmark from 'react-native-vector-icons/FontAwesome';
 import NotBookmark from 'react-native-vector-icons/FontAwesome';
 import Share from 'react-native-share';
 import {Menu} from 'native-base';
+import {AVATAR_KEY} from '../../config';
+import API from '../axios/api';
+import {useSelector} from 'react-redux';
+import {useEffect} from 'react';
 
 const ArticleCard = ({item, index, length, saved}) => {
+  const userId = useSelector(state => state?.user_id);
   const [like, setLike] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
   const [bookmark, setBookmark] = useState(false);
   const [readMore, setReadMore] = useState(false);
   const [showMore, setShowMore] = useState(false);
@@ -23,7 +29,7 @@ const ArticleCard = ({item, index, length, saved}) => {
     console.log('message', message);
     const options = {
       title: 'Share the Article',
-      message: `Checkout new article by\n${item?.docName} on our App \n\n${message}\n\nCheck out app on this url\n`,
+      message: `Checkout new article by\n${item?.user?.name} on our App \n\n${item?.description}\n\nCheck out app on this url\n`,
       url: `https://mailchi.mp/0d11e22015e3/arogya360`,
       // url: item?.img,
       // urls: [item?.img],
@@ -36,6 +42,74 @@ const ArticleCard = ({item, index, length, saved}) => {
       console.log(err);
     }
   };
+  const likeChecker = () => {
+    setLikeCount(item?.likes?.length);
+    const index = item?.likes?.findIndex(data => data == userId);
+    if (index > -1) {
+      setLike(true);
+    } else {
+      setLike(false);
+    }
+  };
+  const likeArticle = async () => {
+    // setLike(!like);
+    if (like) {
+      setLike(false);
+      setLikeCount(likeCount - 1);
+    } else {
+      setLike(true);
+      setLikeCount(likeCount + 1);
+    }
+    const data = {
+      articleId: item?._id,
+      userId: userId,
+    };
+    await API.likeArticle(data)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const saveChecker = () => {
+    const index = item?.savePost?.findIndex(data => data == userId);
+    if (index > -1) {
+      setBookmark(true);
+    } else {
+      setBookmark(false);
+    }
+  };
+  const saveArticle = async () => {
+    // setBookmark(!like);
+    if (bookmark) {
+      setBookmark(false);
+    } else {
+      setBookmark(true);
+    }
+    const data = {
+      articleId: item?._id,
+      userId: userId,
+    };
+    await API.saveArticle(data)
+      .then(res => {
+        console.log(res?.data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  // const saveArticle = async()=>{
+  //   const data = {
+  //     "articleId":"643adfcfd4eb4cea24ca5768",
+  //     "userId":"64379646c16075d11a7404ef"
+  //   }
+  //   await
+  useEffect(() => {
+    likeChecker();
+    saveChecker();
+  }, [item]);
 
   return (
     <View
@@ -54,6 +128,7 @@ const ArticleCard = ({item, index, length, saved}) => {
           <Image
             source={{
               uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+              //  uri:`https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`
             }}
             style={{height: 50, width: 50, borderRadius: 12}}
           />
@@ -69,7 +144,7 @@ const ArticleCard = ({item, index, length, saved}) => {
             </View>
           </View>
         </View>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           style={{
             justifyContent: 'center',
             alignItems: 'center',
@@ -99,7 +174,7 @@ const ArticleCard = ({item, index, length, saved}) => {
               Report
             </Menu.Item>
           </Menu>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {item?.img ? (
         <Image
@@ -157,7 +232,8 @@ const ArticleCard = ({item, index, length, saved}) => {
           }}>
           <TouchableOpacity
             onPress={() => {
-              setLike(!like);
+              // setLike(!like);
+              likeArticle();
             }}>
             {like ? (
               <Notlike
@@ -175,6 +251,7 @@ const ArticleCard = ({item, index, length, saved}) => {
               />
             )}
           </TouchableOpacity>
+          <Text style={{...FONT.subTitle, top: 3}}>{likeCount} likes</Text>
 
           {/* <TouchableOpacity onPress={() => {}}>
             <Comment
@@ -205,7 +282,7 @@ const ArticleCard = ({item, index, length, saved}) => {
           ) : (
             <TouchableOpacity
               onPress={() => {
-                setBookmark(!bookmark);
+                saveArticle();
               }}>
               {bookmark ? (
                 <Bookmark

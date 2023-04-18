@@ -39,7 +39,7 @@ const Chat = props => {
   const userType = useSelector(state => state?.userType);
   const params = props?.route?.params;
   const [loading, setLoading] = useState(true);
-  console.log(params);
+  // console.log(params);
 
   const getMessages = async () => {
     await API.getMessage(params?._id)
@@ -210,14 +210,16 @@ const Chat = props => {
           />
         </TouchableOpacity>
         <TouchableOpacity
+          disabled={text ? false : true}
           onPress={() => {
             // onSend();
+
             sendMessage();
           }}>
           <Send
             name="md-send"
             size={24}
-            color="black"
+            color={text ? 'black' : 'grey'}
             style={{paddingRight: 10}}
           />
         </TouchableOpacity>
@@ -380,6 +382,7 @@ const Chat = props => {
           backgroundColor: '#fff',
           marginTop: 0,
         }}
+        alwaysShowSend={false}
         // onSend={messages => onSend(messages)}
         user={{
           _id: userId,

@@ -69,7 +69,7 @@ const Article = props => {
   const getArticles = async () => {
     await API.getAllArticles()
       .then(res => {
-        console.log('MY details fetched', res.data);
+        // console.log('MY Articles fetched', res.data);
         setArticles(res?.data);
       })
       .catch(error => {

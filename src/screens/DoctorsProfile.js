@@ -81,7 +81,7 @@ const DoctorsProfile = ({navigation, route}) => {
           alignItems: 'center',
           justifyContent: 'center',
         }}>
-        <Button
+        {/* <Button
           title="Message"
           style={{
             width: DIMENSIONS.width / 4,
@@ -96,7 +96,7 @@ const DoctorsProfile = ({navigation, route}) => {
           onPress={() => {
             console.log('hello');
           }}
-        />
+        /> */}
         <Button
           title="Book Appointment"
           style1={{...FONT.title, color: COLORS.white}}

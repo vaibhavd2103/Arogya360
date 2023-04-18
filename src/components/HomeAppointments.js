@@ -3,46 +3,49 @@ import React, {useState} from 'react';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import HomeAppointmentCard from './HomeAppointmentCard';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
-const HomeAppointments = () => {
-  const [appointments, setAppointments] = useState([
-    {
-      id: '1',
-      date: '21/03/2023',
-      time: '3:00 PM',
-      doctor: 'Dr. Vaibhav Dange',
-      reason: 'Medical checkup for over fitness',
-      profile_photo:
-        'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
-    },
-    {
-      id: '2',
-      date: '21/03/2023',
-      time: '3:00 PM',
-      doctor: 'Dr. Tanya Thakur',
-      reason: 'Medical checkup for over weight',
-      profile_photo:
-        'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
-    },
-    {
-      id: '3',
-      date: '21/03/2023',
-      time: '3:00 PM',
-      doctor: 'Dr. Someone here',
-      reason: 'Medical checkup for over thinking',
-      profile_photo:
-        'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
-    },
-    {
-      id: '4',
-      date: '21/03/2023',
-      time: '3:00 PM',
-      doctor: 'Dr. Someone here',
-      reason: 'Medical checkup for over thinking',
-      profile_photo:
-        'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
-    },
-  ]);
+const HomeAppointments = ({appointments}) => {
+  const userType = useSelector(state => state?.userType);
+  const userId = useSelector(state => state?.user_id);
+  // const [appointments, setAppointments] = useState([
+  //   {
+  //     id: '1',
+  //     date: '21/03/2023',
+  //     time: '3:00 PM',
+  //     doctor: 'Dr. Vaibhav Dange',
+  //     reason: 'Medical checkup for over fitness',
+  //     profile_photo:
+  //       'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+  //   },
+  //   {
+  //     id: '2',
+  //     date: '21/03/2023',
+  //     time: '3:00 PM',
+  //     doctor: 'Dr. Tanya Thakur',
+  //     reason: 'Medical checkup for over weight',
+  //     profile_photo:
+  //       'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+  //   },
+  //   {
+  //     id: '3',
+  //     date: '21/03/2023',
+  //     time: '3:00 PM',
+  //     doctor: 'Dr. Someone here',
+  //     reason: 'Medical checkup for over thinking',
+  //     profile_photo:
+  //       'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+  //   },
+  //   {
+  //     id: '4',
+  //     date: '21/03/2023',
+  //     time: '3:00 PM',
+  //     doctor: 'Dr. Someone here',
+  //     reason: 'Medical checkup for over thinking',
+  //     profile_photo:
+  //       'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+  //   },
+  // ]);
 
   const navigation = useNavigation();
 
@@ -63,7 +66,9 @@ const HomeAppointments = () => {
         </Text>
         <TouchableOpacity
           onPress={() => {
-            navigation?.navigate(ROUTES?.appointment);
+            userType == '2'
+              ? navigation?.navigate(ROUTES?.drAppoitments)
+              : navigation?.navigate(ROUTES?.appointment);
           }}>
           <Text
             style={{
@@ -81,15 +86,18 @@ const HomeAppointments = () => {
         bounces={false}
         decelerationRate={500}
         pagingEnabled
-        keyExtractor={item => item?.id}
+        keyExtractor={item => item?._id}
         renderItem={({item, index}) => {
           return (
             <>
+              {/* {userId == item?.patientId || */}
+              {/* (userId == item?.doctorId && ( */}
               <HomeAppointmentCard
                 item={item}
                 index={index}
                 length={appointments?.length}
               />
+              {/* ))} */}
             </>
           );
         }}

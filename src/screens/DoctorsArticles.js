@@ -1,7 +1,10 @@
 import {StyleSheet, Text, View, FlatList} from 'react-native';
-import React from 'react';
+import React,{useState, useEffect}  from 'react';
 import Container from '../components/Container';
 import ArticleCard from '../components/ArticleCard';
+import API from '../axios/api';
+import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const DoctorsArticles = () => {
   const articleData = [
@@ -24,13 +27,38 @@ const DoctorsArticles = () => {
         'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
     },
   ];
+  const user = useSelector(state => state?.user);
+  const [articles, setArticles] = useState([]);
+  const getArticles = async () => {
+    await API.getAllArticles()
+      .then(res => {
+        console.log('MY details fetched', res.data);
+        setArticles(res?.data);
+      })
+      .catch(error => {
+        console.error(
+          'Error fetching user',
+          error?.response?.data?.status_message ?? error?.message,
+        );
+      });
+  };
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      getArticles();
+    }
+  }, [isFocused]);
   return (
     <Container>
       <FlatList
-        data={articleData}
-        keyExtractor={item => item?.id}
+        data={articles}
+        keyExtractor={item => item?._id}
         renderItem={({item}) => {
-          return <ArticleCard item={item} />;
+          if(item?.doctorId == user?._id){
+              return <ArticleCard item={item} />;
+            }
         }}
         ListHeaderComponent={() => {
           return <View style={{height: 20}}></View>;
