@@ -12,6 +12,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import LinearGradient from 'react-native-linear-gradient';
 import {Button} from './Buttons';
 import {resetRedux, setAuthenticated} from '../redux/actions';
+// import RNRestart from 'react-native-restart';
 
 const SlideMenu = ({navigation}) => {
   const dispatch = useDispatch();
@@ -221,6 +222,7 @@ const SlideMenu = ({navigation}) => {
             onPress={() => {
               navigation?.closeDrawer();
               dispatch(resetRedux());
+              // RNRestart.restart();
             }}
           />
         </View>

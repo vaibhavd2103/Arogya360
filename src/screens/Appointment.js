@@ -119,7 +119,7 @@ const Appointment = () => {
             Completed
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => {
             setAppointmentType('cancelled');
           }}
@@ -136,7 +136,7 @@ const Appointment = () => {
             }}>
             Cancelled
           </Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
       {/* --------------------------------------------------card-------------------------------------------------------- */}
       <Loader

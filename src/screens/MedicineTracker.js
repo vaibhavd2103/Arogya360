@@ -93,7 +93,7 @@ const MedicineTracker = () => {
   const getMyReport = async () => {
     await API.getMyReport(userId)
       .then(res => {
-        console.log(res?.data?.data?.medicines);
+        // console.log(res?.data?.data?.medicines);
         setMedicines(res?.data?.data?.medicines);
       })
       .catch(err => {

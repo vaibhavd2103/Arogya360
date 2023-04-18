@@ -111,15 +111,13 @@ const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
     await API?.createChatRoom(data)
       .then(res => {
         console.log('------------->', res?.data);
-        const item = {
+        const data = {
           __v: 0,
           _id: res?.data?.data?._id,
-          user: {
-            _id: res?.data?.data?.patientId,
-          },
+          user: item?.user,
         };
 
-        navigation.navigate(ROUTES?.chat, item);
+        navigation.navigate(ROUTES?.chat, data);
       })
       .catch(err => {
         console.log(err);
@@ -211,9 +209,10 @@ const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
           <TouchableOpacity
             style={{
               ...styles.button,
-              backgroundColor: COLORS.blue,
+              backgroundColor: COLORS.green,
               alignSelf: 'flex-end',
-            }}>
+            }}
+            enabled={false}>
             <Text style={styles.buttonText}>Completed</Text>
           </TouchableOpacity>
         </View>

@@ -60,33 +60,33 @@ const StackNavigator = () => {
             <CustomHeader
               {...stackHeaderProps}
               title="Find a Doctor"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
             />
           ),
         }}
@@ -100,33 +100,33 @@ const StackNavigator = () => {
             <CustomHeader
               {...stackHeaderProps}
               title="My Appointments"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
             />
           ),
         }}
@@ -209,33 +209,33 @@ const StackNavigator = () => {
             <CustomHeader
               {...stackHeaderProps}
               title="Settings"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
             />
           ),
         }}
@@ -249,33 +249,33 @@ const StackNavigator = () => {
             <CustomHeader
               {...stackHeaderProps}
               title="Medicine Tracker"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
             />
           ),
         }}
@@ -329,33 +329,33 @@ const StackNavigator = () => {
             <CustomHeader
               {...stackHeaderProps}
               title="BMI Checker"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
             />
           ),
         }}
@@ -376,37 +376,7 @@ const StackNavigator = () => {
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader
-              {...stackHeaderProps}
-              title="Create Report"
-              // LeftIcon={() => {
-              //   return (
-              //     <TouchableOpacity
-              //       style={{
-              //         width: 40,
-              //         height: 40,
-              //         justifyContent: 'center',
-              //         alignItems: 'center',
-              //         borderRadius: 40,
-              //         backgroundColor: COLORS?.blue,
-              //         marginHorizontal: 10,
-              //       }}
-              //       activeOpacity={0.8}
-              //       onPress={() =>
-              //         stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              //       }>
-              //       <MaterialCommunityIcons
-              //         name="menu"
-              //         size={24}
-              //         color={COLORS?.white}
-              //       />
-              //     </TouchableOpacity>
-              //   );
-              // }}
-              // onLeftIconPress={() =>
-              //   stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
-              // }
-            />
+            <CustomHeader {...stackHeaderProps} title="Create Report" />
           ),
         }}
       />
@@ -426,7 +396,37 @@ const StackNavigator = () => {
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="App Information" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="App Information"
+              LeftIcon={() => {
+                return (
+                  <TouchableOpacity
+                    style={{
+                      width: 40,
+                      height: 40,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      borderRadius: 40,
+                      backgroundColor: COLORS?.blue,
+                      marginHorizontal: 10,
+                    }}
+                    activeOpacity={0.8}
+                    onPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }>
+                    <MaterialCommunityIcons
+                      name="menu"
+                      size={24}
+                      color={COLORS?.white}
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+              onLeftIconPress={() =>
+                stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+              }
+            />
           ),
         }}
       />
@@ -436,7 +436,46 @@ const StackNavigator = () => {
         options={{
           headerShown: true,
           header: stackHeaderProps => (
-            <CustomHeader {...stackHeaderProps} title="My Appoitments" />
+            <CustomHeader
+              {...stackHeaderProps}
+              title="My Appoitments"
+              options={{
+                headerShown: true,
+                header: stackHeaderProps => (
+                  <CustomHeader
+                    {...stackHeaderProps}
+                    title="Create Report"
+                    LeftIcon={() => {
+                      return (
+                        <TouchableOpacity
+                          style={{
+                            width: 40,
+                            height: 40,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            borderRadius: 40,
+                            backgroundColor: COLORS?.blue,
+                            marginHorizontal: 10,
+                          }}
+                          activeOpacity={0.8}
+                          onPress={() =>
+                            stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                          }>
+                          <MaterialCommunityIcons
+                            name="menu"
+                            size={24}
+                            color={COLORS?.white}
+                          />
+                        </TouchableOpacity>
+                      );
+                    }}
+                    onLeftIconPress={() =>
+                      stackHeaderProps?.scene?.descriptor?.navigation?.openDrawer()
+                    }
+                  />
+                ),
+              }}
+            />
           ),
         }}
       />

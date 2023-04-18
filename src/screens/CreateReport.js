@@ -148,7 +148,7 @@ const CreateReport = ({navigation, route}) => {
     };
     await API.sendMessage(data)
       .then(res => {
-        console.log(res?.data);
+        // console.log(res?.data);
         navigation?.goBack();
       })
       .catch(err => {

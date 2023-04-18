@@ -23,21 +23,14 @@ const HomeAppointmentCard = ({item, index, length}) => {
       }}>
       <View>
         <Image
-          source={{uri: item?.profile_photo}}
+          source={{
+            uri: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+          }}
           style={{height: 80, width: 80, borderRadius: 10, marginBottom: 5}}
         />
-        <Text
-          style={{
-            ...FONT?.title,
-            color: '#fff',
-            maxWidth: 100,
-            // textAlign: 'center',
-          }}>
-          {item?.doctor}
-        </Text>
       </View>
       <View style={{marginLeft: 20}}>
-        <View style={{flexDirection: 'row'}}>
+        {/* <View style={{flexDirection: 'row'}}>
           <AntDesign
             name="checksquareo"
             size={18}
@@ -56,7 +49,16 @@ const HomeAppointmentCard = ({item, index, length}) => {
             }}>
             {item?.reason}
           </Text>
-        </View>
+        </View> */}
+        <Text
+          style={{
+            ...FONT?.title,
+            color: '#fff',
+            maxWidth: 150,
+            // textAlign: 'center',
+          }}>
+          {item?.user?.name}
+        </Text>
         <Text style={{...FONT?.title, color: '#fff', marginBottom: 5}}>
           <AntDesign
             name="calendar"
@@ -65,7 +67,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
             style={{marginRight: 10, top: 2}}
           />
           {' - '}
-          {item?.date}
+          {item?.appointmentDate}
         </Text>
         <Text style={{...FONT?.title, color: '#fff', marginBottom: 0}}>
           <AntDesign
@@ -75,7 +77,7 @@ const HomeAppointmentCard = ({item, index, length}) => {
             style={{marginRight: 10, top: 2}}
           />
           {' - '}
-          {item?.time}
+          {item?.appointmentTime}
         </Text>
       </View>
     </View>

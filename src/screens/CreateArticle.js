@@ -23,7 +23,7 @@ const CreateArticle = ({navigation}) => {
     };
     await API.createArticle(data)
       .then(res => {
-        console.log(res?.data);
+        // console.log(res?.data);
         navigation.goBack();
         // fetchUser();
         setLoading(false);

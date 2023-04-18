@@ -81,7 +81,7 @@ const BookAppointment = ({navigation, route}) => {
   const getMyAppointments = async () => {
     await API.getBookedAppointments(item?._id)
       .then(res => {
-        console.log('---------------->', item?._id, 2, res?.data);
+        // console.log('---------------->', item?._id, 2, res?.data);
         setBookedAppointments(res?.data?.data);
       })
       .catch(err => {
@@ -91,14 +91,14 @@ const BookAppointment = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.addListener('focus', () => {
-      console.log(
-        'userId',
-        userId,
-        'doctorId',
-        item?._id,
-        selectedTime,
-        selectedDate,
-      );
+      // console.log(
+      //   'userId',
+      //   userId,
+      //   'doctorId',
+      //   item?._id,
+      //   selectedTime,
+      //   selectedDate,
+      // );
       setSelectedTime('');
       setSelectedDate(moment(new Date()).format('YYYY-MM-DD'));
       getMyAppointments();

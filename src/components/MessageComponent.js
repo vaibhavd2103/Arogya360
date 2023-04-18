@@ -2,6 +2,7 @@ import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import {useNavigation} from '@react-navigation/native';
+import moment from 'moment';
 
 const MessageComponent = ({item}) => {
   const navigation = useNavigation();
@@ -24,7 +25,7 @@ const MessageComponent = ({item}) => {
           <Text style={{...FONT.subTitle}}>{item?.lastMessage}</Text>
         </View>
       </View>
-      <Text style={{...FONT.subTitle, fontSize: 10}}>{item?.createdAt}</Text>
+      <Text style={{...FONT.subTitle, fontSize: 10}}>{ moment(item?.createdAt).format('hh:mm') }</Text>
     </TouchableOpacity>
   );
 };
