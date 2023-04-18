@@ -7,7 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Feather from 'react-native-vector-icons/Feather';
 import API from '../axios/api';
 import {useNavigation} from '@react-navigation/native';
-
+import {AVATAR_KEY} from '../../config';
 const MyAppointmentCard = ({
   item,
   index,
@@ -44,7 +44,8 @@ const MyAppointmentCard = ({
         <View>
           <Image
             source={{
-              uri: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+              //  uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={styles.cardImage}
           />
@@ -135,7 +136,8 @@ const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
         <View>
           <Image
             source={{
-              uri: 'https://images.pexels.com/photos/2379005/pexels-photo-2379005.jpeg',
+              //  uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
+              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={styles.cardImage}
           />

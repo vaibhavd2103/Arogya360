@@ -39,4 +39,14 @@ API.createReport = async data => AxiosInst.post('/createReport', data);
 API.getMyReport = async userId =>
   AxiosInst.get(`/getMyReport?userId=${userId}`);
 
+//
+API.addWaterReminderUser = async data =>
+  AxiosInst.post('/addWaterReminderUser', data);
+API.removeWaterReminderUser = async data =>
+  AxiosInst.post('/removeWaterReminderUser', data);
+API.scheduleWaterReminder = async () =>
+  AxiosInst.post('/scheduleWaterReminder');
+API.getAllWaterReminderUsers = async () =>
+  AxiosInst.get('/getAllWaterReminderUsers');
+
 export default API;
