@@ -4,6 +4,7 @@ import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
 import Container from '../components/Container';
 import {Button} from '../components/Buttons';
 import {TitleSubTitle} from '../components/Components';
+import {AVATAR_KEY} from '../../config';
 
 const DoctorsProfile = ({navigation, route}) => {
   //   console.log(route.params.item);
@@ -26,7 +27,7 @@ const DoctorsProfile = ({navigation, route}) => {
         }}>
         <Image
           source={{
-            uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+            uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.name}&background_color=003467&is_bold=true`,
           }}
           style={{
             width: 100,

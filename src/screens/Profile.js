@@ -39,7 +39,7 @@ const Profile = ({navigation}) => {
       ) : (
         <>
           <Tab.Screen name={'About'} component={About} options={{}} />
-          <Tab.Screen name={'My              History'} component={MyHistory} />
+          {/* <Tab.Screen name={'My              History'} component={MyHistory} /> */}
           <Tab.Screen name={'Saved Articles'} component={SavedArticles} />
         </>
       )}

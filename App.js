@@ -41,13 +41,25 @@ const App = () => {
         console.log('water reminder unsuccessfull');
       });
   };
-
+  const scheduleMedicineTrackerTask = async () => {
+    // await  API.scheduleWaterReminder()
+    await axios
+      .post(`${baseUrl}/scheduleMedicineTracker`)
+      .then(res => {
+        console.log(res.data);
+        console.log('Scheduled Successfully ');
+      })
+      .catch(err => {
+        console.log(err);
+        console.log('medicine tracker unsuccessfull');
+      });
+  };
   let externalUserId = useSelector(state => state?.user_id); // You will supply the external user id to the OneSignal SDK
 
   useEffect(() => {
     console.log('app.js line 27------>', isAuthenticated);
     scheduleWaterReminderTask();
-
+    scheduleMedicineTrackerTask();
     // Setting External User Id with Callback Available in SDK Version 3.7.0+
     OneSignal.setExternalUserId(externalUserId, results => {
       // The results will contain push and email success statuses

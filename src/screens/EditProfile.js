@@ -17,7 +17,7 @@ import {COLORS, DIMENSIONS, FONT} from '../constants/constants';
 import Feather from 'react-native-vector-icons/Feather';
 import axios from 'axios';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {COUNTRY_API_KEY} from '../../config';
+import {AVATAR_KEY, COUNTRY_API_KEY} from '../../config';
 import {Actionsheet} from 'native-base';
 import {qualifications} from '../constants/data';
 import DropDown from '../components/DropDown';
@@ -255,9 +255,12 @@ const EditProfile = ({navigation}) => {
               }}>
               <Image
                 source={{
+                  // uri: image
+                  //   ? image
+                  //   : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
                   uri: image
                     ? image
-                    : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+                    : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${docData?.name}&background_color=003467&is_bold=true`,
                 }}
                 style={{
                   height: 120,
@@ -270,7 +273,7 @@ const EditProfile = ({navigation}) => {
                   // top: 70,
                 }}
               />
-              <RoundedButton
+              {/* <RoundedButton
                 icon={<Feather name="camera" size={20} color="white" />}
                 // onPress={() => launchCamera()}
                 onPress={chooseFile}
@@ -280,7 +283,7 @@ const EditProfile = ({navigation}) => {
                   left: 55,
                   backgroundColor: COLORS.blue,
                 }}
-              />
+              /> */}
             </View>
             {/* <Text style={{color: 'red'}}>Doctors Side</Text> */}
             <NormalInput
@@ -447,7 +450,7 @@ const EditProfile = ({navigation}) => {
                 source={{
                   uri: image
                     ? image
-                    : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+                    : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`,
                 }}
                 style={{
                   height: 120,
@@ -460,7 +463,7 @@ const EditProfile = ({navigation}) => {
                   // top: 70,
                 }}
               />
-              <RoundedButton
+              {/* <RoundedButton
                 icon={<Feather name="camera" size={20} color="white" />}
                 // onPress={() => launchCamera()}
                 onPress={chooseFile}
@@ -470,7 +473,7 @@ const EditProfile = ({navigation}) => {
                   left: 55,
                   backgroundColor: COLORS.blue,
                 }}
-              />
+              /> */}
             </View>
             <NormalInput
               title={'Name'}
