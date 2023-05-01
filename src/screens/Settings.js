@@ -102,7 +102,7 @@ const Settings = () => {
           }}
         />
       </View>
-      <View style={styles.input}>
+      {/* <View style={styles.input}>
         <Text
           style={{
             ...FONT.header,
@@ -120,7 +120,7 @@ const Settings = () => {
             elevation: 20,
           }}
         />
-      </View>
+      </View> */}
     </View>
   );
 };

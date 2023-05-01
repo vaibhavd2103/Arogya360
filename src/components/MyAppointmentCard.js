@@ -214,7 +214,7 @@ const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
               backgroundColor: COLORS.green,
               alignSelf: 'flex-end',
             }}
-            enabled={false}>
+            disabled={true}>
             <Text style={styles.buttonText}>Completed</Text>
           </TouchableOpacity>
         </View>
