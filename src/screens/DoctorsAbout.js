@@ -14,6 +14,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {setUserData} from '../redux/actions';
 import API from './../axios/api';
 import {useIsFocused} from '@react-navigation/native';
+import {AVATAR_KEY} from '../../config';
 
 const DoctorsAbout = ({navigation}) => {
   const dispatch = useDispatch();
@@ -63,7 +64,8 @@ const DoctorsAbout = ({navigation}) => {
           }}>
           <Image
             source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+                 uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${profileData?.name}&background_color=003467&is_bold=true`
+            //  uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
             }}
             style={styles.profilePic}
           />

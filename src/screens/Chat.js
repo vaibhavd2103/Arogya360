@@ -28,7 +28,7 @@ import Loader from '../components/Loader';
 import CustomHeader from '../components/CustomHeader';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID} from '../../config';
+import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID,AVATAR_KEY} from '../../config';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
@@ -336,7 +336,8 @@ const Chat = props => {
           </TouchableOpacity>
           <Image
             source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+               uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${params?.user?.name}&background_color=003467&is_bold=true`
+              // uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
             }}
             style={{
               height: 45,
