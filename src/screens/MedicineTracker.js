@@ -112,7 +112,7 @@ const MedicineTracker = () => {
           alignItems: 'flex-start',
           paddingHorizontal: 30,
         }}>
-        <HStack
+        {/* <HStack
           alignItems="center"
           style={{
             justifyContent: 'space-between',
@@ -140,7 +140,7 @@ const MedicineTracker = () => {
               elevation: 20,
             }}
           />
-        </HStack>
+        </HStack> */}
         {data?.map(item => {
           return (
             <View key={item?.id}>

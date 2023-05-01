@@ -75,7 +75,7 @@ const SavedArticles = ({navigation, route}) => {
   return (
     <Container>
       <FlatList
-        data={articleData}
+        data={articles}
         keyExtractor={item => item?._id}
         renderItem={({item}) => {
           if (item?.savePost?.includes(userId)) {

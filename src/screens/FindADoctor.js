@@ -18,6 +18,7 @@ import Input from '../components/TextInput';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import API from '../axios/api';
 import {useNavigation} from '@react-navigation/native';
+import {AVATAR_KEY} from '../../config';
 
 const FindADoctor = ({navigation, route}) => {
   const [doctors, setDoctors] = useState([]);
@@ -94,7 +95,7 @@ const DoctorCard = ({item, id, setId}) => {
       }}>
       <Image
         source={{
-          uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+          uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.name}&background_color=003467&is_bold=true`,
         }}
         style={{
           width: 70,
