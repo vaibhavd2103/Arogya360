@@ -1,9 +1,11 @@
-import {types} from '../redux/types';
+import types from '../redux/types';
 
 const initialState = {
   isAuthenticated: false,
   user_id: '',
   token: '',
+  userType: null,
+  user: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +25,19 @@ const reducer = (state = initialState, action) => {
         ...state,
         user_id: action.payload,
       };
+    case types.USER_TYPE:
+      return {
+        ...state,
+        userType: action.payload,
+      };
+    case types.USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+    case types.RESET:
+      return initialState;
+
     default:
       return state;
   }

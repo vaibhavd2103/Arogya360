@@ -1,102 +1,127 @@
 import React from 'react';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-import {COLORS, DIMENSIONS, ROUTES} from '../constants/contants';
+import {COLORS, DIMENSIONS, ROUTES} from '../constants/constants';
 import Home from '../screens/Home';
 import Chat from '../screens/Chat';
 import Article from '../screens/Article';
-import CustomTabBar from '../components/CustomTabBar';
-import CustomHeader from '../components/CustomHeader';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import {View} from 'react-native';
+import Message from '../screens/Message';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
   return (
     <Tab.Navigator
-      activeColor={COLORS?.blue}
+      activeColor={`${COLORS?.blue}`}
       shifting={true}
       keyboardHidesNavigationBar
       labeled={false}
       inactiveColor={'#fff'}
-      barStyle={{
-        backgroundColor: '#fff',
-        width: DIMENSIONS.width - 30,
-        alignSelf: 'center',
-        bottom: 20,
-        elevation: 20,
-        shadowOffset: {height: 10},
-        borderRadius: 24,
-        // borderTopRightRadius: 0,
-        // borderBottomLeftRadius: 0,
-        padding: 10,
-        // height: 80,
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: {
+          backgroundColor: '#fff',
+          alignSelf: 'center',
+          bottom: 20,
+          right: 30,
+          left: 30,
+          elevation: 20,
+          shadowOffset: {height: 10},
+          borderRadius: 24,
+          position: 'absolute',
+          padding: 10,
+          shadowColor: `${COLORS?.blue}`,
+          height: 80,
+          alignItems: 'center',
+        },
+        tabBarActiveTintColor: COLORS?.blue,
       }}>
       <Tab.Screen
         name={ROUTES.home}
         component={Home}
         options={{
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
+          tabBarShowLabel: false,
+          tabBarIcon: ({color, focused}) => (
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: focused ? `${color}` : '#fff',
                 borderRadius: 20,
                 height: 50,
                 width: 50,
-                position: 'absolute',
-                top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
+                bottom: 5,
+                elevation: focused ? 10 : 0,
+                shadowColor: `${COLORS?.blue}`,
               }}>
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <Ionicons
+                name={focused ? 'md-home' : 'md-home-outline'}
+                color={focused ? '#fff' : `#555`}
+                size={focused ? 30 : 26}
+              />
             </View>
           ),
         }}
       />
-      <Tab.Screen
-        name={ROUTES.chat}
-        component={Chat}
-        options={{
-          title: 'Chat',
-          tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
-            <View
-              style={{
-                backgroundColor: color,
-                borderRadius: 20,
-                height: 50,
-                width: 50,
-                position: 'absolute',
-                top: -13,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <MaterialCommunityIcons name="home" color={color} size={26} />
-            </View>
-          ),
-        }}
-      />
+
       <Tab.Screen
         name={ROUTES.article}
         component={Article}
         options={{
           title: 'Article',
           tabBarLabel: 'Home',
-          tabBarIcon: ({color}) => (
+          tabBarShowLabel: false,
+          tabBarIcon: ({color, focused}) => (
             <View
               style={{
-                backgroundColor: color,
+                backgroundColor: focused ? `${color}` : '#fff',
                 borderRadius: 20,
                 height: 50,
                 width: 50,
-                position: 'absolute',
-                top: -13,
                 justifyContent: 'center',
                 alignItems: 'center',
+                bottom: 5,
+                elevation: focused ? 10 : 0,
+                shadowColor: `${COLORS?.blue}`,
               }}>
-              <MaterialCommunityIcons name="home" color={color} size={26} />
+              <Ionicons
+                name={focused ? 'newspaper' : 'newspaper-outline'}
+                color={focused ? '#fff' : `#555`}
+                size={focused ? 30 : 26}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={ROUTES.message}
+        component={Message}
+        options={{
+          title: 'Chat',
+          tabBarLabel: 'Home',
+          tabBarShowLabel: false,
+          tabBarIcon: ({color, focused}) => (
+            <View
+              style={{
+                backgroundColor: focused ? `${color}` : '#fff',
+                borderRadius: 20,
+                height: 50,
+                width: 50,
+                justifyContent: 'center',
+                alignItems: 'center',
+                bottom: 5,
+                elevation: focused ? 10 : 0,
+                shadowColor: `${COLORS?.blue}`,
+              }}>
+              <Ionicons
+                name={focused ? 'chatbubbles' : 'chatbubbles-outline'}
+                color={focused ? '#fff' : `#555`}
+                size={focused ? 30 : 26}
+              />
             </View>
           ),
         }}

@@ -9,29 +9,34 @@ export const DIMENSIONS = {
 };
 
 export const COLORS = {
-  blue: '#5894FF',
+  blue: '#003467',
+  green: '#00DDA7',
+  lightBlue: '#5DCFDE',
   yellow: 'rgb(253,181,113)',
   pink: 'rgb(249,107,183)',
-  background: '#f2f2f2',
-  light_black: '#212121',
+  background: '#fff',
+  light_black: '#222233',
   error: '#ff3322',
+  lead: '#3d3d3d',
+  white: '#ffffff',
+  grey: '#555555',
+  lightRed: '#F76F72',
 };
 
 export const FONT = {
   header: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#212121',
+    color: COLORS?.light_black,
     fontFamily: 'Poppins-Bold',
   },
   title: {
     fontSize: 14,
-    color: '#212121',
+    color: COLORS?.light_black,
     fontFamily: 'Poppins-Medium',
   },
   subTitle: {
     fontSize: 12,
-    color: '#212121',
+    color: COLORS?.light_black,
     fontFamily: 'Poppins-Light',
   },
 };
@@ -44,10 +49,26 @@ export const ROUTES = {
   article: 'article',
   chat: 'chat',
   tabNav: 'tabNav',
+  stackNav: 'stackNav',
   appointment: 'appointment',
   profile: 'profile',
+  editProfile: 'editProfile',
   settings: 'settings',
   finddoctor: 'finddoctor',
   medicinetracker: 'medicinetracker',
   phonedirectory: 'phonedirectory',
+  message: 'message',
+  bmichecker: 'bmichecker',
+  doctorsProfile: 'doctorsProfile',
+  createReport: 'createReport',
+  bookAppointment: 'bookAppointment',
+  savedArticles: 'savedArticles',
+  appInfo: 'appInfo',
+  drAppoitments: 'drAppoitments',
+  createArticle: 'createArticle',
+};
+
+export const USERS = {
+  doctor: 'doctor',
+  patient: 'patient',
 };

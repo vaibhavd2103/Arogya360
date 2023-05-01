@@ -1,208 +1,271 @@
 import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
-import React from 'react';
-import {COLORS, FONT, ROUTES} from '../constants/contants';
+import React, {useEffect} from 'react';
+import {COLORS, DIMENSIONS, FONT, ROUTES} from '../constants/constants';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Fontisto from 'react-native-vector-icons/Fontisto';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Foundation from 'react-native-vector-icons/Foundation';
+import Entypo from 'react-native-vector-icons/Entypo';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {useSelector, useDispatch} from 'react-redux';
+import LinearGradient from 'react-native-linear-gradient';
+import {Button} from './Buttons';
+import {resetRedux, setAuthenticated} from '../redux/actions';
+// import RNRestart from 'react-native-restart';
+import {AVATAR_KEY} from '../../config';
 
 const SlideMenu = ({navigation}) => {
+  const dispatch = useDispatch();
+  const userType = useSelector(state => state?.userType);
+  // console.log(userType);
+
   const options = [
     {
       id: '1',
-      name: 'Appointment',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
-      navigation: ROUTES.appointment,
+      name: 'My Appointments',
+      icon: <Foundation name="calendar" size={30} color={COLORS?.blue} />,
+      navigation: userType == '2' ? ROUTES.drAppoitments : ROUTES.appointment,
     },
     {
       id: '2',
       name: 'Medicine Tracker',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: <FontAwesome5 name="capsules" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.medicinetracker,
     },
     {
       id: '3',
       name: 'Phone Directory',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: <FontAwesome name="phone" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.phonedirectory,
     },
     {
       id: '4',
-      name: 'Fine a Doctor',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      name: 'Find a Doctor',
+      icon: <Fontisto name="doctor" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.finddoctor,
     },
     {
       id: '5',
       name: 'Settings',
-      icon: <FontAwesome name="bookmark" size={24} color="black" />,
+      icon: <Ionicons name="settings" size={24} color={COLORS?.blue} />,
       navigation: ROUTES.settings,
     },
+    {
+      id: '6',
+      name: 'BMI Checker',
+      icon: <Entypo name="calculator" size={24} color={COLORS?.blue} />,
+      navigation: ROUTES.bmichecker,
+    },
+    // {
+    //   id: '7',
+    //   name: 'Create Report',
+    //   icon: <FontAwesome name="file" size={21} color={COLORS?.blue} />,
+    //   navigation: ROUTES.createReport,
+    // },
+    {
+      id: '8',
+      name: 'App Info',
+      icon: (
+        <Ionicons name="information-circle" size={24} color={COLORS.blue} />
+      ),
+      navigation: ROUTES.appInfo,
+    },
   ];
+
+  const userData = useSelector(state => state?.user);
+
+  useEffect(() => {}, []);
 
   return (
     <View style={{flex: 1}}>
       <TouchableOpacity
         style={{
-          // flex: 0.3,
-          height: '25%',
-          backgroundColor: '#404258',
-          justifyContent: 'center',
+          height: DIMENSIONS?.height / 4,
+          backgroundColor: `${COLORS?.blue}`,
           alignItems: 'center',
         }}
-        activeOpacity={0.7}>
+        activeOpacity={0.7}
+        onPress={() => navigation.navigate(ROUTES.profile)}>
         <Image
           source={{
-            uri: 'https://thumbs.dreamstime.com/b/environment-earth-day-hands-trees-growing-seedlings-bokeh-green-background-female-hand-holding-tree-nature-field-gra-130247647.jpg',
+          uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`
+            // uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
           }}
-          style={{height: 120, width: 120, borderRadius: 800}}
-        />
-
-        <Text
           style={{
-            fontSize: 18,
-            fontWeight: 'bold',
-            color: '#222',
-            fontFamily: 'Poppins-Bold',
-            marginTop: 12,
-            color: 'white',
-          }}>
-          Tanisha Thakur
-        </Text>
+            height: '100%',
+            width: '100%',
+            position: 'absolute',
+          }}
+        />
+        <LinearGradient
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            width: '100%',
+            alignItems: 'center',
+            height: '30%',
+            justifyContent: 'center',
+          }}
+          colors={['#0000', '#0007', '#000']}>
+          <Text
+            style={{
+              ...FONT?.header,
+              fontSize: 18,
+              color: '#fff',
+            }}>
+            {userType == '2' ? 'Dr.' : null} {userData?.name}
+          </Text>
+          <Text
+            style={{
+              ...FONT?.title,
+              color: '#fff',
+            }}>
+            {userData?.specialty}
+          </Text>
+        </LinearGradient>
       </TouchableOpacity>
-      <View style={{height: '65%', alignItems: 'center'}}>
+      <View style={{alignItems: 'center', paddingTop: 10}}>
         {options.map(item => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate(item.navigation);
-              }}
-              style={{
-                flexDirection: 'row',
-                marginVertical: 10,
-                alignItems: 'center',
-                // backgroundColor: COLORS.,
-                // opacity: 0.5,
-                height: 50,
-                borderRadius: 20,
-                width: '95%',
-              }}
-              activeOpacity={0.7}>
-              <View
+          if (item?.id == '7' && userType == '1') {
+            return null;
+          } else if (userType == '2') {
+            if (item?.id == '2' || item?.id == '4') {
+              return null;
+            } else {
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  onPress={() => {
+                    navigation.navigate(item.navigation);
+                  }}
+                  style={{
+                    flexDirection: 'row',
+                    marginVertical: 6,
+                    alignItems: 'center',
+                    height: 50,
+                    borderRadius: 10,
+                    width: '90%',
+                    backgroundColor: '#fff',
+                    paddingLeft: 15,
+                    elevation: 20,
+                    shadowColor: `${COLORS?.blue}88`,
+                  }}
+                  activeOpacity={0.7}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      marginLeft: 10,
+                    }}>
+                    {item.icon}
+                  </View>
+                  <Text
+                    style={{
+                      ...FONT?.title,
+                      marginLeft: 20,
+                      color: COLORS.blue,
+                    }}>
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
+          } else {
+            return (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => {
+                  navigation.navigate(item.navigation);
+                }}
                 style={{
                   flexDirection: 'row',
-                  marginLeft: 10,
-                }}>
-                {item.icon}
-              </View>
-              <Text
-                style={{
-                  ...FONT.header,
-                  marginLeft: 20,
-                  color: COLORS.light_black,
-                }}>
-                {item.name}
-              </Text>
-            </TouchableOpacity>
-          );
+                  marginVertical: 6,
+                  alignItems: 'center',
+                  height: 50,
+                  borderRadius: 10,
+                  width: '90%',
+                  backgroundColor: '#fff',
+                  paddingLeft: 15,
+                  elevation: 20,
+                  shadowColor: `${COLORS?.blue}88`,
+                }}
+                activeOpacity={0.7}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginLeft: 10,
+                  }}>
+                  {item.icon}
+                </View>
+                <Text
+                  style={{
+                    ...FONT?.title,
+                    marginLeft: 20,
+                    color: COLORS.blue,
+                  }}>
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            );
+          }
         })}
       </View>
 
-      <View style={{height: '10%'}}>
+      <View style={{position: 'absolute', bottom: 20, width: '100%'}}>
         <View
           style={{
             padding: 10,
-            borderTopWidth: 1,
-            borderTopColor: '#ccc',
+            // borderTopWidth: 1,
+            borderTopColor: COLORS?.blue,
           }}>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              marginVertical: 10,
-              alignItems: 'center',
-              borderRadius: 20,
-              justifyContent: 'center',
-              height: 45,
-              borderColor: '#404258',
-              borderWidth: 1,
-              marginLeft: 10,
-              marginRight: 10,
-            }}>
-            <Text
-              style={{
-                ...FONT.header,
-                color: COLORS.light_black,
-              }}>
-              Sign Out
-            </Text>
-          </TouchableOpacity>
+          <Button
+            title={'Logout'}
+            style={{width: '90%', alignSelf: 'center'}}
+            onPress={() => {
+              navigation?.closeDrawer();
+              dispatch(resetRedux());
+              // RNRestart.restart();
+            }}
+          />
         </View>
       </View>
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          navigation?.navigate(ROUTES?.home);
+        }}
+        style={{
+          position: 'absolute',
+          top: 10,
+          right: 10,
+          backgroundColor: '#fff',
+          height: 40,
+          width: 40,
+          borderRadius: 10,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Ionicons name="md-home" color={COLORS?.blue} size={24} />
+      </TouchableOpacity>
     </View>
   );
 };
 
 export default SlideMenu;
 
-// const styles = StyleSheet.create({});
-
-// import React from 'react';
-// import {
-//   View,
-//   Text,
-//   ImageBackground,
-//   Image,
-//   TouchableOpacity,
-// } from 'react-native';
-// import {
-//   DrawerContentScrollView,
-//   DrawerItemList,
-// } from '@react-navigation/drawer';
-
-// import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-// const SlideMenu = props => {
-//   return (
-//     <View style={{flex: 1}}>
-//       <DrawerContentScrollView
-//         {...props}
-//         contentContainerStyle={{backgroundColor: '#8200d6'}}>
-//         <Image
-//           source={{
-//             uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Image_created_with_a_mobile_phone.png/640px-Image_created_with_a_mobile_phone.png',
-//           }}
-//           style={{height: 80, width: 80, borderRadius: 40, marginBottom: 10}}
-//         />
-//         <Text
-//           style={{
-//             color: '#fff',
-//             fontSize: 18,
-//             // fontFamily: 'Roboto-Medium',
-//             marginBottom: 5,
-//           }}>
-//           John Doe
-//         </Text>
-
-//         <View style={{flex: 1, backgroundColor: '#fff', paddingTop: 10}}>
-//           <DrawerItemList {...props} />
-//         </View>
-//       </DrawerContentScrollView>
-//       <View style={{padding: 20, borderTopWidth: 1, borderTopColor: '#ccc'}}>
-//         <TouchableOpacity onPress={() => {}} style={{paddingVertical: 15}}>
-//           <View style={{flexDirection: 'row', alignItems: 'center'}}>
-//             {/* <Ionicons name="exit-outline" size={22} /> */}
-//             <FontAwesome name="bookmark" size={24} color="black" />
-
-//             <Text
-//               style={{
-//                 fontSize: 15,
-//                 fontFamily: 'Roboto-Medium',
-//                 marginLeft: 5,
-//               }}>
-//               Sign Out
-//             </Text>
-//           </View>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-// export default SlideMenu;
+const styles = StyleSheet.create({
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
+  buttonText: {
+    fontSize: 18,
+    fontFamily: 'Gill Sans',
+    textAlign: 'center',
+    margin: 10,
+    color: '#ffffff',
+    backgroundColor: 'transparent',
+  },
+});
