@@ -20,7 +20,7 @@ import Attachment from 'react-native-vector-icons/Entypo';
 import axios from 'axios';
 import {NetworkInfo} from 'react-native-network-info';
 import {io} from 'socket.io-client';
-import {ip} from '../axios/instance';
+import {baseUrl, ip} from '../axios/instance';
 import {useRef} from 'react';
 import {useSelector} from 'react-redux';
 import API from '../axios/api';
@@ -90,9 +90,12 @@ const Chat = props => {
 
   const isFocused = useIsFocused();
 
+  const userData = useSelector(state => state?.user);
+
   useEffect(() => {
     if (isFocused) {
-      socket.current = io(`http://${ip}:5000`);
+      // socket.current = io(`http://${ip}:5000`);
+      socket.current = io(baseUrl);
 
       socket.current.emit(
         'join_room',
@@ -106,7 +109,9 @@ const Chat = props => {
 
       socket.current.on('receive_message', msg => {
         console.log('message received from socket', msg);
-        getMessages();
+        if (msg?.chatRoomId == params?._id) {
+          getMessages();
+        }
         // if (msg) {
         //   setMessages([...messages, msg]);
         // }
@@ -134,6 +139,11 @@ const Chat = props => {
       data: {foo: 'bar'},
       contents: {en: text},
       include_external_user_ids: [params?.user?._id],
+      headings: {en: userData?.name},
+      // big_picture:
+      //   'https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg',
+      android_accent_color: '003467',
+      // small_icon: 'logo',
     };
     var requestOptions = {
       method: 'POST',
@@ -142,7 +152,7 @@ const Chat = props => {
       redirect: 'follow',
     };
 
-    fetch('https://onesignal.com/api/v1/notifications', requestOptions)
+    await fetch('https://onesignal.com/api/v1/notifications', requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
