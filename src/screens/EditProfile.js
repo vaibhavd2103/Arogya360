@@ -7,6 +7,7 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  Platform,
 } from 'react-native';
 import React, {useState, useEffect, useCallback} from 'react';
 import Container from '../components/Container';
@@ -24,6 +25,7 @@ import DropDown from '../components/DropDown';
 import {useDispatch, useSelector} from 'react-redux';
 import API from '../axios/api';
 import {setUserData as reduxUserData} from './../redux/actions';
+import storage from '@react-native-firebase/storage';
 
 const EditProfile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -89,8 +91,36 @@ const EditProfile = ({navigation}) => {
         console.log(source?.assets[0]?.uri);
         // setFilePath(source);
         setImage(source?.assets[0]?.uri);
+        // setImage(source?.assets[0]);
+        uploadImage(source?.assets[0]);
       }
     });
+    const uploadImage = async image => {
+      const {uri} = image;
+      const filename = uri.substring(uri.lastIndexOf('/') + 1);
+      const uploadUri =
+        Platform.OS === 'ios' ? uri.replace('file://', '') : uri;
+      // setUploading(true);
+      // setTransferred(0);
+      const task = storage().ref(filename).putFile(uploadUri);
+      // set progress state
+      task.on('state_changed', snapshot => {
+        // setTransferred(
+        //   Math.round(snapshot.bytesTransferred / snapshot.totalBytes) * 10000
+        // );
+      });
+      try {
+        await task;
+      } catch (e) {
+        console.error(e);
+      }
+      // setUploading(false);
+      Alert.alert(
+        'Photo uploaded!',
+        'Your photo has been uploaded to Firebase Cloud Storage!',
+      );
+      setImage(null);
+    };
   };
 
   ////////////////////////////////////DOctors SIDE USESTATES
@@ -273,7 +303,7 @@ const EditProfile = ({navigation}) => {
                   // top: 70,
                 }}
               />
-              {/* <RoundedButton
+              <RoundedButton
                 icon={<Feather name="camera" size={20} color="white" />}
                 // onPress={() => launchCamera()}
                 onPress={chooseFile}
@@ -283,7 +313,7 @@ const EditProfile = ({navigation}) => {
                   left: 55,
                   backgroundColor: COLORS.blue,
                 }}
-              /> */}
+              />
             </View>
             {/* <Text style={{color: 'red'}}>Doctors Side</Text> */}
             <NormalInput
@@ -463,7 +493,7 @@ const EditProfile = ({navigation}) => {
                   // top: 70,
                 }}
               />
-              {/* <RoundedButton
+              <RoundedButton
                 icon={<Feather name="camera" size={20} color="white" />}
                 // onPress={() => launchCamera()}
                 onPress={chooseFile}
@@ -473,7 +503,7 @@ const EditProfile = ({navigation}) => {
                   left: 55,
                   backgroundColor: COLORS.blue,
                 }}
-              /> */}
+              />
             </View>
             <NormalInput
               title={'Name'}
