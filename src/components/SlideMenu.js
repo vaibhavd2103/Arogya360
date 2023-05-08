@@ -13,6 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import {Button} from './Buttons';
 import {resetRedux, setAuthenticated} from '../redux/actions';
 // import RNRestart from 'react-native-restart';
+import {AVATAR_KEY} from '../../config';
 
 const SlideMenu = ({navigation}) => {
   const dispatch = useDispatch();
@@ -88,7 +89,8 @@ const SlideMenu = ({navigation}) => {
         onPress={() => navigation.navigate(ROUTES.profile)}>
         <Image
           source={{
-            uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
+          uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`
+            // uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
           }}
           style={{
             height: '100%',

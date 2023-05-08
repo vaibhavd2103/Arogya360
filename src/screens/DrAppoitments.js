@@ -137,7 +137,7 @@ const Completed = () => {
     <Container>
       <FlatList
         data={appointments}
-        keyExtractor={item => item?.id}
+        keyExtractor={item => item?._id}
         showsVerticalScrollIndicator={false}
         renderItem={({item, index}) => {
           var q = new Date();

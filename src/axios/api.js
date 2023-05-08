@@ -49,4 +49,16 @@ API.scheduleWaterReminder = async () =>
 API.getAllWaterReminderUsers = async () =>
   AxiosInst.get('/getAllWaterReminderUsers');
 
+  // medicine reminder 
+
+ // medicine Tracker
+API.addMedicineTrackerUser = async data =>
+  AxiosInst.post('/addMedicineUser', data);
+API.removeMedicineTrackerUser = async data =>
+  AxiosInst.post('/removeMedicineUser', data);
+API.scheduleMedicineTracker = async () =>
+  AxiosInst.post('/scheduleMedicineTracker');
+API.getAllMedicineTrackerUsers = async () =>
+  AxiosInst.get('/getAllMedicineUsers'); 
+
 export default API;

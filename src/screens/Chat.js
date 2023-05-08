@@ -28,7 +28,10 @@ import Loader from '../components/Loader';
 import CustomHeader from '../components/CustomHeader';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID} from '../../config';
+import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID, AVATAR_KEY} from '../../config';
+import {utils} from '@react-native-firebase/app';
+import storage from '@react-native-firebase/storage';
+import getPath from '@flyerhq/react-native-android-uri-path';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
@@ -187,7 +190,20 @@ const Chat = props => {
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
-      console.log(res);
+      const name = res[0].name;
+      const imageUri = getPath(res[0].uri);
+      const reference = storage().ref(name);
+
+      console.log(imageUri);
+      const task = await reference.putFile(imageUri).then(res => {
+        console.log(res);
+        storage()
+          .ref(name)
+          .getDownloadURL(res.ref)
+          .then(uri => {
+            console.log('image uri is------> ', uri);
+          });
+      });
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
       } else {
@@ -195,6 +211,11 @@ const Chat = props => {
       }
     }
   };
+
+  // ------------------------firebase -------------------------
+
+  const uploadFile = async () => {};
+
   //---------------------------------------TextInput function---------------------------------
   const renderInputToolbar = () => {
     return (
@@ -336,7 +357,8 @@ const Chat = props => {
           </TouchableOpacity>
           <Image
             source={{
-              uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${params?.user?.name}&background_color=003467&is_bold=true`,
+              // uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
             }}
             style={{
               height: 45,

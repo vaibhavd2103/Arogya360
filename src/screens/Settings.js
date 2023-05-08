@@ -55,7 +55,46 @@ const Settings = () => {
 
   useEffect(() => {
     getAllUsers();
+    getAllMedicineUser();
   }, []);
+
+  const getAllMedicineUser = async () => {
+    await API.getAllMedicineTrackerUsers()
+      .then(res => {
+        console.log(res?.data);
+        let index = res?.data?.findIndex(item => item?.userId == userId);
+        if (index > -1) {
+          setMedicineTracker(true);
+        } else {
+          setMedicineTracker(false);
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const addMedicineTrackerUser = async () => {
+    const data = {userId: userId};
+    await API.addMedicineTrackerUser(data)
+      .then(res => {
+        console.log(res.data);
+        setMedicineTracker(true);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  const removeMedicineTrackerUser = async () => {
+    const data = {userId: userId};
+    await API.removeMedicineTrackerUser(data)
+      .then(res => {
+        console.log(res.data);
+        setMedicineTracker(false);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   return (
     <View style={{flex: 1, paddingVertical: 20, backgroundColor: COLORS.white}}>
@@ -93,7 +132,12 @@ const Settings = () => {
         <Switch
           value={medicineTracker}
           onValueChange={() => {
-            setMedicineTracker(!medicineTracker);
+            // setWaterReminder(!waterReminder);
+            if (medicineTracker) {
+              removeMedicineTrackerUser();
+            } else {
+              addMedicineTrackerUser();
+            }
           }}
           trackColor={COLORS?.blue}
           thumbColor={COLORS?.blue}
@@ -102,7 +146,7 @@ const Settings = () => {
           }}
         />
       </View>
-      <View style={styles.input}>
+      {/* <View style={styles.input}>
         <Text
           style={{
             ...FONT.header,
@@ -120,7 +164,7 @@ const Settings = () => {
             elevation: 20,
           }}
         />
-      </View>
+      </View> */}
     </View>
   );
 };
