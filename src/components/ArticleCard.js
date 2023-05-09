@@ -176,35 +176,51 @@ const ArticleCard = ({item, index, length, saved}) => {
           </Menu>
         </TouchableOpacity> */}
       </View>
-      {item?.img ? (
-        <Image
-          source={{uri: item?.img}}
-          style={{height: 250, width: '100%', borderRadius: 10, marginTop: 10}}
-        />
-      ) : null}
+
       <View style={{paddingTop: 10}}>
-        <Text
-          style={{
-            ...FONT.title,
-            alignItems: 'center',
-            textAlign: 'justify',
-            justifyContent: 'center',
-          }}
-          // numberOfLines={showMore ? null : 2}
-          onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
-          {item?.title}
-        </Text>
-        <Text
-          style={{
-            ...FONT.subTitle,
-            alignItems: 'center',
-            textAlign: 'justify',
-            justifyContent: 'center',
-          }}
-          numberOfLines={showMore ? null : 2}
-          onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
-          {item?.description}
-        </Text>
+        {item?.image ? (
+          <Image
+            source={{uri: item?.image}}
+            style={{
+              height: 300,
+              width: '100%',
+              borderRadius: 10,
+              marginTop: 10,
+              backgroundColor: '#f00',
+            }}
+            resizeMode="contain"
+          />
+        ) : null}
+        {item?.title || item?.description ? (
+          <>
+            <Text
+              style={{
+                ...FONT.title,
+                alignItems: 'center',
+                textAlign: 'justify',
+                justifyContent: 'center',
+              }}
+              // numberOfLines={showMore ? null : 2}
+              onTextLayout={e =>
+                setReadMore(e?.nativeEvent?.lines?.length > 3)
+              }>
+              {item?.title}
+            </Text>
+            <Text
+              style={{
+                ...FONT.subTitle,
+                alignItems: 'center',
+                textAlign: 'justify',
+                justifyContent: 'center',
+              }}
+              numberOfLines={showMore ? null : 2}
+              onTextLayout={e =>
+                setReadMore(e?.nativeEvent?.lines?.length > 3)
+              }>
+              {item?.description}
+            </Text>
+          </>
+        ) : null}
         {readMore && (
           <Text
             onPress={() => {

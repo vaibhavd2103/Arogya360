@@ -156,6 +156,7 @@ const EditProfile = ({navigation}) => {
         console.log(err);
       });
   };
+
   const getCity = async data => {
     const config = {
       method: 'get',
@@ -258,9 +259,7 @@ const EditProfile = ({navigation}) => {
                   // uri: image
                   //   ? image
                   //   : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
-                  uri: image
-                    ? image
-                    : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${docData?.name}&background_color=003467&is_bold=true`,
+                  uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${'docData?.name'}&background_color=003467&is_bold=true`,
                 }}
                 style={{
                   height: 120,
@@ -273,7 +272,7 @@ const EditProfile = ({navigation}) => {
                   // top: 70,
                 }}
               />
-              {/* <RoundedButton
+              <RoundedButton
                 icon={<Feather name="camera" size={20} color="white" />}
                 // onPress={() => launchCamera()}
                 onPress={chooseFile}
@@ -283,7 +282,7 @@ const EditProfile = ({navigation}) => {
                   left: 55,
                   backgroundColor: COLORS.blue,
                 }}
-              /> */}
+              />
             </View>
             {/* <Text style={{color: 'red'}}>Doctors Side</Text> */}
             <NormalInput
@@ -448,9 +447,7 @@ const EditProfile = ({navigation}) => {
               }}>
               <Image
                 source={{
-                  uri: image
-                    ? image
-                    : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`,
+                  uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`,
                 }}
                 style={{
                   height: 120,
