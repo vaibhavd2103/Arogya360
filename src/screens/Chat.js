@@ -6,6 +6,7 @@ import {
   View,
   SafeAreaView,
   Image,
+  ActivityIndicator,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 //---------------------packages-----------------------------------------------------------
@@ -28,7 +29,10 @@ import Loader from '../components/Loader';
 import CustomHeader from '../components/CustomHeader';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 import Back from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID,AVATAR_KEY} from '../../config';
+import {ONESIGNAL_API_KEY, ONESIGNAL_APP_ID, AVATAR_KEY} from '../../config';
+import {utils} from '@react-native-firebase/app';
+import storage from '@react-native-firebase/storage';
+import getPath from '@flyerhq/react-native-android-uri-path';
 
 const Chat = props => {
   //---------------------useState-----------------------------------
@@ -39,27 +43,25 @@ const Chat = props => {
   const userType = useSelector(state => state?.userType);
   const params = props?.route?.params;
   const [loading, setLoading] = useState(true);
+  const [imageUploadLoading, setImageUploadLoading] = useState(false);
   // console.log(params);
 
   const getMessages = async () => {
     await API.getMessage(params?._id)
       .then(res => {
-        // console.log(res?.data);
+        console.log(res?.data);
         let giftedChatMessages = res?.data?.messages?.map(chatMessage => {
           let gcm = {
             _id: chatMessage?._id,
-            text: chatMessage?.message,
+            text: chatMessage?.messageType == 2 ? '' : chatMessage?.message,
             createdAt: chatMessage?.createdAt,
             video:
-              chatMessage?.type == 4
-                ? `${baseURL}/chat/${chatMessage?.message}`
+              chatMessage?.messageType == 3
+                ? `${baseUrl}/chat/${chatMessage?.message}`
                 : null,
-            image:
-              chatMessage?.type == 3 || chatMessage?.type == 2
-                ? `${baseURL}/chat/${chatMessage?.message}`
-                : null,
+            image: chatMessage?.messageType == 2 ? chatMessage?.message : null,
             document:
-              chatMessage?.type == 2
+              chatMessage?.messageType == 4
                 ? `https://banner2.cleanpng.com/20180331/vww/kisspng-computer-icons-document-memo-5ac0480f061158.0556390715225507990249.jpg`
                 : null,
             user: {
@@ -125,7 +127,7 @@ const Chat = props => {
 
   const navigation = useNavigation();
 
-  const sendNotification = async () => {
+  const sendNotification = async (text, image) => {
     var myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
     myHeaders.append('Authorization', `Basic ${ONESIGNAL_API_KEY}`);
@@ -137,7 +139,7 @@ const Chat = props => {
     var raw = {
       app_id: ONESIGNAL_APP_ID,
       data: {foo: 'bar'},
-      contents: {en: text},
+      contents: {en: text ? text : 'Image'},
       include_external_user_ids: [params?.user?._id],
       headings: {en: userData?.name},
       // big_picture:
@@ -172,7 +174,7 @@ const Chat = props => {
       .then(res => {
         console.log(res?.data);
         setText('');
-        sendNotification();
+        sendNotification(text);
         getMessages();
       })
       .catch(err => {
@@ -184,10 +186,45 @@ const Chat = props => {
   //------------------------------file Picker------------------------------------------------
   const openFilePicker = async () => {
     try {
+      setImageUploadLoading(true);
       const res = await DocumentPicker.pick({
         type: [DocumentPicker.types.allFiles],
       });
-      console.log(res);
+      const name = res[0].name;
+      const imageUri = getPath(res[0].uri);
+      const reference = storage().ref(`messages/${name}`);
+
+      console.log(imageUri);
+      const task = await reference.putFile(imageUri).then(res => {
+        console.log(res);
+        storage()
+          .ref(`messages/${name}`)
+          .getDownloadURL(res.ref)
+          .then(uri => {
+            console.log('image uri is------> ', uri);
+            const data = {
+              senderId: userId,
+              receiverId: params?.user?._id,
+              chatRoomId: params?._id,
+              createdAt: new Date(),
+              messageType: 2,
+              message: uri,
+            };
+            API.sendMessage(data)
+              .then(res => {
+                console.log(res?.data);
+                setText('');
+                sendNotification();
+                getMessages();
+                setImageUploadLoading(false);
+              })
+              .catch(err => {
+                console.log(err?.data?.error);
+                setImageUploadLoading(false);
+              });
+            socket.current.emit('send_message', data);
+          });
+      });
     } catch (err) {
       if (DocumentPicker.isCancel(err)) {
       } else {
@@ -195,6 +232,11 @@ const Chat = props => {
       }
     }
   };
+
+  // ------------------------firebase -------------------------
+
+  const uploadFile = async () => {};
+
   //---------------------------------------TextInput function---------------------------------
   const renderInputToolbar = () => {
     return (
@@ -271,35 +313,6 @@ const Chat = props => {
   //-----------------------------------------------------------------------
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      {/* <CustomHeader
-        style={{}}
-        title={params?.user?.name}
-        RightIcon={() => {
-          if (userType == 2) {
-            return (
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate(ROUTES?.createReport, {
-                    patient: params?.user,
-                    chatRoomId: params?._id,
-                  });
-                }}
-                style={{
-                  backgroundColor: COLORS?.blue,
-                  padding: 8,
-                  paddingHorizontal: 15,
-                  borderRadius: 10,
-                  paddingBottom: 10,
-                }}
-                activeOpacity={0.8}>
-                <Text style={{...FONT?.title, color: '#fff'}}>
-                  Create Report
-                </Text>
-              </TouchableOpacity>
-            );
-          }
-        }}
-      /> */}
       <View
         style={{
           flexDirection: 'row',
@@ -336,8 +349,9 @@ const Chat = props => {
           </TouchableOpacity>
           <Image
             source={{
-               uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${params?.user?.name}&background_color=003467&is_bold=true`
-              // uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+              uri: params?.user?.avatar_url
+                ? params?.user?.avatar_url
+                : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${params?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={{
               height: 45,
@@ -399,6 +413,20 @@ const Chat = props => {
           _id: userId,
         }}
       />
+      {imageUploadLoading && (
+        <View
+          style={{
+            height: '100%',
+            width: '100%',
+            position: 'absolute',
+            top: 0,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '#0003',
+          }}>
+          <ActivityIndicator color={COLORS?.green} size="large" />
+        </View>
+      )}
     </SafeAreaView>
   );
 };

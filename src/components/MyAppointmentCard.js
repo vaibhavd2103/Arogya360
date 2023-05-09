@@ -44,8 +44,9 @@ const MyAppointmentCard = ({
         <View>
           <Image
             source={{
-              //  uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
+              uri: item?.user?.avatar_url
+                ? item?.user?.avatar_url
+                : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={styles.cardImage}
           />
@@ -136,8 +137,9 @@ const DrMyAppointmentCard = ({item, index, length, type, userId}) => {
         <View>
           <Image
             source={{
-              //  uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
+              uri: item?.user?.avatar_url
+                ? item?.user?.avatar_url
+                : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={styles.cardImage}
           />

@@ -127,8 +127,9 @@ const ArticleCard = ({item, index, length, saved}) => {
         <View style={{flexDirection: 'row'}}>
           <Image
             source={{
-              //  uri: 'https://images.unsplash.com/photo-1597223557154-721c1cecc4b0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8aHVtYW4lMjBmYWNlfGVufDB8fDB8fA%3D%3D&w=1000&q=80',
-              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
+              uri: item?.user?.avatar_url
+                ? item?.user?.avatar_url
+                : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={{height: 50, width: 50, borderRadius: 12}}
           />
@@ -176,35 +177,51 @@ const ArticleCard = ({item, index, length, saved}) => {
           </Menu>
         </TouchableOpacity> */}
       </View>
-      {item?.img ? (
-        <Image
-          source={{uri: item?.img}}
-          style={{height: 250, width: '100%', borderRadius: 10, marginTop: 10}}
-        />
-      ) : null}
+
       <View style={{paddingTop: 10}}>
-        <Text
-          style={{
-            ...FONT.title,
-            alignItems: 'center',
-            textAlign: 'justify',
-            justifyContent: 'center',
-          }}
-          // numberOfLines={showMore ? null : 2}
-          onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
-          {item?.title}
-        </Text>
-        <Text
-          style={{
-            ...FONT.subTitle,
-            alignItems: 'center',
-            textAlign: 'justify',
-            justifyContent: 'center',
-          }}
-          numberOfLines={showMore ? null : 2}
-          onTextLayout={e => setReadMore(e?.nativeEvent?.lines?.length > 3)}>
-          {item?.description}
-        </Text>
+        {item?.image ? (
+          <Image
+            source={{uri: item?.image}}
+            style={{
+              height: 300,
+              width: '100%',
+              borderRadius: 10,
+              marginTop: 10,
+              backgroundColor: '#fff',
+            }}
+            resizeMode="contain"
+          />
+        ) : null}
+        {item?.title || item?.description ? (
+          <>
+            <Text
+              style={{
+                ...FONT.title,
+                alignItems: 'center',
+                textAlign: 'justify',
+                justifyContent: 'center',
+              }}
+              // numberOfLines={showMore ? null : 2}
+              onTextLayout={e =>
+                setReadMore(e?.nativeEvent?.lines?.length > 3)
+              }>
+              {item?.title}
+            </Text>
+            <Text
+              style={{
+                ...FONT.subTitle,
+                alignItems: 'center',
+                textAlign: 'justify',
+                justifyContent: 'center',
+              }}
+              numberOfLines={showMore ? null : 2}
+              onTextLayout={e =>
+                setReadMore(e?.nativeEvent?.lines?.length > 3)
+              }>
+              {item?.description}
+            </Text>
+          </>
+        ) : null}
         {readMore && (
           <Text
             onPress={() => {

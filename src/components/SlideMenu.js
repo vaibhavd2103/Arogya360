@@ -89,8 +89,9 @@ const SlideMenu = ({navigation}) => {
         onPress={() => navigation.navigate(ROUTES.profile)}>
         <Image
           source={{
-          uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`
-            // uri: 'https://t4.ftcdn.net/jpg/02/32/98/33/360_F_232983351_z5CAl79bHkm6eMPSoG7FggQfsJLxiZjY.jpg',
+            uri: userData?.avatar_url
+              ? userData?.avatar_url
+              : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`,
           }}
           style={{
             height: '100%',
