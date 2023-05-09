@@ -95,7 +95,9 @@ const DoctorCard = ({item, id, setId}) => {
       }}>
       <Image
         source={{
-          uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.name}&background_color=003467&is_bold=true`,
+          uri: item?.avatar_url
+            ? item?.avatar_url
+            : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${item?.name}&background_color=003467&is_bold=true`,
         }}
         style={{
           width: 70,

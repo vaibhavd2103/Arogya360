@@ -58,7 +58,9 @@ const About = () => {
         }}>
         <Image
           source={{
-            uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${profileData?.name}&background_color=003467&is_bold=true`,
+            uri: profileData?.avatar_url
+              ? profileData?.avatar_url
+              : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${profileData?.name}&background_color=003467&is_bold=true`,
           }}
           style={styles.profilePic}
         />

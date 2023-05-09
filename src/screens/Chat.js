@@ -349,8 +349,9 @@ const Chat = props => {
           </TouchableOpacity>
           <Image
             source={{
-              uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${params?.user?.name}&background_color=003467&is_bold=true`,
-              // uri: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
+              uri: params?.user?.avatar_url
+                ? params?.user?.avatar_url
+                : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${params?.user?.name}&background_color=003467&is_bold=true`,
             }}
             style={{
               height: 45,

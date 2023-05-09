@@ -24,6 +24,8 @@ import DropDown from '../components/DropDown';
 import {useDispatch, useSelector} from 'react-redux';
 import API from '../axios/api';
 import {setUserData as reduxUserData} from './../redux/actions';
+import storage from '@react-native-firebase/storage';
+import getPath from '@flyerhq/react-native-android-uri-path';
 
 const EditProfile = ({navigation}) => {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const EditProfile = ({navigation}) => {
   const user = useSelector(state => state?.user);
   const [loading, setLoading] = useState(false);
   const [image, setImage] = useState();
+
   const [userData, setUserData] = useState({
     name: user?.name,
     email: user?.email,
@@ -82,33 +85,30 @@ const EditProfile = ({navigation}) => {
         alert(response.customButton);
       } else {
         let source = response;
-        // You can also display the image using data:
-        // let source = {
-        //   uri: 'data:image/jpeg;base64,' + response.data
-        // };
-        console.log(source?.assets[0]?.uri);
-        // setFilePath(source);
-        setImage(source?.assets[0]?.uri);
+
+        console.log(source?.assets[0]);
+        setImage(source?.assets[0]);
       }
     });
   };
 
   ////////////////////////////////////DOctors SIDE USESTATES
   const [docData, setDocData] = useState({
-    name: '',
-    email: '',
-    height: '',
-    weight: '',
-    mobile: '',
-    birthDate: '',
-    country: '',
-    state: '',
-    city: '',
-    qualification: '',
-    expertise: '',
-    gender: '',
-    img: '',
+    name: user?.name,
+    email: user?.email,
+    height: user?.height,
+    weight: user?.weight,
+    mobile: user?.mobile,
+    birthDate: user?.dob,
+    country: user?.country,
+    state: user?.state,
+    city: user?.city,
+    qualification: user?.qualification,
+    expertise: user?.name,
+    gender: user?.gender,
+    avatar_url: user?.avatar_url,
   });
+  console.log(user);
   const [countrySheet, setCountrySheet] = useState(false);
   const [countries, setCountries] = useState([]);
   const [stateSheet, setStateSheet] = useState(false);
@@ -179,59 +179,55 @@ const EditProfile = ({navigation}) => {
     getCountry();
   }, []);
 
-  // const fetchUser = async () => {
-  //   await API.getUserDetails(userId, userType)
-  //     .then(res => {
-  //       // console.log('MY details fetched', res.data);
-  //       // setProfileData(res?.data?.user);
-  //       dispatch(reduxUserData(res?.data?.user));
-  //       // dispatch(setUserId(res?.data?.userId));
-  //     })
-  //     .catch(error => {
-  //       console.error(
-  //         'Error fetching user',
-  //         error?.response?.data?.status_message ?? error?.message,
-  //       );
-  //     });
-  // };
-
   const edit_Profile = async () => {
     setLoading(true);
-    const patientData = {
-      userId: userId,
-      userType: userType,
-      mobile: userData?.mobile,
-      // avatar_url: ,
-      height: userData?.height,
-      weight: userData?.weight,
-      bloodGroup: userData?.bloodGroup,
-    };
+    const name = image?.name;
+    const imageUri = getPath(image?.uri);
+    const reference = storage().ref(`profilePictures/${name}`);
 
-    const doctorData = {
-      userId: userId,
-      userType: userType,
-      mobile: docData?.mobile,
-      //  avatar_url: avatar_url,
-      country: docData?.country,
-      state: docData?.state,
-      city: docData?.city,
-    };
+    const task = await reference.putFile(imageUri).then(res => {
+      console.log(res);
+      storage()
+        .ref(`profilePictures/${name}`)
+        .getDownloadURL(res.ref)
+        .then(uri => {
+          const patientData = {
+            userId: userId,
+            userType: userType,
+            mobile: userData?.mobile,
+            avatar_url: uri,
+            height: userData?.height,
+            weight: userData?.weight,
+            bloodGroup: userData?.bloodGroup,
+          };
 
-    let data = userType == 1 ? patientData : doctorData;
+          const doctorData = {
+            userId: userId,
+            userType: userType,
+            mobile: docData?.mobile,
+            avatar_url: uri,
+            country: docData?.country,
+            state: docData?.state,
+            city: docData?.city,
+          };
 
-    await API.editProfile(data)
-      .then(res => {
-        // console.log(res?.data);
-        dispatch(reduxUserData(res?.data?.response));
-        // fetchUser();
-        setLoading(false);
-        navigation?.goBack();
-        //  setAllUser(res?.data);
-      })
-      .catch(err => {
-        console.log(err);
-        setLoading(false);
-      });
+          let data = userType == 1 ? patientData : doctorData;
+
+          API.editProfile(data)
+            .then(res => {
+              // console.log(res?.data);
+              dispatch(reduxUserData(res?.data?.response));
+              // fetchUser();
+              setLoading(false);
+              navigation?.goBack();
+              //  setAllUser(res?.data);
+            })
+            .catch(err => {
+              console.log(err);
+              setLoading(false);
+            });
+        });
+    });
   };
 
   return (
@@ -256,10 +252,11 @@ const EditProfile = ({navigation}) => {
               }}>
               <Image
                 source={{
-                  // uri: image
-                  //   ? image
-                  //   : 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmIh7V-Sq7K48WnUqtu18enb2Mnm_3fwnDJg&usqp=CAU',
-                  uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${'docData?.name'}&background_color=003467&is_bold=true`,
+                  uri: image?.uri
+                    ? image?.uri
+                    : docData?.avatar_url
+                    ? docData?.avatar_url
+                    : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${docData?.name}&background_color=003467&is_bold=true`,
                 }}
                 style={{
                   height: 120,
@@ -447,7 +444,11 @@ const EditProfile = ({navigation}) => {
               }}>
               <Image
                 source={{
-                  uri: `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`,
+                  uri: image?.uri
+                    ? image?.uri
+                    : userData?.avatar_url
+                    ? userData?.avatar_url
+                    : `https://avatars.abstractapi.com/v1/?api_key=${AVATAR_KEY}&name=${userData?.name}&background_color=003467&is_bold=true`,
                 }}
                 style={{
                   height: 120,
@@ -460,7 +461,7 @@ const EditProfile = ({navigation}) => {
                   // top: 70,
                 }}
               />
-              {/* <RoundedButton
+              <RoundedButton
                 icon={<Feather name="camera" size={20} color="white" />}
                 // onPress={() => launchCamera()}
                 onPress={chooseFile}
@@ -470,7 +471,7 @@ const EditProfile = ({navigation}) => {
                   left: 55,
                   backgroundColor: COLORS.blue,
                 }}
-              /> */}
+              />
             </View>
             <NormalInput
               title={'Name'}
